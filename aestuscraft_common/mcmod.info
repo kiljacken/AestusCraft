@@ -1,0 +1,20 @@
+[
+{
+  "modid": "AEC",
+  "name": "AestusCraft",
+  "description": "A Minecraft mod revolving around the collection, movement, use and storage of heat.",
+  "version": "0.0.1",
+  "url": "n/a",
+  "updateUrl": "",
+  "authorList": [
+    "kiljacken"
+  ],
+  "credits": "By kiljacken",
+  "logoFile": "/mods/aec/textures/logo/logo.png",
+  "screenshots": [
+  ],
+  "parent":"",
+  "dependencies": [
+  ]
+}
+]
