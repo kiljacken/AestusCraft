@@ -1,10 +1,10 @@
 package dk.kiljacken.aestuscraft.tileentity;
 
 import dk.kiljacken.aestuscraft.lib.StringResources;
+import dk.kiljacken.aestuscraft.network.PacketType;
+import dk.kiljacken.aestuscraft.network.packet.PacketTileUpdate;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.Packet132TileEntityData;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 
@@ -59,15 +59,15 @@ public class TileAEC extends TileEntity {
 
     @Override
     public Packet getDescriptionPacket() {
-        NBTTagCompound tag = new NBTTagCompound();
-        this.writeToNBT(tag);
-        return new Packet132TileEntityData(xCoord, yCoord, zCoord, 0, tag);
+        PacketTileUpdate packet = new PacketTileUpdate();
+        
+        packet.x = this.xCoord;
+        packet.y = this.yCoord;
+        packet.z = this.zCoord;
+        
+        packet.nbtTagCompound = new NBTTagCompound();
+        writeToNBT(packet.nbtTagCompound);
+        
+        return PacketType.buildMCPacket(packet);
     }
-
-    @Override
-    public void onDataPacket(INetworkManager net, Packet132TileEntityData pkt) {
-        NBTTagCompound tag = pkt.customParam1;
-        this.readFromNBT(tag);
-    }
-
 }

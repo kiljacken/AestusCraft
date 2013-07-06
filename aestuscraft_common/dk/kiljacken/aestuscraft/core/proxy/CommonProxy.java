@@ -1,6 +1,7 @@
 package dk.kiljacken.aestuscraft.core.proxy;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import cpw.mods.fml.common.network.IGuiHandler;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -36,5 +37,9 @@ public class CommonProxy implements IGuiHandler {
         }
         
         return null;
+    }
+
+    public void handleTileUpdate(int x, int y, int z, NBTTagCompound nbtTagCompound) {
+        
     }
 }
