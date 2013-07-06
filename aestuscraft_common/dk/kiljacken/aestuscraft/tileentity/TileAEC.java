@@ -1,12 +1,20 @@
+/**
+ * AestusCraft
+ * 
+ * TileAEC.java
+ * 
+ * @author Kiljacken
+ * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
+ */
 package dk.kiljacken.aestuscraft.tileentity;
 
-import dk.kiljacken.aestuscraft.lib.StringResources;
-import dk.kiljacken.aestuscraft.network.PacketType;
-import dk.kiljacken.aestuscraft.network.packet.PacketTileUpdate;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
+import dk.kiljacken.aestuscraft.lib.StringResources;
+import dk.kiljacken.aestuscraft.network.PacketType;
+import dk.kiljacken.aestuscraft.network.packet.PacketTileUpdate;
 
 public class TileAEC extends TileEntity {
     private String m_CustomName;
@@ -41,8 +49,9 @@ public class TileAEC extends TileEntity {
     public void readFromNBT(NBTTagCompound nbtTagCompound) {
         super.readFromNBT(nbtTagCompound);
 
-        if (nbtTagCompound.hasKey(StringResources.NBT_TE_CUSTOM_NAME))
+        if (nbtTagCompound.hasKey(StringResources.NBT_TE_CUSTOM_NAME)) {
             setCustomName(nbtTagCompound.getString(StringResources.NBT_TE_CUSTOM_NAME));
+        }
 
         setOrientation(nbtTagCompound.getByte(StringResources.NBT_TE_ORIENTATION));
     }
@@ -51,8 +60,9 @@ public class TileAEC extends TileEntity {
     public void writeToNBT(NBTTagCompound nbtTagCompound) {
         super.writeToNBT(nbtTagCompound);
 
-        if (hasCustomName())
+        if (hasCustomName()) {
             nbtTagCompound.setString(StringResources.NBT_TE_CUSTOM_NAME, getCustomName());
+        }
 
         nbtTagCompound.setByte(StringResources.NBT_TE_ORIENTATION, (byte) getOrientation().ordinal());
     }
@@ -60,14 +70,14 @@ public class TileAEC extends TileEntity {
     @Override
     public Packet getDescriptionPacket() {
         PacketTileUpdate packet = new PacketTileUpdate();
-        
-        packet.x = this.xCoord;
-        packet.y = this.yCoord;
-        packet.z = this.zCoord;
-        
+
+        packet.x = xCoord;
+        packet.y = yCoord;
+        packet.z = zCoord;
+
         packet.nbtTagCompound = new NBTTagCompound();
         writeToNBT(packet.nbtTagCompound);
-        
+
         return PacketType.buildMCPacket(packet);
     }
 }

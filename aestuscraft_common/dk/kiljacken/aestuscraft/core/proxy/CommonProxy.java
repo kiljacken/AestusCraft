@@ -1,3 +1,11 @@
+/**
+ * AestusCraft
+ * 
+ * CommonProxy.java
+ * 
+ * @author Kiljacken
+ * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
+ */
 package dk.kiljacken.aestuscraft.core.proxy;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -15,17 +23,17 @@ import dk.kiljacken.aestuscraft.util.LogHelper;
 public class CommonProxy implements IGuiHandler {
     public void registerTileEntities() {
         LogHelper.info("Registering tile entities");
-        
+
         GameRegistry.registerTileEntity(TileInsulatedFurnace.class, StringResources.TE_INSULATED_FURNACE_NAME);
     }
-    
+
     @Override
     public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
         if (ID == GuiIds.INSULATED_FURNACE) {
             TileInsulatedFurnace tileEntityInsulatedFurnace = (TileInsulatedFurnace) world.getBlockTileEntity(x, y, z);
             return new ContainerInsulatedFurnace(player.inventory, tileEntityInsulatedFurnace);
         }
-        
+
         return null;
     }
 
@@ -35,11 +43,11 @@ public class CommonProxy implements IGuiHandler {
             TileInsulatedFurnace tileEntityInsulatedFurnace = (TileInsulatedFurnace) world.getBlockTileEntity(x, y, z);
             return new GuiInsulatedFurnace(player.inventory, tileEntityInsulatedFurnace);
         }
-        
+
         return null;
     }
 
     public void handleTileUpdate(int x, int y, int z, NBTTagCompound nbtTagCompound) {
-        
+
     }
 }

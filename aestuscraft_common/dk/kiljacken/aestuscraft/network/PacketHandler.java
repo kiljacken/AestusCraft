@@ -1,3 +1,11 @@
+/**
+ * AestusCraft
+ * 
+ * PacketHandler.java
+ * 
+ * @author Kiljacken
+ * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
+ */
 package dk.kiljacken.aestuscraft.network;
 
 import net.minecraft.network.INetworkManager;
@@ -11,7 +19,7 @@ public class PacketHandler implements IPacketHandler {
     @Override
     public void onPacketData(INetworkManager manager, Packet250CustomPayload packet, Player player) {
         PacketAEC packetAEC = PacketType.buildPacketFrom(packet.data);
-        
+
         packetAEC.process(manager, player);
     }
 

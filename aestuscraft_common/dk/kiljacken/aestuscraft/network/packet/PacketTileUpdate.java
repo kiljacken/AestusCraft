@@ -1,3 +1,11 @@
+/**
+ * AestusCraft
+ * 
+ * PacketTileUpdate.java
+ * 
+ * @author Kiljacken
+ * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
+ */
 package dk.kiljacken.aestuscraft.network.packet;
 
 import java.io.DataInputStream;
@@ -25,7 +33,7 @@ public class PacketTileUpdate extends PacketAEC {
         x = input.readInt();
         y = input.readInt();
         z = input.readInt();
-        
+
         nbtTagCompound = StreamUtil.readNBTTagCompound(input);
     }
 
@@ -34,7 +42,7 @@ public class PacketTileUpdate extends PacketAEC {
         output.writeInt(x);
         output.writeInt(y);
         output.writeInt(z);
-        
+
         StreamUtil.writeNBTTagCompound(nbtTagCompound, output);
     }
 
@@ -42,10 +50,10 @@ public class PacketTileUpdate extends PacketAEC {
     public void process(INetworkManager manager, Player player) {
         if (nbtTagCompound == null) {
             LogHelper.severe("NBTTagCompound was null when processing tile update");
-            
+
             return;
         }
-        
+
         AestusCraft.proxy.handleTileUpdate(x, y, z, nbtTagCompound);
     }
 

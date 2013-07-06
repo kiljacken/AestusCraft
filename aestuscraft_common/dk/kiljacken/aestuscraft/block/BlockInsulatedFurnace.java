@@ -1,13 +1,15 @@
+/**
+ * AestusCraft
+ * 
+ * BlockInsulatedFurnace.java
+ * 
+ * @author Kiljacken
+ * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
+ */
 package dk.kiljacken.aestuscraft.block;
 
 import java.util.Random;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import dk.kiljacken.aestuscraft.AestusCraft;
-import dk.kiljacken.aestuscraft.lib.GuiIds;
-import dk.kiljacken.aestuscraft.lib.StringResources;
-import dk.kiljacken.aestuscraft.tileentity.TileInsulatedFurnace;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.item.EntityItem;
@@ -18,10 +20,16 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import dk.kiljacken.aestuscraft.AestusCraft;
+import dk.kiljacken.aestuscraft.lib.GuiIds;
+import dk.kiljacken.aestuscraft.lib.StringResources;
+import dk.kiljacken.aestuscraft.tileentity.TileInsulatedFurnace;
 
 public class BlockInsulatedFurnace extends BlockAECBase {
     private final Random rand = new Random();
-    
+
     @SideOnly(Side.CLIENT)
     private Icon furnaceIconFront;
 
@@ -39,16 +47,16 @@ public class BlockInsulatedFurnace extends BlockAECBase {
     @Override
     @SideOnly(Side.CLIENT)
     public Icon getIcon(int side, int meta) {
-        return side == meta ? this.furnaceIconFront : this.blockIcon;
+        return side == meta ? furnaceIconFront : blockIcon;
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public void registerIcons(IconRegister iconRegister) {
-        this.blockIcon = iconRegister.registerIcon("aec:insulated_furnace_side");
-        this.furnaceIconFront = iconRegister.registerIcon("aec:insulated_furnace_front_inactive");
+        blockIcon = iconRegister.registerIcon("aec:insulated_furnace_side");
+        furnaceIconFront = iconRegister.registerIcon("aec:insulated_furnace_front_inactive");
     }
-    
+
     @Override
     public void breakBlock(World world, int x, int y, int z, int id, int meta) {
         dropInventory(world, x, y, z);
@@ -69,12 +77,13 @@ public class BlockInsulatedFurnace extends BlockAECBase {
             return true;
         }
     }
-    
+
     private void dropInventory(World world, int x, int y, int z) {
         TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
 
-        if (!(tileEntity instanceof IInventory))
+        if (!(tileEntity instanceof IInventory)) {
             return;
+        }
 
         IInventory inventory = (IInventory) tileEntity;
 

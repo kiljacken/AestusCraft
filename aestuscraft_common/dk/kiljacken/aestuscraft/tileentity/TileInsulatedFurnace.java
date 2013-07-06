@@ -1,3 +1,11 @@
+/**
+ * AestusCraft
+ * 
+ * TileInsulatedFurnace.java
+ * 
+ * @author Kiljacken
+ * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
+ */
 package dk.kiljacken.aestuscraft.tileentity;
 
 import net.minecraft.client.Minecraft;
@@ -50,12 +58,13 @@ public class TileInsulatedFurnace extends TileHeatContainer implements ISidedInv
                 m_FurnaceItemStacks[SLOT_FUEL_INDEX] = fuelStack.getItem().getContainerItemStack(fuelStack);
             }
         }
-        
+
         if (m_FuelLeft > 0) {
             m_FuelLeft -= addHeat(m_FuelLeft);
 
-            if (m_FuelLeft == 0)
+            if (m_FuelLeft == 0) {
                 m_FuelHeat = 0;
+            }
 
         }
 
@@ -76,20 +85,22 @@ public class TileInsulatedFurnace extends TileHeatContainer implements ISidedInv
         if (m_HeatingLeft == 0 && canSmelt) {
             m_HeatingLeft = 200;
         }
-        
+
         if (m_HeatingLeft > 0 && canSmelt) {
             m_HeatingLeft -= removeHeat(m_HeatingLeft);
 
             if (m_HeatingLeft == 0) {
                 inputStack.stackSize--;
 
-                if (inputStack.stackSize == 0)
+                if (inputStack.stackSize == 0) {
                     m_FurnaceItemStacks[SLOT_INPUT_INDEX] = null;
+                }
 
-                if (outputStack != null)
+                if (outputStack != null) {
                     outputStack.stackSize += smeltingResult.stackSize;
-                else
+                } else {
                     m_FurnaceItemStacks[SLOT_OUTPUT_INDEX] = smeltingResult.copy();
+                }
             }
         }
     }
@@ -147,8 +158,9 @@ public class TileInsulatedFurnace extends TileHeatContainer implements ISidedInv
     public ItemStack getStackInSlotOnClosing(int i) {
         ItemStack itemStack = m_FurnaceItemStacks[i];
 
-        if (itemStack != null)
+        if (itemStack != null) {
             m_FurnaceItemStacks[i] = null;
+        }
 
         return itemStack;
     }
@@ -157,8 +169,9 @@ public class TileInsulatedFurnace extends TileHeatContainer implements ISidedInv
     public void setInventorySlotContents(int i, ItemStack itemstack) {
         m_FurnaceItemStacks[i] = itemstack;
 
-        if (itemstack != null && itemstack.stackSize > getInventoryStackLimit())
+        if (itemstack != null && itemstack.stackSize > getInventoryStackLimit()) {
             itemstack.stackSize = getInventoryStackLimit();
+        }
     }
 
     @Override
@@ -178,7 +191,7 @@ public class TileInsulatedFurnace extends TileHeatContainer implements ISidedInv
 
     @Override
     public boolean isUseableByPlayer(EntityPlayer entityplayer) {
-        boolean playerInRange = entityplayer.getDistanceSq((double) xCoord + 0.5D, (double) yCoord + 0.5D, (double) zCoord + 0.5D) <= 64.0D;
+        boolean playerInRange = entityplayer.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 64.0D;
 
         return worldObj.getBlockTileEntity(xCoord, yCoord, zCoord) == this && playerInRange;
     }
@@ -193,12 +206,12 @@ public class TileInsulatedFurnace extends TileHeatContainer implements ISidedInv
 
     @Override
     public boolean isStackValidForSlot(int i, ItemStack itemstack) {
-        return i == SLOT_OUTPUT_INDEX ? false : (i == SLOT_FUEL_INDEX ? TileEntityFurnace.isItemFuel(itemstack) : true);
+        return i == SLOT_OUTPUT_INDEX ? false : i == SLOT_FUEL_INDEX ? TileEntityFurnace.isItemFuel(itemstack) : true;
     }
 
     @Override
     public int[] getAccessibleSlotsFromSide(int side) {
-        return side == 0 ? m_SlotsBottom : (side == 1 ? m_SlotsTop : m_SlotsSides);
+        return side == 0 ? m_SlotsBottom : side == 1 ? m_SlotsTop : m_SlotsSides;
     }
 
     @Override

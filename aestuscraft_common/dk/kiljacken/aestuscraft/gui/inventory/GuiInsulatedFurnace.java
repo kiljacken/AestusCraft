@@ -1,12 +1,21 @@
+/**
+ * AestusCraft
+ * 
+ * GuiInsulatedFurnace.java
+ * 
+ * @author Kiljacken
+ * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
+ */
 package dk.kiljacken.aestuscraft.gui.inventory;
+
+import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.util.StatCollector;
 
 import org.lwjgl.opengl.GL11;
 
 import dk.kiljacken.aestuscraft.inventory.ContainerInsulatedFurnace;
 import dk.kiljacken.aestuscraft.tileentity.TileInsulatedFurnace;
-import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.util.StatCollector;
 
 public class GuiInsulatedFurnace extends GuiContainer {
     private TileInsulatedFurnace m_TileEntityInsulatedFurnace;
@@ -47,7 +56,7 @@ public class GuiInsulatedFurnace extends GuiContainer {
         }
 
         if (m_TileEntityInsulatedFurnace.getHeatingLeft() != 0) {
-            int scaledHeatingLeft = 24 - (m_TileEntityInsulatedFurnace.getHeatingLeft() * 24 / 200);
+            int scaledHeatingLeft = 24 - m_TileEntityInsulatedFurnace.getHeatingLeft() * 24 / 200;
 
             drawTexturedModalRect(x + 79, y + 34, 176, 14, scaledHeatingLeft + 1, 16);
         }
