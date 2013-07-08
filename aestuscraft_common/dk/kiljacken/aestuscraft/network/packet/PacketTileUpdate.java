@@ -26,6 +26,8 @@ public class PacketTileUpdate extends PacketAEC {
 
     public PacketTileUpdate() {
         super(PacketType.TILE_UPDATE, false);
+
+        nbtTagCompound = new NBTTagCompound();
     }
 
     @Override

@@ -74,8 +74,6 @@ public class TileAEC extends TileEntity {
         packet.x = xCoord;
         packet.y = yCoord;
         packet.z = zCoord;
-
-        packet.nbtTagCompound = new NBTTagCompound();
         writeToNBT(packet.nbtTagCompound);
 
         return PacketType.buildMCPacket(packet);

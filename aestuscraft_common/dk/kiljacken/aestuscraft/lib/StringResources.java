@@ -23,5 +23,11 @@ public class StringResources {
     // NBT tag names
     public static final String NBT_TE_CUSTOM_NAME = "CustomName";
     public static final String NBT_TE_ORIENTATION = "teOrientation";
+    public static final String NBT_TE_INVENTORY_SLOT = "slot";
+    public static final String NBT_TE_INVENTORY_ITEMS = "items";
     public static final String NBT_TE_HEAT_LEVEL = "heatLevel";
+    public static final String NBT_TE_MAX_HEAT = "maxHeat";
+    public static final String NBT_TE_FUEL_LEFT = "fuelLeft";
+    public static final String NBT_TE_FUEL_HEAT = "fuelHeat";
+    public static final String NBT_TE_HEATING_LEFT = "heatingLeft";
 }

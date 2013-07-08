@@ -8,7 +8,6 @@
  */
 package dk.kiljacken.aestuscraft.tileentity;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.Item;
@@ -17,17 +16,15 @@ import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntityFurnace;
+import dk.kiljacken.aestuscraft.lib.StringResources;
 
-public class TileInsulatedFurnace extends TileHeatContainer implements ISidedInventory {
+public class TileInsulatedFurnace extends TileBoundedHeatConsumer implements ISidedInventory {
     public static final int INVENTORY_SIZE = 3;
 
     public static final int SLOT_INPUT_INDEX = 0;
     public static final int SLOT_FUEL_INDEX = 1;
     public static final int SLOT_OUTPUT_INDEX = 2;
 
-    /**
-     * Input, Fuel, Output
-     */
     private ItemStack[] m_FurnaceItemStacks = new ItemStack[INVENTORY_SIZE];
 
     private int[] m_SlotsTop = new int[] { SLOT_INPUT_INDEX };
@@ -38,11 +35,14 @@ public class TileInsulatedFurnace extends TileHeatContainer implements ISidedInv
     private int m_FuelLeft = 0;
     private int m_FuelHeat = 0;
 
+    public TileInsulatedFurnace() {
+        super(12800);
+    }
+
     @Override
     public void updateEntity() {
         super.updateEntity();
 
-        Minecraft.getMinecraft().mcProfiler.getClass();
         ItemStack inputStack = m_FurnaceItemStacks[SLOT_INPUT_INDEX];
         ItemStack fuelStack = m_FurnaceItemStacks[SLOT_FUEL_INDEX];
         ItemStack outputStack = m_FurnaceItemStacks[SLOT_OUTPUT_INDEX];
@@ -60,7 +60,7 @@ public class TileInsulatedFurnace extends TileHeatContainer implements ISidedInv
         }
 
         if (m_FuelLeft > 0) {
-            m_FuelLeft -= addHeat(m_FuelLeft);
+            m_FuelLeft -= supplyHeat(1);
 
             if (m_FuelLeft == 0) {
                 m_FuelHeat = 0;
@@ -103,16 +103,6 @@ public class TileInsulatedFurnace extends TileHeatContainer implements ISidedInv
                 }
             }
         }
-    }
-
-    @Override
-    public int getHeatLoss() {
-        return 0;
-    }
-
-    @Override
-    public int getHeatConductivity() {
-        return 1;
     }
 
     public int getHeatingLeft() {
@@ -228,22 +218,22 @@ public class TileInsulatedFurnace extends TileHeatContainer implements ISidedInv
     public void readFromNBT(NBTTagCompound nbtTagCompound) {
         super.readFromNBT(nbtTagCompound);
 
-        NBTTagList itemStacksTag = nbtTagCompound.getTagList("items");
+        NBTTagList itemStacksTag = nbtTagCompound.getTagList(StringResources.NBT_TE_INVENTORY_ITEMS);
         m_FurnaceItemStacks = new ItemStack[getSizeInventory()];
 
         for (int i = 0; i < itemStacksTag.tagCount(); i++) {
             NBTTagCompound itemStackTag = (NBTTagCompound) itemStacksTag.tagAt(i);
 
-            byte slot = itemStackTag.getByte("slot");
+            byte slot = itemStackTag.getByte(StringResources.NBT_TE_INVENTORY_SLOT);
 
             if (slot >= 0 && slot < m_FurnaceItemStacks.length) {
                 m_FurnaceItemStacks[slot] = ItemStack.loadItemStackFromNBT(itemStackTag);
             }
         }
 
-        m_FuelLeft = nbtTagCompound.getInteger("fuelLeft");
-        m_FuelHeat = nbtTagCompound.getInteger("fuelHeat");
-        m_HeatingLeft = nbtTagCompound.getInteger("heatingLeft");
+        m_FuelLeft = nbtTagCompound.getInteger(StringResources.NBT_TE_FUEL_LEFT);
+        m_FuelHeat = nbtTagCompound.getInteger(StringResources.NBT_TE_FUEL_HEAT);
+        m_HeatingLeft = nbtTagCompound.getInteger(StringResources.NBT_TE_HEATING_LEFT);
     }
 
     @Override
@@ -256,16 +246,16 @@ public class TileInsulatedFurnace extends TileHeatContainer implements ISidedInv
             if (m_FurnaceItemStacks[i] != null) {
                 NBTTagCompound itemStackTag = new NBTTagCompound();
 
-                itemStackTag.setByte("slot", (byte) i);
+                itemStackTag.setByte(StringResources.NBT_TE_INVENTORY_SLOT, (byte) i);
                 m_FurnaceItemStacks[i].writeToNBT(itemStackTag);
 
                 itemStacksTag.appendTag(itemStackTag);
             }
         }
 
-        nbtTagCompound.setTag("items", itemStacksTag);
-        nbtTagCompound.setInteger("fuelLeft", m_FuelLeft);
-        nbtTagCompound.setInteger("fuelHeat", m_FuelHeat);
-        nbtTagCompound.setInteger("heatingLeft", m_HeatingLeft);
+        nbtTagCompound.setTag(StringResources.NBT_TE_INVENTORY_ITEMS, itemStacksTag);
+        nbtTagCompound.setInteger(StringResources.NBT_TE_FUEL_LEFT, m_FuelLeft);
+        nbtTagCompound.setInteger(StringResources.NBT_TE_FUEL_HEAT, m_FuelHeat);
+        nbtTagCompound.setInteger(StringResources.NBT_TE_HEATING_LEFT, m_HeatingLeft);
     }
 }
