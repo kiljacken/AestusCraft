@@ -41,6 +41,8 @@ public class PacketTileUpdate extends PacketAEC {
 
     @Override
     public void writePacketData(DataOutputStream output) throws IOException {
+        super.writePacketData(output);
+
         output.writeInt(x);
         output.writeInt(y);
         output.writeInt(z);

@@ -43,7 +43,9 @@ public abstract class PacketAEC {
 
     public abstract void readPacketData(DataInputStream input) throws IOException;
 
-    public abstract void writePacketData(DataOutputStream output) throws IOException;
+    public void writePacketData(DataOutputStream output) throws IOException {
+        output.writeInt(type.ordinal());
+    }
 
     public abstract void process(INetworkManager manager, Player player);
 }

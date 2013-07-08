@@ -25,9 +25,10 @@ public class StreamUtil {
         if (length < 0) {
             return null;
         } else {
-            byte[] abyte = new byte[length];
-            input.readFully(abyte);
-            return CompressedStreamTools.decompress(abyte);
+            byte[] data = new byte[length];
+            input.readFully(data);
+
+            return CompressedStreamTools.decompress(data);
         }
     }
 
@@ -38,9 +39,10 @@ public class StreamUtil {
         if (nbtTagCompound == null) {
             output.writeShort(-1);
         } else {
-            byte[] abyte = CompressedStreamTools.compress(nbtTagCompound);
-            output.writeShort((short) abyte.length);
-            output.write(abyte);
+            byte[] data = CompressedStreamTools.compress(nbtTagCompound);
+
+            output.writeShort((short) data.length);
+            output.write(data);
         }
     }
 }

@@ -32,7 +32,7 @@ public enum PacketType {
         PacketAEC packet = null;
 
         try {
-            int packetId = ios.read();
+            int packetId = ios.readInt();
 
             if (packetId == -1) {
                 LogHelper.severe("Tried to build packet from ended inputstream");
@@ -75,6 +75,6 @@ public enum PacketType {
         packet250.length = data.length;
         packet250.isChunkDataPacket = packet.isChunkData;
 
-        return null;
+        return packet250;
     }
 }
