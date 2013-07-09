@@ -87,7 +87,7 @@ public class TileInsulatedFurnace extends TileBoundedHeatConsumer implements ISi
         }
 
         if (m_HeatingLeft > 0 && canSmelt) {
-            m_HeatingLeft -= removeHeat(m_HeatingLeft);
+            m_HeatingLeft -= removeHeat(1);
 
             if (m_HeatingLeft == 0) {
                 inputStack.stackSize--;
