@@ -195,7 +195,7 @@ public class TileInsulatedFurnace extends TileBoundedHeatConsumer implements ISi
     }
 
     @Override
-    public boolean isStackValidForSlot(int i, ItemStack itemstack) {
+    public boolean isItemValidForSlot(int i, ItemStack itemstack) {
         return i == SLOT_OUTPUT_INDEX ? false : i == SLOT_FUEL_INDEX ? TileEntityFurnace.isItemFuel(itemstack) : true;
     }
 
@@ -206,7 +206,7 @@ public class TileInsulatedFurnace extends TileBoundedHeatConsumer implements ISi
 
     @Override
     public boolean canInsertItem(int i, ItemStack itemstack, int j) {
-        return isStackValidForSlot(i, itemstack);
+        return isItemValidForSlot(i, itemstack);
     }
 
     @Override

@@ -15,6 +15,7 @@ import net.minecraft.util.StatCollector;
 import org.lwjgl.opengl.GL11;
 
 import dk.kiljacken.aestuscraft.inventory.ContainerInsulatedFurnace;
+import dk.kiljacken.aestuscraft.lib.Resources;
 import dk.kiljacken.aestuscraft.tileentity.TileInsulatedFurnace;
 
 public class GuiInsulatedFurnace extends GuiContainer {
@@ -42,7 +43,7 @@ public class GuiInsulatedFurnace extends GuiContainer {
     protected void drawGuiContainerBackgroundLayer(float renderPartialTicks, int scaledMouseX, int scaledMouseY) {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
-        mc.renderEngine.bindTexture("/gui/furnace.png");
+        mc.renderEngine.func_110577_a(Resources.FURNACE_GUI);
 
         int x = (width - xSize) / 2;
         int y = (height - ySize) / 2;

@@ -10,7 +10,7 @@ package dk.kiljacken.aestuscraft.block;
 
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
@@ -24,11 +24,11 @@ public abstract class BlockAECBase extends BlockContainer {
     }
 
     @Override
-    public void onBlockPlacedBy(World world, int x, int y, int z, EntityLiving entityLiving, ItemStack itemStack) {
-        super.onBlockPlacedBy(world, x, y, z, entityLiving, itemStack);
+    public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entityLivingBase, ItemStack itemStack) {
+        super.onBlockPlacedBy(world, x, y, z, entityLivingBase, itemStack);
 
         int direction = 0;
-        int facing = MathHelper.floor_double(entityLiving.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
+        int facing = MathHelper.floor_double(entityLivingBase.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
 
         if (facing == 0) {
             direction = ForgeDirection.NORTH.ordinal();
