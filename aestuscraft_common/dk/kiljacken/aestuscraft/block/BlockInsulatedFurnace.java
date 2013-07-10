@@ -47,7 +47,11 @@ public class BlockInsulatedFurnace extends BlockAECBase {
     @Override
     @SideOnly(Side.CLIENT)
     public Icon getIcon(int side, int meta) {
-        return side == meta ? furnaceIconFront : blockIcon;
+        if (meta == 0) {
+            return side == 3 ? furnaceIconFront : blockIcon;
+        } else {
+            return side == meta ? furnaceIconFront : blockIcon;
+        }
     }
 
     @Override
