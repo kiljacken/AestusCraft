@@ -3,5 +3,7 @@
 <properties version="1.0">
 	<comment>English (en_US) Localization File</comment>
 	<entry key="tile.insulatedFurnace.name">Insulated Furnace</entry>
+	<entry key="tile.heatConduit.name">Heat Conduit</entry>
 	<entry key="container.insulatedFurnace">Insulated Furnace</entry>
+	<entry key="item.conduitDebugger.name">Conduit Debugger</entry>
 </properties>

@@ -14,10 +14,15 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Set;
 
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.network.PacketDispatcher;
+import cpw.mods.fml.relauncher.Side;
 import dk.kiljacken.aestuscraft.api.heat.IHeatConduit;
 import dk.kiljacken.aestuscraft.api.heat.IHeatConsumer;
 import dk.kiljacken.aestuscraft.api.heat.IHeatNetwork;
 import dk.kiljacken.aestuscraft.api.heat.IHeatProducer;
+import dk.kiljacken.aestuscraft.network.PacketType;
+import dk.kiljacken.aestuscraft.network.packet.PacketHeatNetworkSync;
 
 public class HeatNetwork implements IHeatNetwork {
     private Set<IHeatConsumer> m_HeatConsumers;
@@ -52,6 +57,13 @@ public class HeatNetwork implements IHeatNetwork {
                 m_HeatConsumers.addAll(conduit.getConnectedConsumers());
                 m_HeatProducers.addAll(conduit.getConnectedProducers());
             }
+        }
+
+        if (FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER) {
+            PacketHeatNetworkSync packet = new PacketHeatNetworkSync();
+            packet.fillFrom(this);
+
+            PacketDispatcher.sendPacketToAllPlayers(PacketType.buildMCPacket(packet));
         }
     }
 

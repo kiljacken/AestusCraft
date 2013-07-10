@@ -16,11 +16,12 @@ import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet250CustomPayload;
 import dk.kiljacken.aestuscraft.lib.Reference;
 import dk.kiljacken.aestuscraft.network.packet.PacketAEC;
+import dk.kiljacken.aestuscraft.network.packet.PacketHeatNetworkSync;
 import dk.kiljacken.aestuscraft.network.packet.PacketTileUpdate;
 import dk.kiljacken.aestuscraft.util.LogHelper;
 
 public enum PacketType {
-    TILE_UPDATE(PacketTileUpdate.class);
+    TILE_UPDATE(PacketTileUpdate.class), HEAT_NETWORK_SYNC(PacketHeatNetworkSync.class);
 
     private Class<? extends PacketAEC> clazz;
 

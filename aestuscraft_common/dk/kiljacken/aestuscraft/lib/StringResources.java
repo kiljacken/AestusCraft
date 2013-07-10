@@ -16,9 +16,14 @@ public class StringResources {
 
     // Block names
     public static final String INSULATED_FURNACE_NAME = "insulatedFurnace";
+    public static final String HEAT_CONDUIT_NAME = "heatConduit";
 
     // Tile entity names
     public static final String TE_INSULATED_FURNACE_NAME = "tileInsulatedFurnace";
+    public static final String TE_HEAT_CONDUIT_NAME = "tileHeatConduit";
+
+    // Item names
+    public static final String ITEM_CONDUIT_DEBUGGER_NAME = "conduitDebugger";
 
     // NBT tag names
     public static final String NBT_TE_CUSTOM_NAME = "CustomName";

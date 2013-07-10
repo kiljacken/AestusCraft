@@ -21,6 +21,7 @@ import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import dk.kiljacken.aestuscraft.block.ModBlocks;
 import dk.kiljacken.aestuscraft.core.proxy.CommonProxy;
+import dk.kiljacken.aestuscraft.item.ModItems;
 import dk.kiljacken.aestuscraft.lib.Reference;
 import dk.kiljacken.aestuscraft.lib.StringResources;
 import dk.kiljacken.aestuscraft.network.PacketHandler;
@@ -46,6 +47,7 @@ public class AestusCraft {
         ConfigurationHelper.init(new File(event.getModConfigurationDirectory(), StringResources.PATH_CONFIGURATION));
 
         ModBlocks.init();
+        ModItems.init();
     }
 
     @EventHandler

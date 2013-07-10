@@ -17,6 +17,8 @@ import dk.kiljacken.aestuscraft.gui.inventory.GuiInsulatedFurnace;
 import dk.kiljacken.aestuscraft.inventory.ContainerInsulatedFurnace;
 import dk.kiljacken.aestuscraft.lib.GuiIds;
 import dk.kiljacken.aestuscraft.lib.StringResources;
+import dk.kiljacken.aestuscraft.network.packet.PacketHeatNetworkSync;
+import dk.kiljacken.aestuscraft.tileentity.TileHeatConduit;
 import dk.kiljacken.aestuscraft.tileentity.TileInsulatedFurnace;
 import dk.kiljacken.aestuscraft.util.LogHelper;
 
@@ -25,6 +27,7 @@ public class CommonProxy implements IGuiHandler {
         LogHelper.info("Registering tile entities");
 
         GameRegistry.registerTileEntity(TileInsulatedFurnace.class, StringResources.TE_INSULATED_FURNACE_NAME);
+        GameRegistry.registerTileEntity(TileHeatConduit.class, StringResources.TE_HEAT_CONDUIT_NAME);
     }
 
     @Override
@@ -48,6 +51,10 @@ public class CommonProxy implements IGuiHandler {
     }
 
     public void handleTileUpdate(int x, int y, int z, NBTTagCompound nbtTagCompound) {
+
+    }
+
+    public void syncHeatNetwork(PacketHeatNetworkSync packetHeatNetworkSync) {
 
     }
 }
