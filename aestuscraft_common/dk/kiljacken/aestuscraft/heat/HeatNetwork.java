@@ -58,6 +58,10 @@ public class HeatNetwork implements IHeatNetwork {
                 m_HeatProducers.addAll(conduit.getConnectedProducers());
             }
         }
+        
+        for (IHeatProducer heatProducer: m_HeatProducers) {
+            heatProducer.connectToNetwork(this);
+        }
 
         if (FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER) {
             PacketHeatNetworkSync packet = new PacketHeatNetworkSync();
