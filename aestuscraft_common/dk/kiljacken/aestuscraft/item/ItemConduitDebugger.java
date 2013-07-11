@@ -39,11 +39,13 @@ public class ItemConduitDebugger extends Item {
             if (tile instanceof IHeatConduit) {
                 IHeatConduit conduit = (IHeatConduit) tile;
 
+                int numConduits = conduit.getNetwork().getHeatConduits().size();
+                int numConsumers = conduit.getNetwork().getHeatConsumers().size();
+                int numProducers = conduit.getNetwork().getHeatProducers().size();
+
                 Side effectiveSide = FMLCommonHandler.instance().getEffectiveSide();
-                LogHelper.info("Dumping heat network (" + effectiveSide.name() + ")");
-                LogHelper.info("- # Conduits: " + conduit.getNetwork().getHeatConduits().size());
-                LogHelper.info("- # Consumers: " + conduit.getNetwork().getHeatConsumers().size());
-                LogHelper.info("- # Producers: " + conduit.getNetwork().getHeatProducers().size());
+
+                LogHelper.info("Heat Network Debug (" + effectiveSide.name() + ") - Cd: " + numConduits + ", Cn: " + numConsumers + ", Pd: " + numProducers);
 
                 return true;
             }
