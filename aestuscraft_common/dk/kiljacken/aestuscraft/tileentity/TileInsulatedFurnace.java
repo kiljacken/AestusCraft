@@ -166,7 +166,7 @@ public class TileInsulatedFurnace extends TileBoundedHeatConsumer implements ISi
 
     @Override
     public String getInvName() {
-        return hasCustomName() ? getCustomName() : "container.insulatedFurnace";
+        return hasCustomName() ? getCustomName() : StringResources.CONTAINER_INSULATED_FURNACE_NAME;
     }
 
     @Override

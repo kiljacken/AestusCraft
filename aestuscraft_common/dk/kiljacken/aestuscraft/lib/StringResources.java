@@ -21,6 +21,9 @@ public class StringResources {
     // Tile entity names
     public static final String TE_INSULATED_FURNACE_NAME = "tileInsulatedFurnace";
     public static final String TE_HEAT_CONDUIT_NAME = "tileHeatConduit";
+    
+    // Container names
+    public static final String CONTAINER_INSULATED_FURNACE_NAME = "container.insulatedFurnace";
 
     // Item names
     public static final String ITEM_CONDUIT_DEBUGGER_NAME = "conduitDebugger";
