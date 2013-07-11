@@ -31,6 +31,7 @@ public class ConfigurationHelper {
             // Load block ids
             BlockIds.INSULATED_FURNACE = configuration.getBlock(StringResources.INSULATED_FURNACE_NAME, BlockIds.INSULATED_FURNACE_DEFAULT).getInt(BlockIds.INSULATED_FURNACE_DEFAULT);
             BlockIds.HEAT_CONDUIT = configuration.getBlock(StringResources.HEAT_CONDUIT_NAME, BlockIds.HEAT_CONDUIT_DEFAULT).getInt(BlockIds.HEAT_CONDUIT_DEFAULT);
+            BlockIds.FUEL_BURNER = configuration.getBlock(StringResources.FUEL_BURNER_NAME, BlockIds.FUEL_BURNER_DEFAULT).getInt(BlockIds.FUEL_BURNER_DEFAULT);
 
             // Load item ids
             ItemIds.CONDUIT_DEBUGGER = configuration.getItem(StringResources.ITEM_CONDUIT_DEBUGGER_NAME, ItemIds.CONDUIT_DEBUGGER_DEFAULT).getInt(ItemIds.CONDUIT_DEBUGGER_DEFAULT) - 256;

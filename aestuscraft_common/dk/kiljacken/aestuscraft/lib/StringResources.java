@@ -17,13 +17,16 @@ public class StringResources {
     // Block names
     public static final String INSULATED_FURNACE_NAME = "insulatedFurnace";
     public static final String HEAT_CONDUIT_NAME = "heatConduit";
+    public static final String FUEL_BURNER_NAME = "fuelBurner";
 
     // Tile entity names
     public static final String TE_INSULATED_FURNACE_NAME = "tileInsulatedFurnace";
     public static final String TE_HEAT_CONDUIT_NAME = "tileHeatConduit";
-    
+    public static final String TE_FUEL_BURNER_NAME = "tileFuelBurner";
+
     // Container names
     public static final String CONTAINER_INSULATED_FURNACE_NAME = "container.insulatedFurnace";
+    public static final String CONTAINER_FUEL_BURNER_NAME = "container.fuelBurner";
 
     // Item names
     public static final String ITEM_CONDUIT_DEBUGGER_NAME = "conduitDebugger";

@@ -15,51 +15,50 @@ import net.minecraft.util.StatCollector;
 import org.lwjgl.opengl.GL11;
 
 import dk.kiljacken.aestuscraft.inventory.ContainerInsulatedFurnace;
-import dk.kiljacken.aestuscraft.lib.Resources;
+import dk.kiljacken.aestuscraft.lib.ResourcesLocations;
 import dk.kiljacken.aestuscraft.tileentity.TileInsulatedFurnace;
 
 public class GuiInsulatedFurnace extends GuiContainer {
-    private TileInsulatedFurnace m_TileEntityInsulatedFurnace;
+    private TileInsulatedFurnace m_TileInsulatedFurnace;
 
-    public GuiInsulatedFurnace(InventoryPlayer inventoryPlayer, TileInsulatedFurnace tileEntityInsulatedFurnace) {
-        super(new ContainerInsulatedFurnace(inventoryPlayer, tileEntityInsulatedFurnace));
+    public GuiInsulatedFurnace(InventoryPlayer inventoryPlayer, TileInsulatedFurnace tileInsulatedFurnace) {
+        super(new ContainerInsulatedFurnace(inventoryPlayer, tileInsulatedFurnace));
 
-        m_TileEntityInsulatedFurnace = tileEntityInsulatedFurnace;
+        m_TileInsulatedFurnace = tileInsulatedFurnace;
     }
 
     @Override
     protected void drawGuiContainerForegroundLayer(int scaledMouseX, int scaledMouseY) {
-        String s = m_TileEntityInsulatedFurnace.isInvNameLocalized() ? m_TileEntityInsulatedFurnace.getInvName() : StatCollector.translateToLocal(m_TileEntityInsulatedFurnace.getInvName());
-        fontRenderer.drawString(s, xSize / 2 - fontRenderer.getStringWidth(s) / 2, 6, 0x404040);
+        // Draw insulated furnace name
+        String name = m_TileInsulatedFurnace.isInvNameLocalized() ? m_TileInsulatedFurnace.getInvName() : StatCollector.translateToLocal(m_TileInsulatedFurnace.getInvName());
+        fontRenderer.drawString(name, xSize / 2 - fontRenderer.getStringWidth(name) / 2, 6, 0x404040);
 
+        // Draw inventory label
         String inventoryLabel = StatCollector.translateToLocal("container.inventory");
         fontRenderer.drawString(inventoryLabel, 8, ySize - 96 + 2, 0x404040);
-
-        String heatLevel = String.valueOf(m_TileEntityInsulatedFurnace.getHeatLevel());
-        fontRenderer.drawString(" - Heat Level: " + heatLevel, 8 + fontRenderer.getStringWidth(inventoryLabel), ySize - 96 + 2, 0x404040);
     }
 
     @Override
     protected void drawGuiContainerBackgroundLayer(float renderPartialTicks, int scaledMouseX, int scaledMouseY) {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
-        mc.renderEngine.func_110577_a(Resources.FURNACE_GUI);
+        mc.renderEngine.func_110577_a(ResourcesLocations.INSULATED_FURNACE_GUI);
 
         int x = (width - xSize) / 2;
         int y = (height - ySize) / 2;
 
         drawTexturedModalRect(x, y, 0, 0, xSize, ySize);
 
-        if (m_TileEntityInsulatedFurnace.getFuelLeft() > 0 && m_TileEntityInsulatedFurnace.getFuelHeat() > 0) {
-            int scaledFuelLeft = m_TileEntityInsulatedFurnace.getFuelLeft() * 12 / m_TileEntityInsulatedFurnace.getFuelHeat();
+        // Draw heating progress
+        if (m_TileInsulatedFurnace.getHeatingLeft() != 0) {
+            int scaledHeatingLeft = m_TileInsulatedFurnace.getHeatingLeft() * 16 / 200;
 
-            drawTexturedModalRect(x + 56, y + 36 + 12 - scaledFuelLeft, 176, 12 - scaledFuelLeft, 14, scaledFuelLeft + 2);
+            for (int i = 0; i < 3; i++) {
+                drawTexturedModalRect(x + 63 + i * 18, y + 35 + scaledHeatingLeft, 176, scaledHeatingLeft, 12, 16 - scaledHeatingLeft);
+            }
         }
 
-        if (m_TileEntityInsulatedFurnace.getHeatingLeft() != 0) {
-            int scaledHeatingLeft = 24 - m_TileEntityInsulatedFurnace.getHeatingLeft() * 24 / 200;
-
-            drawTexturedModalRect(x + 79, y + 34, 176, 14, scaledHeatingLeft + 1, 16);
-        }
+        int scaledHeatLevel = 54 - m_TileInsulatedFurnace.getHeatLevel() * 54 / m_TileInsulatedFurnace.getMaxHeat();
+        drawTexturedModalRect(x + 160, y + 16 + scaledHeatLevel, 176, 16 + scaledHeatLevel, 8, 54 - scaledHeatLevel);
     }
 }

@@ -32,6 +32,10 @@ public class TileBoundedHeatConsumer extends TileHeatConsumer {
         return getHeatLevel() < m_MaxHeat;
     }
 
+    public int getMaxHeat() {
+        return m_MaxHeat;
+    }
+
     @Override
     public void readFromNBT(NBTTagCompound nbtTagCompound) {
         super.readFromNBT(nbtTagCompound);
@@ -46,5 +50,4 @@ public class TileBoundedHeatConsumer extends TileHeatConsumer {
         nbtTagCompound.setInteger(StringResources.NBT_TE_MAX_HEAT, m_MaxHeat);
 
     }
-
 }

@@ -13,14 +13,17 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntityFurnace;
 import dk.kiljacken.aestuscraft.tileentity.TileInsulatedFurnace;
 
 public class ContainerInsulatedFurnace extends Container {
     public ContainerInsulatedFurnace(InventoryPlayer inventoryPlayer, TileInsulatedFurnace tileEntityInsulatedFurnace) {
-        addSlotToContainer(new Slot(tileEntityInsulatedFurnace, TileInsulatedFurnace.SLOT_INPUT_INDEX, 56, 17));
-        addSlotToContainer(new Slot(tileEntityInsulatedFurnace, TileInsulatedFurnace.SLOT_FUEL_INDEX, 56, 53));
-        addSlotToContainer(new Slot(tileEntityInsulatedFurnace, TileInsulatedFurnace.SLOT_OUTPUT_INDEX, 116, 35));
+        addSlotToContainer(new Slot(tileEntityInsulatedFurnace, TileInsulatedFurnace.SLOT_INPUT_1_INDEX, 61, 16));
+        addSlotToContainer(new Slot(tileEntityInsulatedFurnace, TileInsulatedFurnace.SLOT_INPUT_2_INDEX, 79, 16));
+        addSlotToContainer(new Slot(tileEntityInsulatedFurnace, TileInsulatedFurnace.SLOT_INPUT_3_INDEX, 97, 16));
+
+        addSlotToContainer(new Slot(tileEntityInsulatedFurnace, TileInsulatedFurnace.SLOT_OUTPUT_1_INDEX, 61, 54));
+        addSlotToContainer(new Slot(tileEntityInsulatedFurnace, TileInsulatedFurnace.SLOT_OUTPUT_2_INDEX, 79, 54));
+        addSlotToContainer(new Slot(tileEntityInsulatedFurnace, TileInsulatedFurnace.SLOT_OUTPUT_3_INDEX, 97, 54));
 
         for (int i = 0; i < 3; ++i) {
             for (int j = 0; j < 9; ++j) {
@@ -50,21 +53,12 @@ public class ContainerInsulatedFurnace extends Container {
             // If we're shift-clicking an item out, attempt to place it in first
             // available slot of the player's inventory
             if (slotIndex < TileInsulatedFurnace.INVENTORY_SIZE) {
-                if (!this.mergeItemStack(slotItemStack, TileInsulatedFurnace.INVENTORY_SIZE, inventorySlots.size(), false)) {
+                if (!this.mergeItemStack(slotItemStack, TileInsulatedFurnace.INVENTORY_SIZE, inventorySlots.size(), true)) {
                     return null;
                 }
             } else {
-                // If fuel is being shift-clicked, attempt to put it into the
-                // fuel slot
-                // If not, try to place it in the input slot
-                if (TileEntityFurnace.isItemFuel(slotItemStack)) {
-                    if (!this.mergeItemStack(slotItemStack, TileInsulatedFurnace.SLOT_FUEL_INDEX, TileInsulatedFurnace.SLOT_OUTPUT_INDEX, false)) {
-                        return null;
-                    }
-                }
-
-                // Finally, try to put it into the input slot
-                else if (!this.mergeItemStack(slotItemStack, TileInsulatedFurnace.SLOT_INPUT_INDEX, TileInsulatedFurnace.SLOT_OUTPUT_INDEX, false)) {
+                // Try to put the stack in the input slots
+                if (!this.mergeItemStack(slotItemStack, TileInsulatedFurnace.SLOT_INPUT_1_INDEX, TileInsulatedFurnace.SLOT_INPUT_3_INDEX + 1, false)) {
                     return null;
                 }
             }
@@ -78,5 +72,4 @@ public class ContainerInsulatedFurnace extends Container {
 
         return itemStack;
     }
-
 }

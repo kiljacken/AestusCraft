@@ -10,5 +10,5 @@ package dk.kiljacken.aestuscraft.lib;
 
 public class GuiIds {
     public static final int INSULATED_FURNACE = 0;
-
+    public static final int FUEL_BURNER = 1;
 }

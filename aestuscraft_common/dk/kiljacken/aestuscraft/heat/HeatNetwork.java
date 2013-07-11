@@ -65,6 +65,8 @@ public class HeatNetwork implements IHeatNetwork {
 
             PacketDispatcher.sendPacketToAllPlayers(PacketType.buildMCPacket(packet));
         }
+
+        m_ConsumerIterator = null;
     }
 
     @Override
@@ -77,14 +79,18 @@ public class HeatNetwork implements IHeatNetwork {
 
         // Find the first consumer accepting heat. Using the iterator allows us
         // to evenly spread heat between consumers
-        IHeatConsumer consumer;
+        IHeatConsumer consumer = null;
         do {
+            if (!m_ConsumerIterator.hasNext()) {
+                break;
+            }
+
             consumer = m_ConsumerIterator.next();
-        } while (!consumer.isAcceptingHeat() && m_ConsumerIterator.hasNext());
+        } while (!consumer.isAcceptingHeat());
 
         // Make sure consumer accepts heat, and we didn't just reach the end of
         // the iterator
-        if (consumer.isAcceptingHeat()) {
+        if (consumer != null && consumer.isAcceptingHeat()) {
             return consumer.supplyHeat(amount);
         } else {
             return 0;
@@ -159,6 +165,5 @@ public class HeatNetwork implements IHeatNetwork {
             // Finally, refresh the network
             network.refresh();
         }
-
     }
 }

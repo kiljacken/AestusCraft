@@ -72,9 +72,9 @@ public class BlockInsulatedFurnace extends BlockAECBase {
         if (world.isRemote) {
             return true;
         } else {
-            TileInsulatedFurnace tileentityfurnace = (TileInsulatedFurnace) world.getBlockTileEntity(x, y, z);
+            TileInsulatedFurnace tileInsulatedFurnace = (TileInsulatedFurnace) world.getBlockTileEntity(x, y, z);
 
-            if (tileentityfurnace != null) {
+            if (tileInsulatedFurnace != null) {
                 entityPlayer.openGui(AestusCraft.instance, GuiIds.INSULATED_FURNACE, world, x, y, z);
             }
 
@@ -115,5 +115,4 @@ public class BlockInsulatedFurnace extends BlockAECBase {
             }
         }
     }
-
 }

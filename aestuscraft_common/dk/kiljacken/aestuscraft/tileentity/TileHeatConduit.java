@@ -57,7 +57,10 @@ public class TileHeatConduit extends TileAEC implements IHeatConduit {
                     } else if (neighbourTile instanceof IHeatConsumer) {
                         m_ConnectedConsumers.add((IHeatConsumer) neighbourTile);
                     } else if (neighbourTile instanceof IHeatProducer) {
-                        m_ConnectedProducers.add((IHeatProducer) neighbourTile);
+                        IHeatProducer heatProducer = (IHeatProducer) neighbourTile;
+
+                        heatProducer.connectToNetwork(m_HeatNetwork);
+                        m_ConnectedProducers.add(heatProducer);
                     }
                 }
             }
@@ -100,5 +103,4 @@ public class TileHeatConduit extends TileAEC implements IHeatConduit {
     public Set<IHeatProducer> getConnectedProducers() {
         return m_ConnectedProducers;
     }
-
 }

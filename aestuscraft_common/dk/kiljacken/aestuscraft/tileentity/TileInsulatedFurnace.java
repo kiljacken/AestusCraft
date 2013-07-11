@@ -10,30 +10,29 @@ package dk.kiljacken.aestuscraft.tileentity;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.tileentity.TileEntityFurnace;
 import dk.kiljacken.aestuscraft.lib.StringResources;
 
 public class TileInsulatedFurnace extends TileBoundedHeatConsumer implements ISidedInventory {
-    public static final int INVENTORY_SIZE = 3;
+    public static final int INVENTORY_SIZE = 6;
 
-    public static final int SLOT_INPUT_INDEX = 0;
-    public static final int SLOT_FUEL_INDEX = 1;
-    public static final int SLOT_OUTPUT_INDEX = 2;
+    public static final int HEAT_CONSUMPTION_RATE = 2;
+
+    public static final int SLOT_INPUT_1_INDEX = 0;
+    public static final int SLOT_INPUT_2_INDEX = 1;
+    public static final int SLOT_INPUT_3_INDEX = 2;
+    public static final int SLOT_OUTPUT_1_INDEX = 3;
+    public static final int SLOT_OUTPUT_2_INDEX = 4;
+    public static final int SLOT_OUTPUT_3_INDEX = 5;
+
+    private final int[] m_Slots = new int[] { SLOT_INPUT_1_INDEX, SLOT_INPUT_2_INDEX, SLOT_INPUT_3_INDEX, SLOT_OUTPUT_1_INDEX, SLOT_OUTPUT_2_INDEX, SLOT_OUTPUT_3_INDEX };
 
     private ItemStack[] m_FurnaceItemStacks = new ItemStack[INVENTORY_SIZE];
 
-    private int[] m_SlotsTop = new int[] { SLOT_INPUT_INDEX };
-    private int[] m_SlotsBottom = new int[] { SLOT_FUEL_INDEX };
-    private int[] m_SlotsSides = new int[] { SLOT_FUEL_INDEX, SLOT_OUTPUT_INDEX };
-
     private int m_HeatingLeft = 0;
-    private int m_FuelLeft = 0;
-    private int m_FuelHeat = 0;
 
     public TileInsulatedFurnace() {
         super(12800);
@@ -43,78 +42,91 @@ public class TileInsulatedFurnace extends TileBoundedHeatConsumer implements ISi
     public void updateEntity() {
         super.updateEntity();
 
-        ItemStack inputStack = m_FurnaceItemStacks[SLOT_INPUT_INDEX];
-        ItemStack fuelStack = m_FurnaceItemStacks[SLOT_FUEL_INDEX];
-        ItemStack outputStack = m_FurnaceItemStacks[SLOT_OUTPUT_INDEX];
-
-        // Fuel stuff
-        if (m_FuelLeft == 0 && fuelStack != null && TileEntityFurnace.isItemFuel(fuelStack)) {
-            m_FuelHeat = TileEntityFurnace.getItemBurnTime(fuelStack);
-            m_FuelLeft = m_FuelHeat;
-
-            fuelStack.stackSize--;
-
-            if (fuelStack.stackSize == 0) {
-                m_FurnaceItemStacks[SLOT_FUEL_INDEX] = fuelStack.getItem().getContainerItemStack(fuelStack);
-            }
-        }
-
-        if (m_FuelLeft > 0) {
-            m_FuelLeft -= supplyHeat(1);
-
-            if (m_FuelLeft == 0) {
-                m_FuelHeat = 0;
-            }
-
-        }
-
         // Smelting stuff
-        ItemStack smeltingResult = FurnaceRecipes.smelting().getSmeltingResult(inputStack);
+        boolean canSmelt1 = smeltableInSlot(SLOT_INPUT_1_INDEX) && spaceInSlot(SLOT_OUTPUT_1_INDEX, SLOT_INPUT_1_INDEX);
+        boolean canSmelt2 = smeltableInSlot(SLOT_INPUT_2_INDEX) && spaceInSlot(SLOT_OUTPUT_1_INDEX, SLOT_INPUT_2_INDEX);
+        boolean canSmelt3 = smeltableInSlot(SLOT_INPUT_3_INDEX) && spaceInSlot(SLOT_OUTPUT_1_INDEX, SLOT_INPUT_3_INDEX);
 
-        boolean spaceInOutput = true;
-        if (outputStack != null && smeltingResult != null) {
-            if (smeltingResult.isItemEqual(outputStack)) {
-                int resultingSize = outputStack.stackSize + smeltingResult.stackSize;
-
-                spaceInOutput = resultingSize <= getInventoryStackLimit() && resultingSize <= outputStack.getMaxStackSize();
-            }
-        }
-
-        boolean canSmelt = smeltingResult != null && (spaceInOutput || outputStack == null);
+        boolean canSmelt = canSmelt1 || canSmelt2 || canSmelt3;
 
         if (m_HeatingLeft == 0 && canSmelt) {
             m_HeatingLeft = 200;
+        } else if (m_HeatingLeft > 0 && !canSmelt) {
+            m_HeatingLeft = 0;
         }
 
-        if (m_HeatingLeft > 0 && canSmelt) {
-            m_HeatingLeft -= removeHeat(1);
+        if (m_HeatingLeft > 0) {
+            int removedHeat = removeHeat(HEAT_CONSUMPTION_RATE);
+
+            if (removedHeat == 2) {
+                m_HeatingLeft--;
+            } else {
+                supplyHeat(removedHeat);
+            }
 
             if (m_HeatingLeft == 0) {
-                inputStack.stackSize--;
-
-                if (inputStack.stackSize == 0) {
-                    m_FurnaceItemStacks[SLOT_INPUT_INDEX] = null;
+                if (canSmelt1) {
+                    doSmelting(SLOT_INPUT_1_INDEX, SLOT_OUTPUT_1_INDEX);
                 }
 
-                if (outputStack != null) {
-                    outputStack.stackSize += smeltingResult.stackSize;
-                } else {
-                    m_FurnaceItemStacks[SLOT_OUTPUT_INDEX] = smeltingResult.copy();
+                if (canSmelt2) {
+                    doSmelting(SLOT_INPUT_2_INDEX, SLOT_OUTPUT_2_INDEX);
+                }
+
+                if (canSmelt3) {
+                    doSmelting(SLOT_INPUT_3_INDEX, SLOT_OUTPUT_3_INDEX);
                 }
             }
+        }
+    }
+
+    private boolean smeltableInSlot(int slot) {
+        ItemStack stack = m_FurnaceItemStacks[slot];
+
+        if (stack == null) {
+            return false;
+        } else {
+            ItemStack smeltingResult = FurnaceRecipes.smelting().getSmeltingResult(stack);
+
+            return smeltingResult != null;
+        }
+    }
+
+    private boolean spaceInSlot(int dstSlot, int srcSlot) {
+        ItemStack checkedStack = m_FurnaceItemStacks[dstSlot];
+        ItemStack stack = FurnaceRecipes.smelting().getSmeltingResult(m_FurnaceItemStacks[srcSlot]);
+
+        if (checkedStack != null && stack != null) {
+            if (stack.isItemEqual(checkedStack)) {
+                int resultingSize = checkedStack.stackSize + stack.stackSize;
+
+                return resultingSize <= getInventoryStackLimit() && resultingSize <= checkedStack.getMaxStackSize();
+            }
+        }
+
+        return checkedStack == null;
+    }
+
+    private void doSmelting(int inputSlot, int outputSlot) {
+        ItemStack inputStack = m_FurnaceItemStacks[inputSlot];
+        ItemStack outputStack = m_FurnaceItemStacks[outputSlot];
+        ItemStack smeltingResult = FurnaceRecipes.smelting().getSmeltingResult(inputStack);
+
+        inputStack.stackSize--;
+
+        if (inputStack.stackSize == 0) {
+            m_FurnaceItemStacks[inputSlot] = null;
+        }
+
+        if (outputStack != null) {
+            outputStack.stackSize += smeltingResult.stackSize;
+        } else {
+            m_FurnaceItemStacks[outputSlot] = smeltingResult.copy();
         }
     }
 
     public int getHeatingLeft() {
         return m_HeatingLeft;
-    }
-
-    public int getFuelLeft() {
-        return m_FuelLeft;
-    }
-
-    public int getFuelHeat() {
-        return m_FuelHeat;
     }
 
     @Override
@@ -196,22 +208,22 @@ public class TileInsulatedFurnace extends TileBoundedHeatConsumer implements ISi
 
     @Override
     public boolean isItemValidForSlot(int i, ItemStack itemstack) {
-        return i == SLOT_OUTPUT_INDEX ? false : i == SLOT_FUEL_INDEX ? TileEntityFurnace.isItemFuel(itemstack) : true;
+        return true;
     }
 
     @Override
     public int[] getAccessibleSlotsFromSide(int side) {
-        return side == 0 ? m_SlotsBottom : side == 1 ? m_SlotsTop : m_SlotsSides;
+        return m_Slots;
     }
 
     @Override
     public boolean canInsertItem(int i, ItemStack itemstack, int j) {
-        return isItemValidForSlot(i, itemstack);
+        return i != SLOT_OUTPUT_1_INDEX && i != SLOT_OUTPUT_2_INDEX && i != SLOT_OUTPUT_3_INDEX;
     }
 
     @Override
     public boolean canExtractItem(int i, ItemStack itemstack, int j) {
-        return j != 0 || i != SLOT_FUEL_INDEX || itemstack.itemID == Item.bucketEmpty.itemID;
+        return i != SLOT_INPUT_1_INDEX && i != SLOT_INPUT_2_INDEX && i != SLOT_INPUT_3_INDEX;
     }
 
     @Override
@@ -231,8 +243,6 @@ public class TileInsulatedFurnace extends TileBoundedHeatConsumer implements ISi
             }
         }
 
-        m_FuelLeft = nbtTagCompound.getInteger(StringResources.NBT_TE_FUEL_LEFT);
-        m_FuelHeat = nbtTagCompound.getInteger(StringResources.NBT_TE_FUEL_HEAT);
         m_HeatingLeft = nbtTagCompound.getInteger(StringResources.NBT_TE_HEATING_LEFT);
     }
 
@@ -254,8 +264,6 @@ public class TileInsulatedFurnace extends TileBoundedHeatConsumer implements ISi
         }
 
         nbtTagCompound.setTag(StringResources.NBT_TE_INVENTORY_ITEMS, itemStacksTag);
-        nbtTagCompound.setInteger(StringResources.NBT_TE_FUEL_LEFT, m_FuelLeft);
-        nbtTagCompound.setInteger(StringResources.NBT_TE_FUEL_HEAT, m_FuelHeat);
         nbtTagCompound.setInteger(StringResources.NBT_TE_HEATING_LEFT, m_HeatingLeft);
     }
 }
