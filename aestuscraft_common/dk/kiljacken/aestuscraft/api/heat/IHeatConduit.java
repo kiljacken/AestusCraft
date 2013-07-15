@@ -51,7 +51,7 @@ public interface IHeatConduit {
      * Query whether the conduit is invalid and should be removed from the
      * network
      * 
-     * @return {@code true} if the conduit is invalid, {@code false} if not
+     * @return {@code true} if the conduit is valid, {@code false} if not
      */
-    public boolean isInvalid();
+    public boolean isValid();
 }

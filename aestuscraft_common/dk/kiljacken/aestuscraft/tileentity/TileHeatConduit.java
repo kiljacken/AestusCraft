@@ -101,6 +101,11 @@ public class TileHeatConduit extends TileAEC implements IHeatConduit {
     }
 
     @Override
+    public boolean isValid() {
+        return !isInvalid();
+    }
+
+    @Override
     public Set<IHeatProducer> getConnectedProducers() {
         return m_ConnectedProducers;
     }

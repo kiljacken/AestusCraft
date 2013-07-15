@@ -49,7 +49,7 @@ public class HeatNetwork implements IHeatNetwork {
 
             if (conduit == null) {
                 iter.remove();
-            } else if (conduit.isInvalid()) {
+            } else if (!conduit.isValid()) {
                 iter.remove();
             } else {
                 conduit.setNetwork(this);
