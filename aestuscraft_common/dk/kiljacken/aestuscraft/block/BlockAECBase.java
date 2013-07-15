@@ -27,20 +27,20 @@ public abstract class BlockAECBase extends BlockContainer {
     public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entityLivingBase, ItemStack itemStack) {
         super.onBlockPlacedBy(world, x, y, z, entityLivingBase, itemStack);
 
-        int direction = 0;
+        ForgeDirection direction = ForgeDirection.UNKNOWN;
         int facing = MathHelper.floor_double(entityLivingBase.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
 
         if (facing == 0) {
-            direction = ForgeDirection.NORTH.ordinal();
+            direction = ForgeDirection.NORTH;
         } else if (facing == 1) {
-            direction = ForgeDirection.EAST.ordinal();
+            direction = ForgeDirection.EAST;
         } else if (facing == 2) {
-            direction = ForgeDirection.SOUTH.ordinal();
+            direction = ForgeDirection.SOUTH;
         } else if (facing == 3) {
-            direction = ForgeDirection.WEST.ordinal();
+            direction = ForgeDirection.WEST;
         }
 
-        world.setBlockMetadataWithNotify(x, y, z, direction, 3);
+        setDirectionMeta(world, x, y, z, direction);
 
         if (itemStack.hasDisplayName()) {
             ((TileAEC) world.getBlockTileEntity(x, y, z)).setCustomName(itemStack.getDisplayName());
@@ -63,5 +63,18 @@ public abstract class BlockAECBase extends BlockContainer {
 
     public static boolean getActiveMeta(World world, int x, int y, int z) {
         return (world.getBlockMetadata(x, y, z) & 0x8) != 0;
+    }
+
+    public static void setDirectionMeta(World world, int x, int y, int z, ForgeDirection direction) {
+        int blockMeta = world.getBlockMetadata(x, y, z);
+
+        blockMeta &= 0x8;
+        blockMeta |= direction.ordinal();
+
+        world.setBlockMetadataWithNotify(x, y, z, blockMeta, 0x1 | 0x2);
+    }
+
+    public static ForgeDirection getDirectionMeta(World world, int x, int y, int z) {
+        return ForgeDirection.getOrientation(world.getBlockMetadata(x, y, z) & 0x7);
     }
 }

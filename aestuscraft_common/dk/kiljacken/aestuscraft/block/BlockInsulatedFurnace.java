@@ -20,6 +20,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeDirection;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import dk.kiljacken.aestuscraft.AestusCraft;
@@ -86,6 +87,31 @@ public class BlockInsulatedFurnace extends BlockAECBase {
             }
 
             return true;
+        }
+    }
+
+    @Override
+    public void randomDisplayTick(World world, int x, int y, int z, Random random) {
+        boolean active = BlockAECBase.getActiveMeta(world, x, y, z);
+
+        if (active) {
+            ForgeDirection side = getDirectionMeta(world, x, y, z);
+            double xOff = 0.5;
+            double yOff = 0.0 + random.nextFloat() * 6.0 / 16.0;
+            double zOff = 0.5;
+            double halfBlock = 0.52;
+            double randOff = random.nextDouble() * 0.6 - 0.3;
+
+            if (side == ForgeDirection.WEST || side == ForgeDirection.EAST) {
+                xOff += side == ForgeDirection.WEST ? -halfBlock : halfBlock;
+                zOff += randOff;
+            } else if (side == ForgeDirection.NORTH || side == ForgeDirection.SOUTH) {
+                xOff += randOff;
+                zOff += side == ForgeDirection.WEST ? -halfBlock : halfBlock;
+            }
+
+            world.spawnParticle("smoke", x + xOff, y + yOff, z + zOff, 0.0, 0.0, 0.0);
+            world.spawnParticle("flame", x + xOff, y + yOff, z + zOff, 0.0, 0.0, 0.0);
         }
     }
 

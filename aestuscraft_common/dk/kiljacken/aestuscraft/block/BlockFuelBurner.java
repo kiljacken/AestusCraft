@@ -86,6 +86,19 @@ public class BlockFuelBurner extends BlockAECBase {
         }
     }
 
+    @Override
+    public void randomDisplayTick(World world, int x, int y, int z, Random random) {
+        boolean active = BlockAECBase.getActiveMeta(world, x, y, z);
+
+        if (active) {
+            double xOff = 0.5 + (0.5 - random.nextDouble()) * 6 / 16;
+            double zOff = 0.5 + (0.5 - random.nextDouble()) * 6 / 16;
+
+            world.spawnParticle("smoke", x + xOff, y + 1.02, z + zOff, 0.0, 0.0, 0.0);
+            world.spawnParticle("flame", x + xOff, y + 1.02, z + zOff, 0.0, 0.0, 0.0);
+        }
+    }
+
     private void dropInventory(World world, int x, int y, int z) {
         TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
 

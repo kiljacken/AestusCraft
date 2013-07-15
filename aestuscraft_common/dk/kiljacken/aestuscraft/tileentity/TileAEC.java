@@ -37,8 +37,8 @@ public class TileAEC extends TileEntity {
         return getCustomName() != null && getCustomName().length() > 0;
     }
 
-    public void setOrientation(int direction) {
-        m_Direction = ForgeDirection.getOrientation(direction);
+    public void setOrientation(ForgeDirection direction) {
+        m_Direction = direction;
     }
 
     public ForgeDirection getOrientation() {
@@ -53,7 +53,7 @@ public class TileAEC extends TileEntity {
             setCustomName(nbtTagCompound.getString(StringResources.NBT_TE_CUSTOM_NAME));
         }
 
-        setOrientation(nbtTagCompound.getByte(StringResources.NBT_TE_ORIENTATION));
+        setOrientation(ForgeDirection.getOrientation(nbtTagCompound.getByte(StringResources.NBT_TE_ORIENTATION)));
     }
 
     @Override
