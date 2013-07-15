@@ -1,0 +1,58 @@
+<?xml version="1.0" ?>
+<!--
+Ant build script for minecraft mods
+
+Only modifications to build.properties should be needed to suit your needs
+ 
+Based on Equivalent-Exchange-3 build script by pahimar
+-->
+<project name="AestusCraft" default="build">
+	<property file="build.properties" prefix="build"/>
+	
+	<target name="clean">
+		<delete dir="${build.mcp_dir}\src\minecraft\${build.base_package}" />
+		<delete dir="${build.mcp_dir}\reobf\minecraft" />
+	</target>
+	
+	<target name="prep">
+		<copy todir="${build.mcp_dir}\src\minecraft">
+			<fileset dir="${build.source_dir}" />
+		</copy>
+	</target>
+	
+	<target name="recompile">
+		<exec dir="${build.mcp_dir}" executable="cmd" osfamily="windows">
+			<arg line="/c recompile.bat" />
+		</exec>
+		<exec dir="${build.mcp_dir}" executable="bash" osfamily="unix">
+			<arg line="recompile.sh" />
+		</exec>
+	</target>
+	
+	<target name="reobfuscate">
+		<exec dir="${build.mcp_dir}" executable="cmd" osfamily="windows">
+			<arg line="/c reobfuscate_srg.bat" />
+		</exec>
+		<exec dir="${build.mcp_dir}" executable="bash" osfamily="unix">
+			<arg line="reobfuscate_srg.sh" />
+		</exec>
+	</target>
+	
+	<target name="build">
+		<!-- Prep for the build -->
+		<antcall target="clean" />
+		<antcall target="prep" />
+		<antcall target="recompile" />		
+		<antcall target="reobfuscate" />
+		
+		<!-- Build the jar -->
+		<mkdir dir="${build.jar_dir}" />
+		<jar destfile="${build.jar_dir}\${build.mod_name}-${build.mod_version}-mc${build.mc_version}.jar">
+			<fileset dir="${build.mcp_dir}\reobf\minecraft\" includes="${build.base_package}\**"/>
+			<fileset dir="${build.resource_dir}" />
+		</jar>
+		
+		<!-- Clean up the MCP source now that we are done -->
+		<antcall target="clean" />
+	</target>
+</project>
