@@ -58,8 +58,8 @@ public class HeatNetwork implements IHeatNetwork {
                 m_HeatProducers.addAll(conduit.getConnectedProducers());
             }
         }
-        
-        for (IHeatProducer heatProducer: m_HeatProducers) {
+
+        for (IHeatProducer heatProducer : m_HeatProducers) {
             heatProducer.connectToNetwork(this);
         }
 
@@ -160,7 +160,7 @@ public class HeatNetwork implements IHeatNetwork {
                 // Add adjacent elements to the queue if they've not already
                 // been added to the new network
                 for (IHeatConduit adjacentConduit : floodConduit.getConnectedConduits()) {
-                    if (!network.getHeatConduits().contains(adjacentConduit)) {
+                    if (adjacentConduit != conduit && !network.getHeatConduits().contains(adjacentConduit)) {
                         floodQueue.add(adjacentConduit);
                     }
                 }

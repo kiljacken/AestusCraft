@@ -11,6 +11,7 @@ package dk.kiljacken.aestuscraft.tileentity;
 import java.util.HashSet;
 import java.util.Set;
 
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import dk.kiljacken.aestuscraft.api.heat.IHeatConduit;
@@ -102,5 +103,12 @@ public class TileHeatConduit extends TileAEC implements IHeatConduit {
     @Override
     public Set<IHeatProducer> getConnectedProducers() {
         return m_ConnectedProducers;
+    }
+
+    @Override
+    public void readFromNBT(NBTTagCompound nbtTagCompound) {
+        super.readFromNBT(nbtTagCompound);
+
+        shouldUpdate = true;
     }
 }

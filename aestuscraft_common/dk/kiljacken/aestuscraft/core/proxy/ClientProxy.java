@@ -12,6 +12,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import cpw.mods.fml.client.FMLClientHandler;
+import dk.kiljacken.aestuscraft.api.heat.IHeatNetwork;
+import dk.kiljacken.aestuscraft.heat.HeatNetwork;
 import dk.kiljacken.aestuscraft.network.packet.PacketHeatNetworkSync;
 import dk.kiljacken.aestuscraft.tileentity.TileHeatConduit;
 
@@ -25,6 +27,8 @@ public class ClientProxy extends CommonProxy {
 
     @Override
     public void syncHeatNetwork(PacketHeatNetworkSync packetHeatNetworkSync) {
+        IHeatNetwork network = new HeatNetwork();
+
         for (int i = 0; i < packetHeatNetworkSync.numConduits; i++) {
             int xCoord = packetHeatNetworkSync.xCoords[i];
             int yCoord = packetHeatNetworkSync.yCoords[i];
@@ -32,9 +36,13 @@ public class ClientProxy extends CommonProxy {
 
             TileHeatConduit conduit = (TileHeatConduit) Minecraft.getMinecraft().theWorld.getBlockTileEntity(xCoord, yCoord, zCoord);
 
+            conduit.setNetwork(network);
+
             if (conduit != null) {
                 conduit.shouldUpdate = true;
             }
         }
+
+        network.refresh();
     }
 }
