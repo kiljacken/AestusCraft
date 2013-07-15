@@ -14,6 +14,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntityFurnace;
+import dk.kiljacken.aestuscraft.block.BlockAECBase;
 import dk.kiljacken.aestuscraft.lib.StringResources;
 
 public class TileFuelBurner extends TileHeatProducer implements IInventory {
@@ -44,6 +45,8 @@ public class TileFuelBurner extends TileHeatProducer implements IInventory {
 
             fuelStack.stackSize--;
 
+            BlockAECBase.setActiveMeta(worldObj, xCoord, yCoord, zCoord, true);
+
             if (fuelStack.stackSize == 0) {
                 m_InventoryStacks[SLOT_FUEL_INDEX] = fuelStack.getItem().getContainerItemStack(fuelStack);
             }
@@ -63,6 +66,8 @@ public class TileFuelBurner extends TileHeatProducer implements IInventory {
 
             if (m_FuelLeft == 0) {
                 m_FuelHeat = 0;
+
+                BlockAECBase.setActiveMeta(worldObj, xCoord, yCoord, zCoord, false);
             }
         }
 

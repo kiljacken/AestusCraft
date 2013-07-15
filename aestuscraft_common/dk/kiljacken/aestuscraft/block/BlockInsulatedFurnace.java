@@ -31,7 +31,10 @@ public class BlockInsulatedFurnace extends BlockAECBase {
     private final Random rand = new Random();
 
     @SideOnly(Side.CLIENT)
-    private Icon furnaceIconFront;
+    private Icon m_FurnaceFront;
+
+    @SideOnly(Side.CLIENT)
+    private Icon m_FurnaceFrontActive;
 
     public BlockInsulatedFurnace(int blockID) {
         super(blockID, Material.rock);
@@ -47,10 +50,13 @@ public class BlockInsulatedFurnace extends BlockAECBase {
     @Override
     @SideOnly(Side.CLIENT)
     public Icon getIcon(int side, int meta) {
+        boolean active = (meta & 0x8) != 0;
+        meta &= 0x7;
+
         if (meta == 0) {
-            return side == 3 ? furnaceIconFront : blockIcon;
+            return side == 3 ? active ? m_FurnaceFrontActive : m_FurnaceFront : blockIcon;
         } else {
-            return side == meta ? furnaceIconFront : blockIcon;
+            return side == meta ? active ? m_FurnaceFrontActive : m_FurnaceFront : blockIcon;
         }
     }
 
@@ -58,7 +64,8 @@ public class BlockInsulatedFurnace extends BlockAECBase {
     @SideOnly(Side.CLIENT)
     public void registerIcons(IconRegister iconRegister) {
         blockIcon = iconRegister.registerIcon("aec:insulated_furnace_side");
-        furnaceIconFront = iconRegister.registerIcon("aec:insulated_furnace_front_inactive");
+        m_FurnaceFront = iconRegister.registerIcon("aec:insulated_furnace_front_inactive");
+        m_FurnaceFrontActive = iconRegister.registerIcon("aec:insulated_furnace_front_active");
     }
 
     @Override

@@ -49,4 +49,19 @@ public abstract class BlockAECBase extends BlockContainer {
         ((TileAEC) world.getBlockTileEntity(x, y, z)).setOrientation(direction);
     }
 
+    public static void setActiveMeta(World world, int x, int y, int z, boolean active) {
+        int blockMeta = world.getBlockMetadata(x, y, z);
+
+        if (active) {
+            blockMeta |= 0x8;
+        } else {
+            blockMeta &= 0x7;
+        }
+
+        world.setBlockMetadataWithNotify(x, y, z, blockMeta, 0x1 | 0x2);
+    }
+
+    public static boolean getActiveMeta(World world, int x, int y, int z) {
+        return (world.getBlockMetadata(x, y, z) & 0x8) != 0;
+    }
 }

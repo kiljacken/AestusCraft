@@ -14,6 +14,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import dk.kiljacken.aestuscraft.block.BlockAECBase;
 import dk.kiljacken.aestuscraft.lib.StringResources;
 
 public class TileInsulatedFurnace extends TileBoundedHeatConsumer implements ISidedInventory {
@@ -51,8 +52,16 @@ public class TileInsulatedFurnace extends TileBoundedHeatConsumer implements ISi
 
         if (m_HeatingLeft == 0 && canSmelt) {
             m_HeatingLeft = 200;
+
+            BlockAECBase.setActiveMeta(worldObj, xCoord, yCoord, zCoord, true);
         } else if (m_HeatingLeft > 0 && !canSmelt) {
             m_HeatingLeft = 0;
+
+            BlockAECBase.setActiveMeta(worldObj, xCoord, yCoord, zCoord, false);
+        }
+
+        if (m_HeatingLeft == 0 && !canSmelt) {
+            BlockAECBase.setActiveMeta(worldObj, xCoord, yCoord, zCoord, false);
         }
 
         if (m_HeatingLeft > 0) {

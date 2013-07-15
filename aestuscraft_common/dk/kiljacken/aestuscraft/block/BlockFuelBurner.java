@@ -51,7 +51,10 @@ public class BlockFuelBurner extends BlockAECBase {
     @Override
     @SideOnly(Side.CLIENT)
     public Icon getIcon(int side, int meta) {
-        return side != ForgeDirection.UP.ordinal() ? m_IconIsolatedSide : blockIcon;
+        boolean active = (meta & 0x8) != 0;
+        meta &= 0x7;
+
+        return side != ForgeDirection.UP.ordinal() ? m_IconIsolatedSide : active ? m_IconFuelBurnerActive : blockIcon;
     }
 
     @Override
@@ -59,6 +62,7 @@ public class BlockFuelBurner extends BlockAECBase {
     public void registerIcons(IconRegister iconRegister) {
         blockIcon = iconRegister.registerIcon("aec:fuel_burner");
         m_IconIsolatedSide = iconRegister.registerIcon("aec:insulated_furnace_side");
+        m_IconFuelBurnerActive = iconRegister.registerIcon("aec:fuel_burner_active");
     }
 
     @Override
