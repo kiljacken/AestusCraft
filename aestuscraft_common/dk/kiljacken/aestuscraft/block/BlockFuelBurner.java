@@ -1,7 +1,7 @@
 /**
  * AestusCraft
  * 
- * BlockTestHeatProducer.java
+ * BlockFuelBurner.java
  *
  * @author Kiljacken
  * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
@@ -30,7 +30,12 @@ import dk.kiljacken.aestuscraft.tileentity.TileFuelBurner;
 
 public class BlockFuelBurner extends BlockAECBase {
     private final Random rand = new Random();
+
+    @SideOnly(Side.CLIENT)
     private Icon m_IconIsolatedSide;
+
+    @SideOnly(Side.CLIENT)
+    private Icon m_IconFuelBurnerActive;
 
     public BlockFuelBurner(int id) {
         super(id, Material.rock);

@@ -1,7 +1,7 @@
 /**
  * AestusCraft
  * 
- * TileTestHeatProducer.java
+ * TileFuelBurner.java
  *
  * @author Kiljacken
  * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
