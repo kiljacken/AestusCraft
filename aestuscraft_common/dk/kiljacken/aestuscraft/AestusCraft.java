@@ -10,6 +10,8 @@ package dk.kiljacken.aestuscraft;
 
 import java.io.File;
 
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.ItemStack;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -37,6 +39,13 @@ public class AestusCraft {
 
     @SidedProxy(clientSide = Reference.CLIENT_PROXY_CLASS, serverSide = Reference.SERVER_PROXY_CLASS)
     public static CommonProxy proxy;
+
+    public static CreativeTabs creativeTab = new CreativeTabs(StringResources.CREATIVE_TAB_NAME) {
+        @Override
+        public ItemStack getIconItemStack() {
+            return new ItemStack(ModBlocks.insulatedFurnace);
+        };
+    };
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {

@@ -41,4 +41,7 @@ public class StringResources {
     public static final String NBT_TE_FUEL_LEFT = "fuelLeft";
     public static final String NBT_TE_FUEL_HEAT = "fuelHeat";
     public static final String NBT_TE_HEATING_LEFT = "heatingLeft";
+
+    // Other names
+    public static final String CREATIVE_TAB_NAME = "tabAestusCraft";
 }

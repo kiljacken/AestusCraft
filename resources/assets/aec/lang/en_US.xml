@@ -8,4 +8,5 @@
 	<entry key="container.insulatedFurnace">Insulated Furnace</entry>
 	<entry key="container.fuelBurner">Fuel Burner</entry>
 	<entry key="item.conduitDebugger.name">Conduit Debugger</entry>
+	<entry key="itemGroup.tabAestusCraft">AestusCraft</entry>
 </properties>

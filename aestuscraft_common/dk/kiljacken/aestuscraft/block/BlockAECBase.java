@@ -15,12 +15,15 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
+import dk.kiljacken.aestuscraft.AestusCraft;
 import dk.kiljacken.aestuscraft.tileentity.TileAEC;
 
 public abstract class BlockAECBase extends BlockContainer {
 
     public BlockAECBase(int id, Material material) {
         super(id, material);
+
+        setCreativeTab(AestusCraft.creativeTab);
     }
 
     @Override
