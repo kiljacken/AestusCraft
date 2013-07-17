@@ -8,8 +8,6 @@
  */
 package dk.kiljacken.aestuscraft;
 
-import java.io.File;
-
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 import cpw.mods.fml.common.Mod;
@@ -50,13 +48,13 @@ public class AestusCraft {
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
-        LogHelper.init();
+        LogHelper.init(event.getModLog());
 
         AddonLoader.instance.initAll();
 
         LocalizationHelper.init();
 
-        ConfigurationHelper.init(new File(event.getModConfigurationDirectory(), StringResources.PATH_CONFIGURATION));
+        ConfigurationHelper.init(event.getSuggestedConfigurationFile());
 
         ModBlocks.init();
         ModItems.init();

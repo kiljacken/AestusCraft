@@ -8,12 +8,7 @@
  */
 package dk.kiljacken.aestuscraft.lib;
 
-import java.io.File;
-
 public class StringResources {
-    // Paths
-    public static final String PATH_CONFIGURATION = Reference.MOD_ID + File.separator + Reference.MOD_ID + ".cfg";
-
     // Block names
     public static final String INSULATED_FURNACE_NAME = "insulatedFurnace";
     public static final String HEAT_CONDUIT_NAME = "heatConduit";

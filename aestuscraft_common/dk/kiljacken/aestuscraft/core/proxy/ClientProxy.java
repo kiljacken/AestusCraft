@@ -8,7 +8,6 @@
  */
 package dk.kiljacken.aestuscraft.core.proxy;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import cpw.mods.fml.client.FMLClientHandler;
@@ -35,7 +34,7 @@ public class ClientProxy extends CommonProxy {
             int yCoord = packetHeatNetworkSync.yCoords[i];
             int zCoord = packetHeatNetworkSync.zCoords[i];
 
-            TileHeatConduit conduit = (TileHeatConduit) Minecraft.getMinecraft().theWorld.getBlockTileEntity(xCoord, yCoord, zCoord);
+            TileHeatConduit conduit = (TileHeatConduit) FMLClientHandler.instance().getClient().theWorld.getBlockTileEntity(xCoord, yCoord, zCoord);
 
             conduit.setNetwork(network);
 
