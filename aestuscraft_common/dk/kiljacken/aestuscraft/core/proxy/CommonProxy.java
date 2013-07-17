@@ -13,6 +13,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import cpw.mods.fml.common.network.IGuiHandler;
 import cpw.mods.fml.common.registry.GameRegistry;
+import dk.kiljacken.aestuscraft.addon.AddonLoader;
 import dk.kiljacken.aestuscraft.gui.inventory.GuiFuelBurner;
 import dk.kiljacken.aestuscraft.gui.inventory.GuiInsulatedFurnace;
 import dk.kiljacken.aestuscraft.inventory.ContainerFuelBurner;
@@ -32,6 +33,8 @@ public class CommonProxy implements IGuiHandler {
         GameRegistry.registerTileEntity(TileInsulatedFurnace.class, StringResources.TE_INSULATED_FURNACE_NAME);
         GameRegistry.registerTileEntity(TileHeatConduit.class, StringResources.TE_HEAT_CONDUIT_NAME);
         GameRegistry.registerTileEntity(TileFuelBurner.class, StringResources.TE_FUEL_BURNER_NAME);
+
+        AddonLoader.instance.registerAllTileEntites();
     }
 
     @Override
@@ -58,6 +61,10 @@ public class CommonProxy implements IGuiHandler {
         }
 
         return null;
+    }
+
+    public void initializeRendering() {
+
     }
 
     public void handleTileUpdate(int x, int y, int z, NBTTagCompound nbtTagCompound) {

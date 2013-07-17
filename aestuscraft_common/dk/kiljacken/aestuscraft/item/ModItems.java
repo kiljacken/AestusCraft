@@ -9,6 +9,7 @@
 package dk.kiljacken.aestuscraft.item;
 
 import net.minecraft.item.Item;
+import dk.kiljacken.aestuscraft.addon.AddonLoader;
 import dk.kiljacken.aestuscraft.lib.ItemIds;
 import dk.kiljacken.aestuscraft.util.LogHelper;
 
@@ -19,12 +20,15 @@ public class ModItems {
         LogHelper.info("Initializing items");
         conduitDebugger = new ItemConduitDebugger(ItemIds.CONDUIT_DEBUGGER);
 
+        AddonLoader.instance.initializeAllItems();
+
         initRecipes();
     }
 
     private static void initRecipes() {
         LogHelper.info("Initializing item recipes");
 
+        AddonLoader.instance.initializeAllItemRecipes();
     }
 
 }

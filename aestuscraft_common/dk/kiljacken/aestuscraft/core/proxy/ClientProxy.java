@@ -12,6 +12,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import cpw.mods.fml.client.FMLClientHandler;
+import dk.kiljacken.aestuscraft.addon.AddonLoader;
 import dk.kiljacken.aestuscraft.api.heat.IHeatNetwork;
 import dk.kiljacken.aestuscraft.heat.HeatNetwork;
 import dk.kiljacken.aestuscraft.network.packet.PacketHeatNetworkSync;
@@ -44,5 +45,10 @@ public class ClientProxy extends CommonProxy {
         }
 
         network.refresh();
+    }
+
+    @Override
+    public void initializeRendering() {
+        AddonLoader.instance.initializeRenderingAll();
     }
 }

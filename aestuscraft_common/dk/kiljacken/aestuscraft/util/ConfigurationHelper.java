@@ -12,6 +12,7 @@ import java.io.File;
 
 import net.minecraftforge.common.Configuration;
 import cpw.mods.fml.common.FMLLog;
+import dk.kiljacken.aestuscraft.addon.AddonLoader;
 import dk.kiljacken.aestuscraft.lib.BlockIds;
 import dk.kiljacken.aestuscraft.lib.ItemIds;
 import dk.kiljacken.aestuscraft.lib.Reference;
@@ -35,6 +36,8 @@ public class ConfigurationHelper {
 
             // Load item ids
             ItemIds.CONDUIT_DEBUGGER = configuration.getItem(StringResources.ITEM_CONDUIT_DEBUGGER_NAME, ItemIds.CONDUIT_DEBUGGER_DEFAULT).getInt(ItemIds.CONDUIT_DEBUGGER_DEFAULT) - 256;
+
+            AddonLoader.instance.loadAllConfigs(configuration);
         } catch (Exception e) {
             FMLLog.severe("%s has had a problem loading it's configuration", Reference.MOD_NAME);
         } finally {

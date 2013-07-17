@@ -21,6 +21,7 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
+import dk.kiljacken.aestuscraft.addon.AddonLoader;
 import dk.kiljacken.aestuscraft.block.ModBlocks;
 import dk.kiljacken.aestuscraft.core.proxy.CommonProxy;
 import dk.kiljacken.aestuscraft.item.ModItems;
@@ -31,7 +32,7 @@ import dk.kiljacken.aestuscraft.util.ConfigurationHelper;
 import dk.kiljacken.aestuscraft.util.LocalizationHelper;
 import dk.kiljacken.aestuscraft.util.LogHelper;
 
-@Mod(modid = Reference.MOD_ID, name = Reference.MOD_NAME, version = Reference.VERSION)
+@Mod(modid = Reference.MOD_ID, name = Reference.MOD_NAME, version = Reference.VERSION, dependencies = Reference.DEPENDENCIES)
 @NetworkMod(clientSideRequired = true, serverSideRequired = true, channels = { Reference.CHANNEL }, packetHandler = PacketHandler.class)
 public class AestusCraft {
     @Instance(Reference.MOD_ID)
@@ -51,6 +52,8 @@ public class AestusCraft {
     public void preInit(FMLPreInitializationEvent event) {
         LogHelper.init();
 
+        AddonLoader.instance.initAll();
+
         LocalizationHelper.init();
 
         ConfigurationHelper.init(new File(event.getModConfigurationDirectory(), StringResources.PATH_CONFIGURATION));
@@ -64,11 +67,12 @@ public class AestusCraft {
         NetworkRegistry.instance().registerGuiHandler(instance, proxy);
 
         proxy.registerTileEntities();
+        proxy.initializeRendering();
     }
 
     @EventHandler
     public void postInit(FMLPostInitializationEvent event) {
-
+        AddonLoader.instance.postInitAll();
     }
 
 }
