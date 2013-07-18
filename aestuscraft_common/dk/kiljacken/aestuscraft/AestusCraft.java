@@ -58,6 +58,15 @@ public class AestusCraft {
 
         ModBlocks.init();
         ModItems.init();
+
+        ModBlocks.initRecipes();
+        ModItems.initRecipes();
+
+        AddonLoader.instance.initializeAllBlocks();
+        AddonLoader.instance.initializeAllItems();
+
+        AddonLoader.instance.initializeAllBlockRecipes();
+        AddonLoader.instance.initializeAllItemRecipes();
     }
 
     @EventHandler

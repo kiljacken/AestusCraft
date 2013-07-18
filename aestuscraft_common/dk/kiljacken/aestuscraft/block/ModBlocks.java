@@ -12,7 +12,6 @@ import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import cpw.mods.fml.common.registry.GameRegistry;
-import dk.kiljacken.aestuscraft.addon.AddonLoader;
 import dk.kiljacken.aestuscraft.lib.BlockIds;
 import dk.kiljacken.aestuscraft.lib.StringResources;
 import dk.kiljacken.aestuscraft.util.LogHelper;
@@ -31,18 +30,13 @@ public class ModBlocks {
         GameRegistry.registerBlock(insulatedFurnace, StringResources.INSULATED_FURNACE_NAME);
         GameRegistry.registerBlock(heatConduit, StringResources.HEAT_CONDUIT_NAME);
         GameRegistry.registerBlock(fuelBurner, StringResources.FUEL_BURNER_NAME);
-
-        AddonLoader.instance.initializeAllBlocks();
-
-        initBlockRecipes();
     }
 
-    private static void initBlockRecipes() {
+    public static void initRecipes() {
         LogHelper.info("Initializing block recipes");
+
         GameRegistry.addRecipe(new ItemStack(insulatedFurnace), new Object[] { "www", "wfw", "www", Character.valueOf('w'), Block.cloth, Character.valueOf('f'), Block.furnaceIdle });
         GameRegistry.addRecipe(new ItemStack(heatConduit, 8), new Object[] { "www", "wiw", "www", Character.valueOf('w'), Block.cloth, Character.valueOf('i'), Item.ingotIron });
         GameRegistry.addRecipe(new ItemStack(fuelBurner), new Object[] { "ccc", "cfc", "ccc", 'c', heatConduit, 'f', Block.furnaceIdle });
-
-        AddonLoader.instance.initializeAllBlockRecipes();
     }
 }
