@@ -15,14 +15,21 @@ import net.minecraftforge.common.ForgeDirection;
 import dk.kiljacken.aestuscraft.lib.StringResources;
 import dk.kiljacken.aestuscraft.network.PacketType;
 import dk.kiljacken.aestuscraft.network.packet.PacketTileUpdate;
+import dk.kiljacken.aestuscraft.util.NBTUtil;
+import dk.kiljacken.aestuscraft.util.NBTUtil.NBTStorable;
+import dk.kiljacken.aestuscraft.util.NBTUtil.NBTValue;
 
+@NBTStorable
 public class TileAEC extends TileEntity {
+    @NBTValue(name = StringResources.NBT_TE_CUSTOM_NAME)
     private String m_CustomName;
-    private ForgeDirection m_Direction;
+
+    @NBTValue(name = StringResources.NBT_TE_ORIENTATION)
+    private int m_Direction;
 
     public TileAEC() {
         m_CustomName = "";
-        m_Direction = ForgeDirection.NORTH;
+        m_Direction = ForgeDirection.NORTH.ordinal();
     }
 
     public String getCustomName() {
@@ -38,33 +45,25 @@ public class TileAEC extends TileEntity {
     }
 
     public void setOrientation(ForgeDirection direction) {
-        m_Direction = direction;
+        m_Direction = direction.ordinal();
     }
 
     public ForgeDirection getOrientation() {
-        return m_Direction;
+        return ForgeDirection.getOrientation(m_Direction);
     }
 
     @Override
     public void readFromNBT(NBTTagCompound nbtTagCompound) {
         super.readFromNBT(nbtTagCompound);
 
-        if (nbtTagCompound.hasKey(StringResources.NBT_TE_CUSTOM_NAME)) {
-            setCustomName(nbtTagCompound.getString(StringResources.NBT_TE_CUSTOM_NAME));
-        }
-
-        setOrientation(ForgeDirection.getOrientation(nbtTagCompound.getByte(StringResources.NBT_TE_ORIENTATION)));
+        NBTUtil.readStorableFromNBT(this, nbtTagCompound);
     }
 
     @Override
     public void writeToNBT(NBTTagCompound nbtTagCompound) {
         super.writeToNBT(nbtTagCompound);
 
-        if (hasCustomName()) {
-            nbtTagCompound.setString(StringResources.NBT_TE_CUSTOM_NAME, getCustomName());
-        }
-
-        nbtTagCompound.setByte(StringResources.NBT_TE_ORIENTATION, (byte) getOrientation().ordinal());
+        NBTUtil.writeStorableToNBT(this, nbtTagCompound);
     }
 
     @Override

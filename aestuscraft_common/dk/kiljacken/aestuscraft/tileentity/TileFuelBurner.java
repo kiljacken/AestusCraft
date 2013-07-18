@@ -11,12 +11,13 @@ package dk.kiljacken.aestuscraft.tileentity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntityFurnace;
 import dk.kiljacken.aestuscraft.block.BlockAECBase;
 import dk.kiljacken.aestuscraft.lib.StringResources;
+import dk.kiljacken.aestuscraft.util.NBTUtil.NBTStorable;
+import dk.kiljacken.aestuscraft.util.NBTUtil.NBTValue;
 
+@NBTStorable
 public class TileFuelBurner extends TileHeatProducer implements IInventory {
     public static final int INVENTORY_SIZE = 4;
     public static final int MAX_HEAT_BUFFER = 1600;
@@ -27,11 +28,16 @@ public class TileFuelBurner extends TileHeatProducer implements IInventory {
     public static final int SLOT_FUEL_QUEUE_3_INDEX = 2;
     public static final int SLOT_FUEL_INDEX = 3;
 
+    @NBTValue(name = StringResources.NBT_TE_INVENTORY_ITEMS)
     private ItemStack[] m_InventoryStacks = new ItemStack[INVENTORY_SIZE];
 
+    @NBTValue(name = StringResources.NBT_TE_FUEL_LEFT)
     private int m_FuelLeft = 0;
+
+    @NBTValue(name = StringResources.NBT_TE_FUEL_HEAT)
     private int m_FuelHeat = 0;
 
+    @NBTValue(name = StringResources.NBT_TE_HEAT_LEVEL)
     private int m_HeatBuffer = 0;
 
     @Override
@@ -192,50 +198,5 @@ public class TileFuelBurner extends TileHeatProducer implements IInventory {
     @Override
     public boolean isItemValidForSlot(int i, ItemStack itemstack) {
         return TileEntityFurnace.isItemFuel(itemstack);
-    }
-
-    @Override
-    public void readFromNBT(NBTTagCompound nbtTagCompound) {
-        super.readFromNBT(nbtTagCompound);
-
-        NBTTagList itemStacksTag = nbtTagCompound.getTagList(StringResources.NBT_TE_INVENTORY_ITEMS);
-        m_InventoryStacks = new ItemStack[getSizeInventory()];
-
-        for (int i = 0; i < itemStacksTag.tagCount(); i++) {
-            NBTTagCompound itemStackTag = (NBTTagCompound) itemStacksTag.tagAt(i);
-
-            byte slot = itemStackTag.getByte(StringResources.NBT_TE_INVENTORY_SLOT);
-
-            if (slot >= 0 && slot < m_InventoryStacks.length) {
-                m_InventoryStacks[slot] = ItemStack.loadItemStackFromNBT(itemStackTag);
-            }
-        }
-
-        m_FuelLeft = nbtTagCompound.getInteger(StringResources.NBT_TE_FUEL_LEFT);
-        m_FuelHeat = nbtTagCompound.getInteger(StringResources.NBT_TE_FUEL_HEAT);
-        m_HeatBuffer = nbtTagCompound.getInteger(StringResources.NBT_TE_HEAT_LEVEL);
-    }
-
-    @Override
-    public void writeToNBT(NBTTagCompound nbtTagCompound) {
-        super.writeToNBT(nbtTagCompound);
-
-        NBTTagList itemStacksTag = new NBTTagList();
-
-        for (int i = 0; i < m_InventoryStacks.length; i++) {
-            if (m_InventoryStacks[i] != null) {
-                NBTTagCompound itemStackTag = new NBTTagCompound();
-
-                itemStackTag.setByte(StringResources.NBT_TE_INVENTORY_SLOT, (byte) i);
-                m_InventoryStacks[i].writeToNBT(itemStackTag);
-
-                itemStacksTag.appendTag(itemStackTag);
-            }
-        }
-
-        nbtTagCompound.setTag(StringResources.NBT_TE_INVENTORY_ITEMS, itemStacksTag);
-        nbtTagCompound.setInteger(StringResources.NBT_TE_FUEL_LEFT, m_FuelLeft);
-        nbtTagCompound.setInteger(StringResources.NBT_TE_FUEL_HEAT, m_FuelHeat);
-        nbtTagCompound.setInteger(StringResources.NBT_TE_HEAT_LEVEL, m_HeatBuffer);
     }
 }

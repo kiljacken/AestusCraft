@@ -31,6 +31,8 @@ public class StringResources {
     public static final String NBT_TE_ORIENTATION = "teOrientation";
     public static final String NBT_TE_INVENTORY_SLOT = "slot";
     public static final String NBT_TE_INVENTORY_ITEMS = "items";
+    public static final String NBT_TE_INVENTORY_SIZE = "invSize";
+    public static final String NBT_TE_INVENTORY_MAGIC = "invMagic";
     public static final String NBT_TE_HEAT_LEVEL = "heatLevel";
     public static final String NBT_TE_MAX_HEAT = "maxHeat";
     public static final String NBT_TE_FUEL_LEFT = "fuelLeft";

@@ -8,11 +8,14 @@
  */
 package dk.kiljacken.aestuscraft.tileentity;
 
-import net.minecraft.nbt.NBTTagCompound;
 import dk.kiljacken.aestuscraft.api.heat.IHeatConsumer;
 import dk.kiljacken.aestuscraft.lib.StringResources;
+import dk.kiljacken.aestuscraft.util.NBTUtil.NBTStorable;
+import dk.kiljacken.aestuscraft.util.NBTUtil.NBTValue;
 
+@NBTStorable
 public abstract class TileHeatConsumer extends TileAEC implements IHeatConsumer {
+    @NBTValue(name = StringResources.NBT_TE_HEAT_LEVEL)
     private int m_HeatLevel;
 
     @Override
@@ -37,19 +40,5 @@ public abstract class TileHeatConsumer extends TileAEC implements IHeatConsumer 
         m_HeatLevel -= amount;
 
         return amount;
-    }
-
-    @Override
-    public void readFromNBT(NBTTagCompound nbtTagCompound) {
-        super.readFromNBT(nbtTagCompound);
-
-        m_HeatLevel = nbtTagCompound.getInteger(StringResources.NBT_TE_HEAT_LEVEL);
-    }
-
-    @Override
-    public void writeToNBT(NBTTagCompound nbtTagCompound) {
-        super.writeToNBT(nbtTagCompound);
-
-        nbtTagCompound.setInteger(StringResources.NBT_TE_HEAT_LEVEL, m_HeatLevel);
     }
 }

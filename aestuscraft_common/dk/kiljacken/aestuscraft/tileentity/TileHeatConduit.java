@@ -20,7 +20,9 @@ import dk.kiljacken.aestuscraft.api.heat.IHeatConsumer;
 import dk.kiljacken.aestuscraft.api.heat.IHeatNetwork;
 import dk.kiljacken.aestuscraft.api.heat.IHeatProducer;
 import dk.kiljacken.aestuscraft.heat.HeatNetwork;
+import dk.kiljacken.aestuscraft.util.NBTUtil.NBTStorable;
 
+@NBTStorable
 public class TileHeatConduit extends TileAEC implements IHeatConduit {
     private IHeatNetwork m_HeatNetwork;
     private Set<IHeatConduit> m_ConnectedConduits;

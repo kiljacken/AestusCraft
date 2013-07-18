@@ -8,10 +8,13 @@
  */
 package dk.kiljacken.aestuscraft.tileentity;
 
-import net.minecraft.nbt.NBTTagCompound;
 import dk.kiljacken.aestuscraft.lib.StringResources;
+import dk.kiljacken.aestuscraft.util.NBTUtil.NBTStorable;
+import dk.kiljacken.aestuscraft.util.NBTUtil.NBTValue;
 
+@NBTStorable
 public class TileBoundedHeatConsumer extends TileHeatConsumer {
+    @NBTValue(name = StringResources.NBT_TE_MAX_HEAT)
     private int m_MaxHeat;
 
     public TileBoundedHeatConsumer(int maxHeat) {
@@ -34,20 +37,5 @@ public class TileBoundedHeatConsumer extends TileHeatConsumer {
 
     public int getMaxHeat() {
         return m_MaxHeat;
-    }
-
-    @Override
-    public void readFromNBT(NBTTagCompound nbtTagCompound) {
-        super.readFromNBT(nbtTagCompound);
-
-        m_MaxHeat = nbtTagCompound.getInteger(StringResources.NBT_TE_MAX_HEAT);
-    }
-
-    @Override
-    public void writeToNBT(NBTTagCompound nbtTagCompound) {
-        super.writeToNBT(nbtTagCompound);
-
-        nbtTagCompound.setInteger(StringResources.NBT_TE_MAX_HEAT, m_MaxHeat);
-
     }
 }

@@ -10,7 +10,9 @@ package dk.kiljacken.aestuscraft.tileentity;
 
 import dk.kiljacken.aestuscraft.api.heat.IHeatNetwork;
 import dk.kiljacken.aestuscraft.api.heat.IHeatProducer;
+import dk.kiljacken.aestuscraft.util.NBTUtil.NBTStorable;
 
+@NBTStorable
 public class TileHeatProducer extends TileAEC implements IHeatProducer {
     protected IHeatNetwork m_HeatNetwork;
 
