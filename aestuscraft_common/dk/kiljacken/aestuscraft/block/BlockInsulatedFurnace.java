@@ -41,7 +41,7 @@ public class BlockInsulatedFurnace extends BlockAECBase {
     public BlockInsulatedFurnace(int blockID) {
         super(blockID, Material.rock);
         setHardness(3.5F);
-        setStepSound(Block.soundClothFootstep);
+        setStepSound(Block.soundStoneFootstep);
 
         setUnlocalizedName(StringResources.INSULATED_FURNACE_NAME);
     }
