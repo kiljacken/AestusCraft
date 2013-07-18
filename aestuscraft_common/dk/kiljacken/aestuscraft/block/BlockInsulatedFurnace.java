@@ -107,7 +107,7 @@ public class BlockInsulatedFurnace extends BlockAECBase {
                 zOff += randOff;
             } else if (side == ForgeDirection.NORTH || side == ForgeDirection.SOUTH) {
                 xOff += randOff;
-                zOff += side == ForgeDirection.WEST ? -halfBlock : halfBlock;
+                zOff += side == ForgeDirection.NORTH ? -halfBlock : halfBlock;
             }
 
             world.spawnParticle("smoke", x + xOff, y + yOff, z + zOff, 0.0, 0.0, 0.0);
