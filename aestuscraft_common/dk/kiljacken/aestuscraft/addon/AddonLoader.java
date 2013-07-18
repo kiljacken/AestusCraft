@@ -9,46 +9,39 @@
 package dk.kiljacken.aestuscraft.addon;
 
 import java.io.IOException;
-import java.util.Iterator;
+import java.util.ArrayList;
+import java.util.List;
 
-import net.minecraft.src.ModLoader;
 import net.minecraftforge.common.Configuration;
 
 import com.google.common.collect.ClassToInstanceMap;
-import com.google.common.collect.MutableClassToInstanceMap;
+import com.google.common.collect.ImmutableClassToInstanceMap;
 import com.google.common.reflect.ClassPath;
 import com.google.common.reflect.ClassPath.ClassInfo;
+import com.google.common.reflect.Reflection;
 
+import cpw.mods.fml.common.Loader;
 import dk.kiljacken.aestuscraft.util.LogHelper;
 
 public class AddonLoader {
-    private ClassToInstanceMap<IAddon> m_InstanceMap;
+    private static List<Class<IAddon>> m_Addons;
+    private static ClassToInstanceMap<IAddon> m_InstanceMap;
 
-    public AddonLoader() {
-        m_InstanceMap = MutableClassToInstanceMap.create();
+    @SuppressWarnings("unchecked")
+    public static void init() {
+        m_Addons = new ArrayList<>();
 
         try {
-            ClassPath classPath = ClassPath.from(getClass().getClassLoader());
+            ClassPath classPath = ClassPath.from(AddonLoader.class.getClassLoader());
 
             // Loop through all classes in dk.kiljacken.aestuscraft.addon
-            for (ClassInfo classInfo : classPath.getTopLevelClassesRecursive(IAddon.class.getPackage().getName())) {
+            for (ClassInfo classInfo : classPath.getTopLevelClassesRecursive(Reflection.getPackageName(AddonLoader.class))) {
                 Class<?> clazz = classInfo.load();
 
-                if (clazz == IAddon.class) {
-                    continue;
-                }
+                if (clazz != IAddon.class && IAddon.class.isAssignableFrom(clazz)) {
+                    LogHelper.info("Found addon: " + clazz.getSimpleName());
 
-                if (IAddon.class.isAssignableFrom(clazz)) {
-                    try {
-                        @SuppressWarnings("unchecked")
-                        Class<IAddon> addonClass = (Class<IAddon>) clazz;
-
-                        m_InstanceMap.putInstance(addonClass, addonClass.newInstance());
-
-                        LogHelper.info("Found addon: " + clazz.getSimpleName());
-                    } catch (IllegalAccessException | InstantiationException e) {
-                        LogHelper.severe("Error while instantiating addon: " + clazz.getSimpleName());
-                    }
+                    m_Addons.add((Class<IAddon>) clazz);
                 }
             }
         } catch (IOException e) {
@@ -56,29 +49,31 @@ public class AddonLoader {
         }
     }
 
-    public IAddon getAddonInstance(Class<IAddon> clazz) {
+    public static <T extends IAddon> T getAddonInstance(Class<T> clazz) {
         return m_InstanceMap.getInstance(clazz);
     }
 
-    public void initAll() {
+    public static void initializeAddons() {
         LogHelper.info("Initializing addons");
 
-        Iterator<IAddon> iter = m_InstanceMap.values().iterator();
+        ImmutableClassToInstanceMap.Builder<IAddon> builder = ImmutableClassToInstanceMap.builder();
 
-        while (iter.hasNext()) {
-            IAddon addon = iter.next();
+        for (Class<IAddon> addonClass : m_Addons) {
+            try {
+                IAddon addon = addonClass.newInstance();
 
-            String parentModId = addon.getParentModId();
-
-            if (parentModId != null) {
-                if (!ModLoader.isModLoaded(parentModId)) {
-                    iter.remove();
+                if (Loader.isModLoaded(addon.getParentModId())) {
+                    builder.put(addonClass, addon);
                 }
+            } catch (InstantiationException | IllegalAccessException e) {
+                LogHelper.severe("Error while instantiating addon: " + addonClass.getSimpleName());
             }
         }
+
+        m_InstanceMap = builder.build();
     }
 
-    public void loadAllConfigs(Configuration config) {
+    public static void loadAllConfigs(Configuration config) {
         LogHelper.info("Loading addon configurations");
 
         for (IAddon addon : m_InstanceMap.values()) {
@@ -86,7 +81,7 @@ public class AddonLoader {
         }
     }
 
-    public void initializeAllBlocks() {
+    public static void initializeAllBlocks() {
         LogHelper.info("Initializing addon blocks");
 
         for (IAddon addon : m_InstanceMap.values()) {
@@ -94,7 +89,7 @@ public class AddonLoader {
         }
     }
 
-    public void initializeAllBlockRecipes() {
+    public static void initializeAllBlockRecipes() {
         LogHelper.info("Initializing addon block recipes");
 
         for (IAddon addon : m_InstanceMap.values()) {
@@ -102,7 +97,7 @@ public class AddonLoader {
         }
     }
 
-    public void initializeAllItems() {
+    public static void initializeAllItems() {
         LogHelper.info("Initializing addon items");
 
         for (IAddon addon : m_InstanceMap.values()) {
@@ -110,7 +105,7 @@ public class AddonLoader {
         }
     }
 
-    public void initializeAllItemRecipes() {
+    public static void initializeAllItemRecipes() {
         LogHelper.info("Initializing addon items recipes");
 
         for (IAddon addon : m_InstanceMap.values()) {
@@ -118,7 +113,7 @@ public class AddonLoader {
         }
     }
 
-    public void registerAllTileEntites() {
+    public static void registerAllTileEntites() {
         LogHelper.info("Registering addon tile entities");
 
         for (IAddon addon : m_InstanceMap.values()) {
@@ -126,7 +121,7 @@ public class AddonLoader {
         }
     }
 
-    public void initializeRenderingAll() {
+    public static void initializeRenderingAll() {
         LogHelper.info("Initializing addon rendering");
 
         for (IAddon addon : m_InstanceMap.values()) {
@@ -134,16 +129,11 @@ public class AddonLoader {
         }
     }
 
-    public void postInitAll() {
-        LogHelper.info("Doing addon post initialzation");
+    public static void postInitAll() {
+        LogHelper.info("Doing addon post initialization");
 
         for (IAddon addon : m_InstanceMap.values()) {
             addon.postInit();
         }
-    }
-
-    public static AddonLoader instance;
-    static {
-        instance = new AddonLoader();
     }
 }

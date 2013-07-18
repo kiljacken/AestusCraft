@@ -37,7 +37,7 @@ public class ConfigurationHelper {
             // Load item ids
             ItemIds.CONDUIT_DEBUGGER = configuration.getItem(StringResources.ITEM_CONDUIT_DEBUGGER_NAME, ItemIds.CONDUIT_DEBUGGER_DEFAULT).getInt(ItemIds.CONDUIT_DEBUGGER_DEFAULT) - 256;
 
-            AddonLoader.instance.loadAllConfigs(configuration);
+            AddonLoader.loadAllConfigs(configuration);
         } catch (Exception e) {
             FMLLog.severe("%s has had a problem loading it's configuration", Reference.MOD_NAME);
         } finally {

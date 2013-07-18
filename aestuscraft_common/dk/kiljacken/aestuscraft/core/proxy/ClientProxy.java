@@ -61,6 +61,6 @@ public class ClientProxy extends CommonProxy {
 
         MinecraftForgeClient.registerItemRenderer(BlockIds.HEAT_CONDUIT, new ItemHeatConduitRenderer());
 
-        AddonLoader.instance.initializeRenderingAll();
+        AddonLoader.initializeRenderingAll();
     }
 }

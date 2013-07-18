@@ -50,7 +50,8 @@ public class AestusCraft {
     public void preInit(FMLPreInitializationEvent event) {
         LogHelper.init(event.getModLog());
 
-        AddonLoader.instance.initAll();
+        AddonLoader.init();
+        AddonLoader.initializeAddons();
 
         LocalizationHelper.init();
 
@@ -62,11 +63,11 @@ public class AestusCraft {
         ModBlocks.initRecipes();
         ModItems.initRecipes();
 
-        AddonLoader.instance.initializeAllBlocks();
-        AddonLoader.instance.initializeAllItems();
+        AddonLoader.initializeAllBlocks();
+        AddonLoader.initializeAllItems();
 
-        AddonLoader.instance.initializeAllBlockRecipes();
-        AddonLoader.instance.initializeAllItemRecipes();
+        AddonLoader.initializeAllBlockRecipes();
+        AddonLoader.initializeAllItemRecipes();
     }
 
     @EventHandler
@@ -79,7 +80,6 @@ public class AestusCraft {
 
     @EventHandler
     public void postInit(FMLPostInitializationEvent event) {
-        AddonLoader.instance.postInitAll();
+        AddonLoader.postInitAll();
     }
-
 }

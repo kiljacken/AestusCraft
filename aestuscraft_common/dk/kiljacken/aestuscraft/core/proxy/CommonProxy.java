@@ -34,7 +34,7 @@ public class CommonProxy implements IGuiHandler {
         GameRegistry.registerTileEntity(TileHeatConduit.class, StringResources.TE_HEAT_CONDUIT_NAME);
         GameRegistry.registerTileEntity(TileFuelBurner.class, StringResources.TE_FUEL_BURNER_NAME);
 
-        AddonLoader.instance.registerAllTileEntites();
+        AddonLoader.registerAllTileEntites();
     }
 
     @Override
