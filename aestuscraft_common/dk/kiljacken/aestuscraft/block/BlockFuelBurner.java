@@ -10,6 +10,7 @@ package dk.kiljacken.aestuscraft.block;
 
 import java.util.Random;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.item.EntityItem;
@@ -39,6 +40,8 @@ public class BlockFuelBurner extends BlockAECBase {
 
     public BlockFuelBurner(int id) {
         super(id, Material.rock);
+        setHardness(3.5F);
+        setStepSound(Block.soundStoneFootstep);
 
         setUnlocalizedName(StringResources.FUEL_BURNER_NAME);
     }

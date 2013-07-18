@@ -8,6 +8,7 @@
  */
 package dk.kiljacken.aestuscraft.block;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.tileentity.TileEntity;
@@ -21,6 +22,8 @@ import dk.kiljacken.aestuscraft.tileentity.TileHeatConduit;
 public class BlockHeatConduit extends BlockAECBase {
     public BlockHeatConduit(int id) {
         super(id, Material.cloth);
+        setHardness(0.8F);
+        setStepSound(Block.soundClothFootstep);
 
         setUnlocalizedName(StringResources.HEAT_CONDUIT_NAME);
     }
