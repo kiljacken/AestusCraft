@@ -21,7 +21,7 @@ import dk.kiljacken.aestuscraft.util.NBTUtil.NBTValue;
 public class TileInsulatedFurnace extends TileBoundedHeatConsumer implements ISidedInventory {
     public static final int INVENTORY_SIZE = 6;
 
-    public static final int HEAT_CONSUMPTION_RATE = 2;
+    public static final float HEAT_CONSUMPTION_RATE = 2;
 
     public static final int SLOT_INPUT_1_INDEX = 0;
     public static final int SLOT_INPUT_2_INDEX = 1;
@@ -68,9 +68,9 @@ public class TileInsulatedFurnace extends TileBoundedHeatConsumer implements ISi
         }
 
         if (m_HeatingLeft > 0) {
-            int removedHeat = removeHeat(HEAT_CONSUMPTION_RATE);
+            float removedHeat = removeHeat(HEAT_CONSUMPTION_RATE);
 
-            if (removedHeat == 2) {
+            if (removedHeat == HEAT_CONSUMPTION_RATE) {
                 m_HeatingLeft--;
             } else {
                 supplyHeat(removedHeat);

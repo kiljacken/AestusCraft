@@ -56,7 +56,7 @@ public class GuiFuelBurner extends GuiContainer {
             drawTexturedModalRect(x + 100, y + 45 + scaledFuelLeft, 176, scaledFuelLeft, 12, 16 - scaledFuelLeft);
         }
 
-        int scaledHeatLevel = 54 - m_TileFuelBurner.getHeatBuffer() * 54 / TileFuelBurner.MAX_HEAT_BUFFER;
+        int scaledHeatLevel = Math.round(54 - m_TileFuelBurner.getHeatBuffer() * 54 / TileFuelBurner.MAX_HEAT_BUFFER);
         drawTexturedModalRect(x + 160, y + 16 + scaledHeatLevel, 176, 16 + scaledHeatLevel, 8, 54 - scaledHeatLevel);
     }
 }

@@ -20,8 +20,8 @@ import dk.kiljacken.aestuscraft.util.NBTUtil.NBTValue;
 @NBTStorable
 public class TileFuelBurner extends TileHeatProducer implements IInventory {
     public static final int INVENTORY_SIZE = 4;
-    public static final int MAX_HEAT_BUFFER = 1600;
-    public static final int FUEL_BURN_RATE = 1;
+    public static final float MAX_HEAT_BUFFER = 1600;
+    public static final float FUEL_BURN_RATE = 1;
 
     public static final int SLOT_FUEL_QUEUE_1_INDEX = 0;
     public static final int SLOT_FUEL_QUEUE_2_INDEX = 1;
@@ -38,7 +38,7 @@ public class TileFuelBurner extends TileHeatProducer implements IInventory {
     private int m_FuelHeat = 0;
 
     @NBTValue(name = StringResources.NBT_TE_HEAT_LEVEL)
-    private int m_HeatBuffer = 0;
+    private float m_HeatBuffer = 0;
 
     @Override
     public void updateEntity() {
@@ -65,7 +65,7 @@ public class TileFuelBurner extends TileHeatProducer implements IInventory {
 
         // Burn fuel
         if (m_FuelLeft > 0) {
-            int amount = Math.min(Math.min(FUEL_BURN_RATE, m_FuelLeft), MAX_HEAT_BUFFER - m_HeatBuffer);
+            float amount = Math.min(Math.min(FUEL_BURN_RATE, m_FuelLeft), MAX_HEAT_BUFFER - m_HeatBuffer);
 
             m_FuelLeft -= amount;
             m_HeatBuffer += amount;
@@ -114,7 +114,7 @@ public class TileFuelBurner extends TileHeatProducer implements IInventory {
         return m_FuelHeat;
     }
 
-    public int getHeatBuffer() {
+    public float getHeatBuffer() {
         return m_HeatBuffer;
     }
 

@@ -23,7 +23,7 @@ public interface IHeatNetwork {
      *            The amount to supply
      * @return The amount actually consumed by the network
      */
-    public int supplyHeat(int amount);
+    public float supplyHeat(float amount);
 
     /**
      * Query the network for a set of connected heat consumers

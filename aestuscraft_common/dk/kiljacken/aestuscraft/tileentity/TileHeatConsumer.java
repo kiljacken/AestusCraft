@@ -16,7 +16,7 @@ import dk.kiljacken.aestuscraft.util.NBTUtil.NBTValue;
 @NBTStorable
 public abstract class TileHeatConsumer extends TileAEC implements IHeatConsumer {
     @NBTValue(name = StringResources.NBT_TE_HEAT_LEVEL)
-    private int m_HeatLevel;
+    private float m_HeatLevel;
 
     @Override
     public boolean isAcceptingHeat() {
@@ -24,17 +24,17 @@ public abstract class TileHeatConsumer extends TileAEC implements IHeatConsumer 
     }
 
     @Override
-    public int supplyHeat(int amount) {
+    public float supplyHeat(float amount) {
         m_HeatLevel += amount;
 
         return amount;
     }
 
-    public int getHeatLevel() {
+    public float getHeatLevel() {
         return m_HeatLevel;
     }
 
-    protected int removeHeat(int amount) {
+    protected float removeHeat(float amount) {
         amount = Math.min(amount, m_HeatLevel);
 
         m_HeatLevel -= amount;

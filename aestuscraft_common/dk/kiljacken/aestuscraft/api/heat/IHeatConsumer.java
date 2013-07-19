@@ -24,6 +24,6 @@ public interface IHeatConsumer {
      *            The amount to supply
      * @return The actual amount consumed by the heat consumer
      */
-    public int supplyHeat(int amount);
+    public float supplyHeat(float amount);
 
 }

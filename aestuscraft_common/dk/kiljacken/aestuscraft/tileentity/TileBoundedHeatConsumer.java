@@ -15,7 +15,7 @@ import dk.kiljacken.aestuscraft.util.NBTUtil.NBTValue;
 @NBTStorable
 public class TileBoundedHeatConsumer extends TileHeatConsumer {
     @NBTValue(name = StringResources.NBT_TE_MAX_HEAT)
-    private int m_MaxHeat;
+    private float m_MaxHeat;
 
     public TileBoundedHeatConsumer(int maxHeat) {
         super();
@@ -24,7 +24,7 @@ public class TileBoundedHeatConsumer extends TileHeatConsumer {
     }
 
     @Override
-    public int supplyHeat(int amount) {
+    public float supplyHeat(float amount) {
         amount = Math.min(amount, m_MaxHeat - getHeatLevel());
 
         return super.supplyHeat(amount);
@@ -35,7 +35,7 @@ public class TileBoundedHeatConsumer extends TileHeatConsumer {
         return getHeatLevel() < m_MaxHeat;
     }
 
-    public int getMaxHeat() {
+    public float getMaxHeat() {
         return m_MaxHeat;
     }
 }

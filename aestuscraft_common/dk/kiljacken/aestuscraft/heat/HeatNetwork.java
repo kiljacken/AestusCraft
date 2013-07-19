@@ -74,7 +74,7 @@ public class HeatNetwork implements IHeatNetwork {
     }
 
     @Override
-    public int supplyHeat(int amount) {
+    public float supplyHeat(float amount) {
         // If consumer iterator doesn't exist or has reached the end, create a
         // new one
         if (m_ConsumerIterator == null || !m_ConsumerIterator.hasNext()) {

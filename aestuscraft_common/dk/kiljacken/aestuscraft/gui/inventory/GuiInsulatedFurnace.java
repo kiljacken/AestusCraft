@@ -58,7 +58,7 @@ public class GuiInsulatedFurnace extends GuiContainer {
             }
         }
 
-        int scaledHeatLevel = 54 - m_TileInsulatedFurnace.getHeatLevel() * 54 / m_TileInsulatedFurnace.getMaxHeat();
+        int scaledHeatLevel = Math.round(54 - m_TileInsulatedFurnace.getHeatLevel() * 54 / m_TileInsulatedFurnace.getMaxHeat());
         drawTexturedModalRect(x + 160, y + 16 + scaledHeatLevel, 176, 16 + scaledHeatLevel, 8, 54 - scaledHeatLevel);
     }
 }
