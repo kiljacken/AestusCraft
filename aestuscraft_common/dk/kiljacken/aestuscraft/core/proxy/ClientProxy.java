@@ -16,8 +16,7 @@ import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import dk.kiljacken.aestuscraft.addon.AddonLoader;
 import dk.kiljacken.aestuscraft.api.heat.IHeatNetwork;
-import dk.kiljacken.aestuscraft.client.renderer.item.ItemHeatConduitRenderer;
-import dk.kiljacken.aestuscraft.client.renderer.tileentity.TileHeatConduitRenderer;
+import dk.kiljacken.aestuscraft.client.renderer.ConduitRenderer;
 import dk.kiljacken.aestuscraft.heat.HeatNetwork;
 import dk.kiljacken.aestuscraft.lib.BlockIds;
 import dk.kiljacken.aestuscraft.lib.RenderIds;
@@ -57,9 +56,9 @@ public class ClientProxy extends CommonProxy {
     public void initializeRendering() {
         RenderIds.heatConduit = RenderingRegistry.getNextAvailableRenderId();
 
-        ClientRegistry.bindTileEntitySpecialRenderer(TileHeatConduit.class, new TileHeatConduitRenderer());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileHeatConduit.class, new ConduitRenderer());
 
-        MinecraftForgeClient.registerItemRenderer(BlockIds.HEAT_CONDUIT, new ItemHeatConduitRenderer());
+        MinecraftForgeClient.registerItemRenderer(BlockIds.HEAT_CONDUIT, new ConduitRenderer());
 
         AddonLoader.initializeRenderingAll();
     }
