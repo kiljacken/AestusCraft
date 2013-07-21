@@ -8,6 +8,14 @@
  */
 package dk.kiljacken.aestuscraft.core.proxy;
 
-public class ClientProxy extends CommonProxy {
+import cpw.mods.fml.client.FMLClientHandler;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 
+public class ClientProxy extends CommonProxy {
+    @Override
+    public void syncTile(int x, int y, int z, NBTTagCompound nbt) {
+        TileEntity tile = FMLClientHandler.instance().getClient().theWorld.getBlockTileEntity(x, y, z);
+        tile.readFromNBT(nbt);
+    }
 }

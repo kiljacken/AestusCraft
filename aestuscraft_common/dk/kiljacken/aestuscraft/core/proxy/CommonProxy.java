@@ -9,6 +9,7 @@
 package dk.kiljacken.aestuscraft.core.proxy;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import cpw.mods.fml.common.network.IGuiHandler;
 import cpw.mods.fml.common.registry.LanguageRegistry;
@@ -40,5 +41,17 @@ public class CommonProxy implements IGuiHandler {
         for (String locale : locales) {
             LanguageRegistry.instance().loadLocalization("/assets/aec/lang/" + locale + ".xml", locale, true);
         }
+    }
+
+    /**
+     * Synchronizes a tile to the state send by server. Does nothing on server side
+     * 
+     * @param x Tile's position on the X axis
+     * @param y Tile's position on the Y axis
+     * @param z Tile's position on the Z axis
+     * @param nbt NBT data to load the tile from
+     */
+    public void syncTile(int x, int y, int z, NBTTagCompound nbt) {
+        
     }
 }

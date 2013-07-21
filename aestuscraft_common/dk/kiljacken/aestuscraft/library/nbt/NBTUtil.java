@@ -8,12 +8,16 @@
  */
 package dk.kiljacken.aestuscraft.library.nbt;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.lang.reflect.Field;
 
+import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import dk.kiljacken.aestuscraft.AestusCraft;
 import dk.kiljacken.aestuscraft.library.ReflectionUtil;
@@ -84,5 +88,43 @@ public class NBTUtil {
         String name();
 
         Class<? extends INBTHandler> handler() default NativesNBTHandler.class;
+    }
+    
+    /**
+     * Reads a compound tag from a stream
+     * 
+     * @param stream The stream to read from
+     * @return The tag read
+     * @throws IOException
+     */
+    public static NBTTagCompound readCompoundFromStream(DataInputStream stream) throws IOException {
+        short length = stream.readShort();
+
+        if (length < 0) {
+            return null;
+        } else {
+            byte[] data = new byte[length];
+            stream.readFully(data);
+
+            return CompressedStreamTools.decompress(data);
+        }
+    }
+
+    /**
+     * Writes a compound tag to a stream
+     * 
+     * @param stream The stream to write to
+     * @param nbt The tag to write
+     * @throws IOException
+     */
+    public static void writeCompoundToStream(DataOutputStream stream, NBTTagCompound tag) throws IOException {
+        if (tag == null) {
+            stream.writeShort(-1);
+        } else {
+            byte[] data = CompressedStreamTools.compress(tag);
+
+            stream.writeShort((short) data.length);
+            stream.write(data);
+        }
     }
 }
