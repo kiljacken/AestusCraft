@@ -21,12 +21,49 @@ public class ReflectionUtil {
      * @param fieldName Name of the field
      * @return The value
      */
-    @SuppressWarnings("unchecked")
     public static <T> T getPrivateValue(Class<?> clazz, Object instance, String fieldName) throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
         Field field = clazz.getDeclaredField(fieldName);
-        field.setAccessible(true);
+        return getPrivateValue(clazz, instance, field);
+    }
 
+    /**
+     * Gets the value from a private field of an object
+     * 
+     * @param clazz Class of the object
+     * @param instance Instance to get the value from
+     * @param field The field
+     * @return The value
+     */
+    @SuppressWarnings("unchecked")
+    public static <T> T getPrivateValue(Class<?> clazz, Object instance, Field field) throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
+        field.setAccessible(true);
         return (T) field.get(instance);
+    }
+
+    /**
+     * Sets the value of a private field of an object
+     * 
+     * @param clazz Class of the object
+     * @param instance Instance to set the value on
+     * @param value The value to set the field to
+     * @param fieldName Name of the field
+     */
+    public static void setPrivateValue(Class<?> clazz, Object instance, Object value, String fieldName) throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
+        Field field = clazz.getDeclaredField(fieldName);
+        setPrivateValue(clazz, instance, value, field);
+    }
+
+    /**
+     * Sets the value of a private field of an object
+     * 
+     * @param clazz Class of the object
+     * @param instance Instance to set the value on
+     * @param value The value to set the field to
+     * @param field The field
+     */
+    public static void setPrivateValue(Class<?> clazz, Object instance, Object value, Field field) throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
+        field.setAccessible(true);
+        field.set(instance, value);
     }
 
     /**
