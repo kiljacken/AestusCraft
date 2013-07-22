@@ -23,17 +23,17 @@ import dk.kiljacken.aestuscraft.library.nbt.NBTUtil;
 public class PacketTileSync extends CustomPacket {
     public int x, y, z;
     public NBTTagCompound nbt;
-    
+
     public PacketTileSync() {
         nbt = new NBTTagCompound();
     }
-    
+
     @Override
     public void writeTo(DataOutputStream stream) throws IOException {
         stream.writeInt(x);
         stream.writeInt(y);
         stream.writeInt(z);
-        
+
         NBTUtil.writeCompoundToStream(stream, nbt);
     }
 
@@ -42,7 +42,7 @@ public class PacketTileSync extends CustomPacket {
         x = stream.readInt();
         y = stream.readInt();
         z = stream.readInt();
-        
+
         nbt = NBTUtil.readCompoundFromStream(stream);
     }
 
@@ -50,7 +50,7 @@ public class PacketTileSync extends CustomPacket {
     public void process(INetworkManager manager, Player player) {
         AestusCraft.proxy.syncTile(x, y, z, nbt);
     }
-    
+
     /**
      * Creates a sync packet from the given tile
      * 
@@ -63,7 +63,7 @@ public class PacketTileSync extends CustomPacket {
         packet.y = tile.yCoord;
         packet.z = tile.zCoord;
         tile.writeToNBT(packet.nbt);
-        
+
         return packet;
     }
 }

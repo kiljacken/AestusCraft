@@ -18,6 +18,7 @@ import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet250CustomPayload;
 import cpw.mods.fml.common.network.Player;
 import dk.kiljacken.aestuscraft.AestusCraft;
+import dk.kiljacken.aestuscraft.core.network.packets.PacketTileSync;
 import dk.kiljacken.aestuscraft.library.ReflectionUtil;
 
 public abstract class CustomPacket {
@@ -102,7 +103,7 @@ public abstract class CustomPacket {
     }
 
     enum PacketType {
-        ;
+        PACKET_TILE_SYNC(PacketTileSync.class);
 
         public Class<? extends CustomPacket> clazz;
 

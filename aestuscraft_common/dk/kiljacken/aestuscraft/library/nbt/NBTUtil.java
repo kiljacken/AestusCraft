@@ -89,7 +89,7 @@ public class NBTUtil {
 
         Class<? extends INBTHandler> handler() default NativesNBTHandler.class;
     }
-    
+
     /**
      * Reads a compound tag from a stream
      * 

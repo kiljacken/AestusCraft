@@ -8,9 +8,9 @@
  */
 package dk.kiljacken.aestuscraft.core.proxy;
 
-import cpw.mods.fml.client.FMLClientHandler;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import cpw.mods.fml.client.FMLClientHandler;
 
 public class ClientProxy extends CommonProxy {
     @Override
