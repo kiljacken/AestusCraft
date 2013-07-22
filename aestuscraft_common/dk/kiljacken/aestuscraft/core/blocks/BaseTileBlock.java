@@ -1,14 +1,14 @@
 /**
  * AestusCraft
  * 
- * BaseBlock.java
+ * BaseTileBlock.java
  *
  * @author Kiljacken
  * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
  */
 package dk.kiljacken.aestuscraft.core.blocks;
 
-import net.minecraft.block.BlockContainer;
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
@@ -21,13 +21,13 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import dk.kiljacken.aestuscraft.core.blocks.tiles.BaseTile;
 
-public abstract class BaseBlock extends BlockContainer {
-    public BaseBlock(int id, Material material) {
+public abstract class BaseTileBlock extends Block {
+    public BaseTileBlock(int id, Material material) {
         super(id, material);
     }
 
     @Override
-    public abstract BaseTile createNewTileEntity(World world);
+    public abstract BaseTile createTileEntity(World world, int metadata);
 
     /**
      * Gets the icon on the given side of a block
@@ -42,6 +42,11 @@ public abstract class BaseBlock extends BlockContainer {
     @Override
     public Icon getBlockTexture(IBlockAccess world, int x, int y, int z, int side) {
         return getBlockTexture((BaseTile) world.getBlockTileEntity(x, y, z), ForgeDirection.getOrientation(side));
+    }
+
+    @Override
+    public boolean hasTileEntity(int metadata) {
+        return true;
     }
 
     @Override
@@ -68,5 +73,13 @@ public abstract class BaseBlock extends BlockContainer {
         if (itemStack.hasDisplayName()) {
             tile.setCustomName(itemStack.getDisplayName());
         }
+    }
+
+    @Override
+    public boolean onBlockEventReceived(World world, int x, int y, int z, int id, int data) {
+        super.onBlockEventReceived(world, x, y, z, id, data);
+
+        BaseTile tile = (BaseTile) world.getBlockTileEntity(x, y, z);
+        return tile != null ? tile.receiveClientEvent(id, data) : false;
     }
 }
