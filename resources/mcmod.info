@@ -1,9 +1,9 @@
 [
 {
-  "modid": "AEC",
+  "modid": "AestusCraft",
   "name": "AestusCraft",
   "description": "A Minecraft mod revolving around the collection, movement, use and storage of heat.",
-  "version": "0.0.1",
+  "version": "0.1",
   "url": "n/a",
   "updateUrl": "",
   "authorList": [
