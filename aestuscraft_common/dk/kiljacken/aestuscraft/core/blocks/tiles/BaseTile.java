@@ -18,13 +18,18 @@ import net.minecraft.network.packet.Packet;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 
-public class BaseTile extends TileEntity {
+public abstract class BaseTile extends TileEntity {
     @NBTValue(name = "CustomName")
     private String m_CustomName;
-    
+
     @NBTValue(name = "orientation", handler = ForgeDirectionNBTHandler.class)
     private ForgeDirection m_Orientation;
-    
+
+    public BaseTile() {
+        m_CustomName = "";
+        m_Orientation = ForgeDirection.UNKNOWN;
+    }
+
     /**
      * Gets the tile's custom name
      * 
@@ -33,7 +38,7 @@ public class BaseTile extends TileEntity {
     public String getCustomName() {
         return m_CustomName;
     }
-    
+
     /**
      * Sets the tile's custom name
      * 
@@ -42,7 +47,7 @@ public class BaseTile extends TileEntity {
     public void setCustomName(String customName) {
         m_CustomName = customName;
     }
-    
+
     /**
      * Queries whether the tile has a custom name
      * 
@@ -51,7 +56,7 @@ public class BaseTile extends TileEntity {
     public boolean hasCustomName() {
         return m_CustomName == null || m_CustomName.isEmpty();
     }
-    
+
     /**
      * Gets the orientation of the tile
      * 
@@ -60,30 +65,30 @@ public class BaseTile extends TileEntity {
     public ForgeDirection getOrientation() {
         return m_Orientation;
     }
-    
+
     /**
      * Sets the orientation of the tile
      * 
      * @param The new orientation
      */
-    public void setDirection(ForgeDirection m_Direction) {
-        this.m_Orientation = m_Direction;
+    public void setOrientation(ForgeDirection orientation) {
+        m_Orientation = orientation;
     }
-    
+
     @Override
     public void readFromNBT(NBTTagCompound tagCompound) {
         super.readFromNBT(tagCompound);
-        
+
         NBTUtil.readAnnotatedFromNBT(this, tagCompound);
     }
-    
+
     @Override
     public void writeToNBT(NBTTagCompound tagCompound) {
         super.writeToNBT(tagCompound);
-        
+
         NBTUtil.writeAnnotatedToNBT(this, tagCompound);
     }
-    
+
     @Override
     public Packet getDescriptionPacket() {
         return CustomPacket.wrap(PacketTileSync.from(this));
