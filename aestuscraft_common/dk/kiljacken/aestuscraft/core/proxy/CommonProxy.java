@@ -44,8 +44,7 @@ public class CommonProxy implements IGuiHandler {
     }
 
     /**
-     * Synchronizes a tile to the state send by server. Does nothing on server
-     * side
+     * Synchronizes a tile to the state send by server. Does nothing on server side
      * 
      * @param x Tile's position on the X axis
      * @param y Tile's position on the Y axis

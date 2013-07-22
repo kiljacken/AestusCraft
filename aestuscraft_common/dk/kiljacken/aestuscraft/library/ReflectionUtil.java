@@ -67,8 +67,7 @@ public class ReflectionUtil {
     }
 
     /**
-     * Instanciates an object with supplied arguments. Throw a RuntimeException
-     * on failure
+     * Instanciates an object with supplied arguments. Throw a RuntimeException on failure
      * 
      * @param clazz Class of the object
      * @param args List of arguments

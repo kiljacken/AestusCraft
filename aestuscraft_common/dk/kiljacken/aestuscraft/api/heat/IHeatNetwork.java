@@ -33,24 +33,23 @@ public interface IHeatNetwork {
     public List<IHeatConductor> getConnectedConductors();
 
     /**
-     * Adds a heat conductor and all connected consumers, producers and
-     * conductors to the network
+     * Adds a heat conductor and all connected consumers, producers and conductors to the network
      * 
      * @param conductor The conductor to add
      */
     public void addConductor(IHeatConductor conductor);
 
     /**
-     * Removes a conductor and all connected consumers, producers and conductors
-     * that are no longer available from the network
+     * Removes a conductor and all connected consumers, producers and conductors that are no longer available from the
+     * network
      * 
      * @param conductor The conductor to remove
      */
     public void removeConductor(IHeatConductor conductor);
 
     /**
-     * Tries to supply an amount of energy to the network. The energy will be
-     * evenly spread among the connected consumers that have space for more heat
+     * Tries to supply an amount of energy to the network. The energy will be evenly spread among the connected
+     * consumers that have space for more heat
      * 
      * @param amount Amount of heat to try suppling
      * @return The amount accepted by the network
