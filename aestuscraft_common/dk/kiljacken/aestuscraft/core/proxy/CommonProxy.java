@@ -12,7 +12,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import cpw.mods.fml.common.network.IGuiHandler;
-import cpw.mods.fml.common.registry.LanguageRegistry;
 
 public class CommonProxy implements IGuiHandler {
     @Override
@@ -30,17 +29,6 @@ public class CommonProxy implements IGuiHandler {
      */
     public void registerRenderers() {
 
-    }
-
-    /**
-     * Initializes localization
-     */
-    public void initializeLocalization() {
-        String[] locales = { "en_US" };
-
-        for (String locale : locales) {
-            LanguageRegistry.instance().loadLocalization("/assets/aec/lang/" + locale + ".xml", locale, true);
-        }
     }
 
     /**

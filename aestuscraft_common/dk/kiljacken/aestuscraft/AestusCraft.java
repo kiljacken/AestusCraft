@@ -52,7 +52,6 @@ public class AestusCraft {
         content.registerItems();
 
         proxy.registerRenderers();
-        proxy.initializeLocalization();
 
         NetworkRegistry.instance().registerGuiHandler(instance, proxy);
     }
