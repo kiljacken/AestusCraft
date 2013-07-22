@@ -12,9 +12,12 @@ import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.Icon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import dk.kiljacken.aestuscraft.core.blocks.tiles.BaseTile;
 
 public abstract class BaseBlock extends BlockContainer {
@@ -24,6 +27,21 @@ public abstract class BaseBlock extends BlockContainer {
 
     @Override
     public abstract BaseTile createNewTileEntity(World world);
+
+    /**
+     * Gets the icon associated with the given side and meta of the block
+     * 
+     * @param side The side to get the icon for
+     * @param meta The meta to get the icon for
+     * @return The icon for given side and meta
+     */
+    public abstract Icon getIcon(ForgeDirection side, int meta);
+
+    @SideOnly(Side.CLIENT)
+    @Override
+    public Icon getIcon(int side, int meta) {
+        return getIcon(ForgeDirection.getOrientation(side), meta);
+    }
 
     @Override
     public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entityLivingBase, ItemStack itemStack) {
