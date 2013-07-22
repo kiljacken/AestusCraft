@@ -8,9 +8,13 @@
  */
 package dk.kiljacken.aestuscraft.core.blocks;
 
+import java.util.Random;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
 import net.minecraft.util.MathHelper;
@@ -22,6 +26,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 import dk.kiljacken.aestuscraft.core.blocks.tiles.BaseTile;
 
 public abstract class BaseTileBlock extends Block {
+    private final Random rand = new Random();
+
     public BaseTileBlock(int id, Material material) {
         super(id, material);
     }
@@ -81,5 +87,35 @@ public abstract class BaseTileBlock extends Block {
 
         BaseTile tile = (BaseTile) world.getBlockTileEntity(x, y, z);
         return tile != null ? tile.receiveClientEvent(id, data) : false;
+    }
+
+    @Override
+    public void breakBlock(World world, int x, int y, int z, int id, int meta) {
+        BaseTile tile = (BaseTile) world.getBlockTileEntity(x, y, z);
+
+        if (tile instanceof IInventory) {
+            IInventory inventory = (IInventory) tile;
+
+            for (int i = 0; i < inventory.getSizeInventory(); i++) {
+                ItemStack itemStack = inventory.getStackInSlot(i);
+
+                if (itemStack != null && itemStack.stackSize > 0) {
+                    float dX = rand.nextFloat() * 0.8F + 0.1F;
+                    float dY = rand.nextFloat() * 0.8F + 0.1F;
+                    float dZ = rand.nextFloat() * 0.8F + 0.1F;
+
+                    EntityItem entityItem = new EntityItem(world, x + dX, y + dY, z + dZ, itemStack.copy());
+
+                    float factor = 0.05F;
+                    entityItem.motionX = rand.nextGaussian() * factor;
+                    entityItem.motionY = rand.nextGaussian() * factor + 0.2F;
+                    entityItem.motionZ = rand.nextGaussian() * factor;
+                    world.spawnEntityInWorld(entityItem);
+                    itemStack.stackSize = 0;
+                }
+            }
+        }
+
+        super.breakBlock(world, x, y, z, id, meta);
     }
 }
