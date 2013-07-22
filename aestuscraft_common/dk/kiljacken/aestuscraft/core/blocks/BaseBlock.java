@@ -14,6 +14,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
 import net.minecraft.util.MathHelper;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import cpw.mods.fml.relauncher.Side;
@@ -29,18 +30,18 @@ public abstract class BaseBlock extends BlockContainer {
     public abstract BaseTile createNewTileEntity(World world);
 
     /**
-     * Gets the icon associated with the given side and meta of the block
+     * Gets the icon on the given side of a block
      * 
-     * @param side The side to get the icon for
-     * @param meta The meta to get the icon for
-     * @return The icon for given side and meta
+     * @param tile The BaseTile associated with the block
+     * @param side The side to get icon for
+     * @return The icon for the given side of the block
      */
-    public abstract Icon getIcon(ForgeDirection side, int meta);
+    public abstract Icon getBlockTexture(BaseTile tile, ForgeDirection side);
 
     @SideOnly(Side.CLIENT)
     @Override
-    public Icon getIcon(int side, int meta) {
-        return getIcon(ForgeDirection.getOrientation(side), meta);
+    public Icon getBlockTexture(IBlockAccess world, int x, int y, int z, int side) {
+        return getBlockTexture((BaseTile) world.getBlockTileEntity(x, y, z), ForgeDirection.getOrientation(side));
     }
 
     @Override
