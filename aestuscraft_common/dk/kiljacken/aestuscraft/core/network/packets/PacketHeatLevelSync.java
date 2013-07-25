@@ -1,7 +1,7 @@
 /**
  * AestusCraft
  * 
- * PacketTileSync.java
+ * PacketHeatLevelSync.java
  *
  * @author Kiljacken
  * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
@@ -12,22 +12,19 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.INetworkManager;
+import net.minecraft.tileentity.TileEntity;
 import cpw.mods.fml.common.network.Player;
 import dk.kiljacken.aestuscraft.AestusCraft;
-import dk.kiljacken.aestuscraft.core.blocks.tiles.BaseTile;
+import dk.kiljacken.aestuscraft.api.heat.IHeatContainer;
 import dk.kiljacken.aestuscraft.core.network.CustomPacket;
-import dk.kiljacken.aestuscraft.library.nbt.NBTUtil;
 
-public class PacketTileSync extends CustomPacket {
+public class PacketHeatLevelSync extends CustomPacket {
     public int x, y, z;
-    public NBTTagCompound nbt;
+    public float heatLevel;
 
-    public PacketTileSync() {
-        m_Type = PacketType.PACKET_TILE_SYNC;
-
-        nbt = new NBTTagCompound();
+    public PacketHeatLevelSync() {
+        m_Type = PacketType.PACKET_HEAT_LEVEL_SYNC;
     }
 
     @Override
@@ -35,8 +32,7 @@ public class PacketTileSync extends CustomPacket {
         stream.writeInt(x);
         stream.writeInt(y);
         stream.writeInt(z);
-
-        NBTUtil.writeCompoundToStream(stream, nbt);
+        stream.writeFloat(heatLevel);
     }
 
     @Override
@@ -44,28 +40,27 @@ public class PacketTileSync extends CustomPacket {
         x = stream.readInt();
         y = stream.readInt();
         z = stream.readInt();
-
-        nbt = NBTUtil.readCompoundFromStream(stream);
+        heatLevel = stream.readFloat();
     }
 
     @Override
     public void process(INetworkManager manager, Player player) {
-        AestusCraft.proxy.syncTile(x, y, z, nbt);
+        AestusCraft.proxy.syncTileHeatLevel(x, y, z, heatLevel);
     }
 
-    /**
-     * Creates a sync packet from the given tile
-     * 
-     * @param tile The tile to create a packet from
-     * @return The created packet
-     */
-    public static PacketTileSync from(BaseTile tile) {
-        PacketTileSync packet = new PacketTileSync();
-        packet.x = tile.xCoord;
-        packet.y = tile.yCoord;
-        packet.z = tile.zCoord;
-        tile.writeToNBT(packet.nbt);
+    public static PacketHeatLevelSync from(TileEntity tile) {
+        if (tile instanceof IHeatContainer) {
+            IHeatContainer container = (IHeatContainer) tile;
 
-        return packet;
+            PacketHeatLevelSync packet = new PacketHeatLevelSync();
+            packet.x = tile.xCoord;
+            packet.y = tile.yCoord;
+            packet.z = tile.zCoord;
+            packet.heatLevel = container.getHeatLevel();
+
+            return packet;
+        }
+
+        return null;
     }
 }

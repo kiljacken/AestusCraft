@@ -10,6 +10,7 @@ package dk.kiljacken.aestuscraft;
 
 import java.util.logging.Logger;
 
+import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -26,10 +27,10 @@ import dk.kiljacken.aestuscraft.core.Registry;
 import dk.kiljacken.aestuscraft.core.network.PacketHandler;
 import dk.kiljacken.aestuscraft.core.proxy.CommonProxy;
 
-@Mod(modid = "AestusCraft", name = "AestusCraft", version = "v0.1")
-@NetworkMod(clientSideRequired = true, serverSideRequired = true, channels = { "AestusCraft" }, packetHandler = PacketHandler.class)
+@Mod(modid = "aestuscraft", name = "AestusCraft", version = "v0.1")
+@NetworkMod(clientSideRequired = true, serverSideRequired = true, channels = { PacketHandler.CHANNEL }, packetHandler = PacketHandler.class)
 public class AestusCraft {
-    @Instance("AestusCraft")
+    @Instance("aestuscraft")
     public static AestusCraft instance;
 
     @SidedProxy(clientSide = "dk.kiljacken.aestuscraft.core.proxy.ClientProxy", serverSide = "dk.kiljacken.aestuscraft.core.proxy.CommonProxy")
@@ -41,7 +42,8 @@ public class AestusCraft {
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
-        AestusCraft.log = event.getModLog();
+        AestusCraft.log = Logger.getLogger("AestusCraft");
+        AestusCraft.log.setParent(FMLLog.getLogger());
         AestusCraft.config = new Config(event.getSuggestedConfigurationFile());
 
         Registry.initialize();

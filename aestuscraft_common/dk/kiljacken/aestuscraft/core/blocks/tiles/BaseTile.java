@@ -12,7 +12,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
-import dk.kiljacken.aestuscraft.core.network.CustomPacket;
 import dk.kiljacken.aestuscraft.core.network.packets.PacketTileSync;
 import dk.kiljacken.aestuscraft.library.nbt.ForgeDirectionNBTHandler;
 import dk.kiljacken.aestuscraft.library.nbt.NBTUtil;
@@ -54,7 +53,7 @@ public abstract class BaseTile extends TileEntity {
      * @return Whether the tile has a custom name
      */
     public boolean hasCustomName() {
-        return m_CustomName == null || m_CustomName.isEmpty();
+        return m_CustomName != null && !m_CustomName.isEmpty();
     }
 
     /**
@@ -91,6 +90,6 @@ public abstract class BaseTile extends TileEntity {
 
     @Override
     public Packet getDescriptionPacket() {
-        return CustomPacket.wrap(PacketTileSync.from(this));
+        return PacketTileSync.from(this).wrap();
     }
 }

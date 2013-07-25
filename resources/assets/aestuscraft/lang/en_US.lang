@@ -1,8 +1,6 @@
 # AestusCraft en_US Locale
-tile.insulatedFurnace.name=Insulated Furnace
-tile.heatConduit.name=Heat Conduit
+itemGroup.AestusCraft=AestusCraft
 tile.fuelBurner.name=Fuel Burner
-container.insulatedFurnace=Insulated Furnace
-container.fuelBurner=Fuel Burner
-item.conduitDebugger.name=Conduit Debugger
-itemGroup.tabAestusCraft=AestusCraft
+tile.insulatedFurnace.name=Insulated Furnace
+tile.heatConductor.name=Heat Conductor
+item.networkDebugger.name=Network Debugger

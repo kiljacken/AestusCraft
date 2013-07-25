@@ -20,6 +20,13 @@ public interface IHeatContainer {
     public float getHeatLevel();
 
     /**
+     * Sets the current heat level of the consumer
+     * 
+     * @param heatLevel The heat level to set
+     */
+    public void setHeatLevel(float heatLevel);
+
+    /**
      * Gets the maximum heat level of the consumer
      * 
      * @return The consumer's maximum heat level

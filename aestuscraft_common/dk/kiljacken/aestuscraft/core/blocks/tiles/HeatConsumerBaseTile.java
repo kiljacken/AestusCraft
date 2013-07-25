@@ -17,8 +17,9 @@ public abstract class HeatConsumerBaseTile extends HeatContainerBaseTile impleme
 
     @Override
     public float supplyHeat(float amount) {
-        amount = Math.min(amount, getMaxHeatLevel() - m_HeatLevel);
-        m_HeatLevel += amount;
+        amount = Math.min(amount, getMaxHeatLevel() - getHeatLevel());
+
+        setHeatLevel(getHeatLevel() + amount);
 
         return amount;
     }

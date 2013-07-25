@@ -37,7 +37,7 @@ public interface IHeatNetwork {
      * 
      * @param conductor The conductor to add
      */
-    public void addConductor(IHeatConductor conductor);
+    public void merge(IHeatNetwork conductor);
 
     /**
      * Removes a conductor and all connected consumers, producers and conductors that are no longer available from the
@@ -45,7 +45,12 @@ public interface IHeatNetwork {
      * 
      * @param conductor The conductor to remove
      */
-    public void removeConductor(IHeatConductor conductor);
+    public void split(IHeatConductor conductor);
+
+    /**
+     * Refreshes the lists of connected consumers and producers
+     */
+    public void refresh();
 
     /**
      * Tries to supply an amount of energy to the network. The energy will be evenly spread among the connected

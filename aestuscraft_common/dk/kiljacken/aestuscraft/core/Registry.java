@@ -16,7 +16,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import cpw.mods.fml.common.registry.GameRegistry;
 import dk.kiljacken.aestuscraft.AestusCraft;
-import dk.kiljacken.aestuscraft.library.ReflectionUtil;
 
 public class Registry {
     private static Map<String, Block> m_BlockMap;
@@ -39,8 +38,7 @@ public class Registry {
      * @param id Id of the block
      * @return The instantiated and registered block
      */
-    public static Block registerBlock(Class<? extends Block> blockClass, Class<? extends ItemBlock> itemBlockClass, String name, int id) {
-        Block block = ReflectionUtil.instanciateOrCrash(blockClass, id);
+    public static Block registerBlock(Block block, Class<? extends ItemBlock> itemBlockClass, String name) {
         block.setCreativeTab(AestusCraft.content.creativeTab);
         block.setUnlocalizedName(name);
 
@@ -58,8 +56,8 @@ public class Registry {
      * @param id Id of the block
      * @return The instantiated and registered block
      */
-    public static Block registerBlock(Class<? extends Block> blockClass, String name, int id) {
-        return registerBlock(blockClass, ItemBlock.class, name, id);
+    public static Block registerBlock(Block block, String name) {
+        return registerBlock(block, ItemBlock.class, name);
     }
 
     /**
@@ -70,8 +68,7 @@ public class Registry {
      * @param id Id of the item
      * @return The instantiated and registered item
      */
-    public static Item registerItem(Class<? extends Item> itemClass, String name, int id) {
-        Item item = ReflectionUtil.instanciateOrCrash(itemClass, id);
+    public static Item registerItem(Item item, String name) {
         item.setCreativeTab(AestusCraft.content.creativeTab);
         item.setUnlocalizedName(name);
 

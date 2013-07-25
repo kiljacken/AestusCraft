@@ -69,6 +69,8 @@ public class ItemStackNBTHandler implements INBTHandler {
                     inventoryTag.appendTag(itemStackTag);
                 }
             }
+
+            return inventoryTag;
         }
 
         return null;

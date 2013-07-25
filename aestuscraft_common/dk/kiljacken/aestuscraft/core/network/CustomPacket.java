@@ -18,11 +18,12 @@ import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet250CustomPayload;
 import cpw.mods.fml.common.network.Player;
 import dk.kiljacken.aestuscraft.AestusCraft;
+import dk.kiljacken.aestuscraft.core.network.packets.PacketHeatLevelSync;
 import dk.kiljacken.aestuscraft.core.network.packets.PacketTileSync;
 import dk.kiljacken.aestuscraft.library.ReflectionUtil;
 
 public abstract class CustomPacket {
-    private PacketType m_Type;
+    protected PacketType m_Type;
 
     /**
      * Writes the packet to a stream
@@ -55,6 +56,10 @@ public abstract class CustomPacket {
         return m_Type;
     }
 
+    public Packet250CustomPayload wrap() {
+        return wrap(this);
+    }
+
     /**
      * Wraps a packet for use with minecraft's packet system
      * 
@@ -70,7 +75,7 @@ public abstract class CustomPacket {
             packet.writeTo(new DataOutputStream(dataStream));
 
             Packet250CustomPayload wrappedPacket = new Packet250CustomPayload();
-            wrappedPacket.channel = "AestusCraft";
+            wrappedPacket.channel = PacketHandler.CHANNEL;
             wrappedPacket.data = dataStream.toByteArray();
 
             return wrappedPacket;
@@ -102,8 +107,8 @@ public abstract class CustomPacket {
         }
     }
 
-    enum PacketType {
-        PACKET_TILE_SYNC(PacketTileSync.class);
+    protected enum PacketType {
+        PACKET_TILE_SYNC(PacketTileSync.class), PACKET_HEAT_LEVEL_SYNC(PacketHeatLevelSync.class);
 
         public Class<? extends CustomPacket> clazz;
 
