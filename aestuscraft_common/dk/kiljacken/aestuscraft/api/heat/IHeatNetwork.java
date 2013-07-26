@@ -33,15 +33,14 @@ public interface IHeatNetwork {
     public List<IHeatConductor> getConnectedConductors();
 
     /**
-     * Adds a heat conductor and all connected consumers, producers and conductors to the network
+     * Merges two networks
      * 
-     * @param conductor The conductor to add
+     * @param network The network to merge with this one
      */
-    public void merge(IHeatNetwork conductor);
+    public void merge(IHeatNetwork network);
 
     /**
-     * Removes a conductor and all connected consumers, producers and conductors that are no longer available from the
-     * network
+     * Splits a network into the several network by removing a conductor
      * 
      * @param conductor The conductor to remove
      */

@@ -39,7 +39,7 @@ public class CommonProxy implements IGuiHandler {
     /**
      * Registers renderers. Does nothing on server side
      */
-    public void registerRenderers() {
+    public void initRendering() {
 
     }
 

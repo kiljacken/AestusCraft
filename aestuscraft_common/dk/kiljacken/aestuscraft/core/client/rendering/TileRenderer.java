@@ -17,7 +17,7 @@ import dk.kiljacken.aestuscraft.core.blocks.tiles.BaseTile;
 public abstract class TileRenderer extends TileEntitySpecialRenderer implements IItemRenderer {
     @Override
     public boolean handleRenderType(ItemStack item, ItemRenderType type) {
-        return false;
+        return true;
     }
 
     @Override

@@ -53,7 +53,7 @@ public class AestusCraft {
         content.registerBlocks();
         content.registerItems();
 
-        proxy.registerRenderers();
+        proxy.initRendering();
 
         NetworkRegistry.instance().registerGuiHandler(instance, proxy);
     }

@@ -12,13 +12,20 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import net.minecraftforge.client.MinecraftForgeClient;
 import cpw.mods.fml.client.FMLClientHandler;
+import cpw.mods.fml.client.registry.ClientRegistry;
+import cpw.mods.fml.client.registry.RenderingRegistry;
 import dk.kiljacken.aestuscraft.api.heat.IHeatContainer;
+import dk.kiljacken.aestuscraft.core.blocks.BlockInfo;
 import dk.kiljacken.aestuscraft.core.blocks.tiles.TileFuelBurner;
+import dk.kiljacken.aestuscraft.core.blocks.tiles.TileHeatConductor;
 import dk.kiljacken.aestuscraft.core.blocks.tiles.TileInsulatedFurnace;
 import dk.kiljacken.aestuscraft.core.client.gui.GuiFuelBurner;
 import dk.kiljacken.aestuscraft.core.client.gui.GuiIds;
 import dk.kiljacken.aestuscraft.core.client.gui.GuiInsulatedFurnace;
+import dk.kiljacken.aestuscraft.core.client.rendering.ConductorRenderer;
+import dk.kiljacken.aestuscraft.core.client.rendering.RenderIds;
 
 public class ClientProxy extends CommonProxy {
     @Override
@@ -51,5 +58,13 @@ public class ClientProxy extends CommonProxy {
 
             container.setHeatLevel(Math.min(heatLevel, container.getMaxHeatLevel()));
         }
+    }
+
+    @Override
+    public void initRendering() {
+        RenderIds.HEAT_CONDUCTOR = RenderingRegistry.getNextAvailableRenderId();
+
+        ClientRegistry.bindTileEntitySpecialRenderer(TileHeatConductor.class, new ConductorRenderer());
+        MinecraftForgeClient.registerItemRenderer(BlockInfo.BLOCK_HEAT_CONDUCTOR_ID, new ConductorRenderer());
     }
 }
