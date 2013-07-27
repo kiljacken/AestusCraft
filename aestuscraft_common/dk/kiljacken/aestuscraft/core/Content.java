@@ -11,8 +11,10 @@ package dk.kiljacken.aestuscraft.core;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.registry.GameRegistry;
+import dk.kiljacken.aestuscraft.AestusCraft;
 import dk.kiljacken.aestuscraft.core.blocks.BlockHeatConductor;
 import dk.kiljacken.aestuscraft.core.blocks.BlockInfo;
 import dk.kiljacken.aestuscraft.core.blocks.MultipleBlockConsumers;
@@ -48,7 +50,7 @@ public class Content {
 
         blockConductor = Registry.registerBlock(new BlockHeatConductor(BlockInfo.BLOCK_HEAT_CONDUCTOR_ID), BlockInfo.BLOCK_HEAT_CONDUCTOR_NAME);
         GameRegistry.registerTileEntity(TileHeatConductor.class, TileInfo.HEAT_CONDUCTOR_NAME);
-        
+
         if (Loader.isModLoaded("BuildCraft|Energy")) {
             GameRegistry.registerTileEntity(TileFrictionHeater.class, TileInfo.FRICTION_HEATER_NAME);
         }
@@ -65,6 +67,26 @@ public class Content {
      * Registers all recipes
      */
     public void registerRecipes() {
+        GameRegistry.addShapedRecipe(new ItemStack(blockConsumers, 1, MultipleBlockConsumers.META_INSULATED_FURNACE), "ccc", "cfc", "ccc", 'c', Block.cloth, 'f', Block.furnaceIdle);
+        GameRegistry.addShapedRecipe(new ItemStack(blockProducers, 1, MultipleBlockProducers.META_FUEL_BURNER), "ccc", "cfc", "ccc", 'c', blockConductor, 'f', Block.furnaceIdle);
+        GameRegistry.addShapedRecipe(new ItemStack(blockConductor, 8), "ccc", "cic", "ccc", 'c', Block.cloth, 'i', Item.ingotIron);
 
+        if (Loader.isModLoaded("BuildCraft|Energy")) {
+            boolean buildcraftItems = false;
+            Item woodenGear = null;
+            Item stoneGear = null;
+            
+            try {
+                woodenGear = (Item) Class.forName("buildcraft.BuildCraftCore").getField("woodenGearItem").get(null);
+                stoneGear = (Item) Class.forName("buildcraft.BuildCraftCore").getField("stoneGearItem").get(null);
+                buildcraftItems = true;
+            } catch (Exception ex) {
+                AestusCraft.log.severe("Unable to find Buildcraft items");
+            }
+            
+            if (buildcraftItems) {
+                GameRegistry.addShapedRecipe(new ItemStack(blockProducers, 1, MultipleBlockProducers.META_FRICTION_HEATER), "scs", "i i", "WwW", 's', Block.stone, 'c', blockConductor, 'i', stoneGear, 'W', Block.cloth, 'w', woodenGear);
+            }
+        }
     }
 }

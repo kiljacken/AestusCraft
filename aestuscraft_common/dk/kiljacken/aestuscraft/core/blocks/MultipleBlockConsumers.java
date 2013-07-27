@@ -12,6 +12,8 @@ import net.minecraft.block.material.Material;
 import dk.kiljacken.aestuscraft.core.blocks.subblocks.SubBlockInsulatedFurnace;
 
 public class MultipleBlockConsumers extends MultipleBlock {
+    public static final int META_INSULATED_FURNACE = 0;
+
     public MultipleBlockConsumers(int id) {
         super(id, Material.rock, new SubBlockInsulatedFurnace());
     }
