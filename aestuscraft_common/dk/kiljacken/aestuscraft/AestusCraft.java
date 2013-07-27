@@ -27,10 +27,10 @@ import dk.kiljacken.aestuscraft.core.Registry;
 import dk.kiljacken.aestuscraft.core.network.PacketHandler;
 import dk.kiljacken.aestuscraft.core.proxy.CommonProxy;
 
-@Mod(modid = "aestuscraft", name = "AestusCraft", version = "v0.1")
+@Mod(modid = AestusCraftAPI.MOD_ID, name = "AestusCraft", version = "v0.1")
 @NetworkMod(clientSideRequired = true, serverSideRequired = true, channels = { PacketHandler.CHANNEL }, packetHandler = PacketHandler.class)
 public class AestusCraft {
-    @Instance("aestuscraft")
+    @Instance(AestusCraftAPI.MOD_ID)
     public static AestusCraft instance;
 
     @SidedProxy(clientSide = "dk.kiljacken.aestuscraft.core.proxy.ClientProxy", serverSide = "dk.kiljacken.aestuscraft.core.proxy.CommonProxy")

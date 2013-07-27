@@ -19,8 +19,9 @@ import cpw.mods.fml.relauncher.ReflectionHelper;
 import dk.kiljacken.aestuscraft.library.ReflectionUtil;
 
 public class AestusCraftAPI {
+    public static final String MOD_ID = "aestuscraft";
+    
     public static Logger log;
-
     private static boolean m_Initialized = false;
     private static Map<String, Block> m_BlockMap;
     private static Map<String, Item> m_ItemMap;
