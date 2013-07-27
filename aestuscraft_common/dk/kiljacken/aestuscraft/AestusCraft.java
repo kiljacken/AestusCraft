@@ -8,8 +8,9 @@
  */
 package dk.kiljacken.aestuscraft;
 
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.ItemStack;
+import java.util.logging.Logger;
+
+import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -19,67 +20,51 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
-import dk.kiljacken.aestuscraft.addon.AddonLoader;
-import dk.kiljacken.aestuscraft.block.ModBlocks;
+import dk.kiljacken.aestuscraft.api.AestusCraftAPI;
+import dk.kiljacken.aestuscraft.core.Config;
+import dk.kiljacken.aestuscraft.core.Content;
+import dk.kiljacken.aestuscraft.core.Registry;
+import dk.kiljacken.aestuscraft.core.network.PacketHandler;
 import dk.kiljacken.aestuscraft.core.proxy.CommonProxy;
-import dk.kiljacken.aestuscraft.item.ModItems;
-import dk.kiljacken.aestuscraft.lib.Reference;
-import dk.kiljacken.aestuscraft.lib.StringResources;
-import dk.kiljacken.aestuscraft.network.PacketHandler;
-import dk.kiljacken.aestuscraft.util.ConfigurationHelper;
-import dk.kiljacken.aestuscraft.util.LocalizationHelper;
-import dk.kiljacken.aestuscraft.util.LogHelper;
 
-@Mod(modid = Reference.MOD_ID, name = Reference.MOD_NAME, version = Reference.VERSION, dependencies = Reference.DEPENDENCIES)
-@NetworkMod(clientSideRequired = true, serverSideRequired = true, channels = { Reference.CHANNEL }, packetHandler = PacketHandler.class)
+@Mod(modid = AestusCraftAPI.MOD_ID, name = "AestusCraft", version = "v0.1")
+@NetworkMod(clientSideRequired = true, serverSideRequired = true, channels = { PacketHandler.CHANNEL }, packetHandler = PacketHandler.class)
 public class AestusCraft {
-    @Instance(Reference.MOD_ID)
+    @Instance(AestusCraftAPI.MOD_ID)
     public static AestusCraft instance;
 
-    @SidedProxy(clientSide = Reference.CLIENT_PROXY_CLASS, serverSide = Reference.SERVER_PROXY_CLASS)
+    @SidedProxy(clientSide = "dk.kiljacken.aestuscraft.core.proxy.ClientProxy", serverSide = "dk.kiljacken.aestuscraft.core.proxy.CommonProxy")
     public static CommonProxy proxy;
 
-    public static CreativeTabs creativeTab = new CreativeTabs(StringResources.CREATIVE_TAB_NAME) {
-        @Override
-        public ItemStack getIconItemStack() {
-            return new ItemStack(ModBlocks.insulatedFurnace);
-        };
-    };
+    public static Logger log;
+    public static Content content;
+    public static Config config;
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
-        LogHelper.init(event.getModLog());
+        AestusCraft.log = Logger.getLogger("AestusCraft");
+        AestusCraft.log.setParent(FMLLog.getLogger());
+        AestusCraft.config = new Config(event.getSuggestedConfigurationFile());
 
-        AddonLoader.init();
-        AddonLoader.initializeAddons();
+        Registry.initialize();
+        AestusCraftAPI.initialize();
 
-        LocalizationHelper.init();
+        AestusCraft.content = new Content();
+        content.registerBlocks();
+        content.registerItems();
 
-        ConfigurationHelper.init(event.getSuggestedConfigurationFile());
+        proxy.initRendering();
 
-        ModBlocks.init();
-        ModItems.init();
-
-        ModBlocks.initRecipes();
-        ModItems.initRecipes();
-
-        AddonLoader.initializeAllBlocks();
-        AddonLoader.initializeAllItems();
-
-        AddonLoader.initializeAllBlockRecipes();
-        AddonLoader.initializeAllItemRecipes();
+        NetworkRegistry.instance().registerGuiHandler(instance, proxy);
     }
 
     @EventHandler
     public void init(FMLInitializationEvent event) {
-        NetworkRegistry.instance().registerGuiHandler(instance, proxy);
-
-        proxy.registerTileEntities();
-        proxy.initializeRendering();
+        content.registerRecipes();
     }
 
     @EventHandler
     public void postInit(FMLPostInitializationEvent event) {
-        AddonLoader.postInitAll();
+
     }
 }

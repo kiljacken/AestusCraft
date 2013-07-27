@@ -2,63 +2,61 @@
  * AestusCraft
  * 
  * IHeatNetwork.java
- * 
+ *
  * @author Kiljacken
  * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
  */
 package dk.kiljacken.aestuscraft.api.heat;
 
-import java.util.Set;
+import java.util.List;
 
 public interface IHeatNetwork {
     /**
-     * Refresh the contents of the network
+     * Gets an array of consumers connected to this network
+     * 
+     * @return An array of consumers connected to this conductor
      */
-    public void refresh();
+    public List<IHeatConsumer> getConnectedConsumers();
 
     /**
-     * Supply an amount of heat to the network
+     * Gets an array of producers connected to this network
      * 
-     * @param amount
-     *            The amount to supply
-     * @return The amount actually consumed by the network
+     * @return An array of producers connected to this conductor
      */
-    public float supplyHeat(float amount);
+    public List<IHeatProducer> getConnectedProducers();
 
     /**
-     * Query the network for a set of connected heat consumers
+     * Gets an array of conductors connected to this network
      * 
-     * @return A set of heat consumers connected to the network
+     * @return An array of conductors connected to this conductor
      */
-    public Set<IHeatConsumer> getHeatConsumers();
+    public List<IHeatConductor> getConnectedConductors();
 
     /**
-     * Query the network for a set of connected heat producers
+     * Merges two networks
      * 
-     * @return A set of heat producers connected to the network
-     */
-    public Set<IHeatProducer> getHeatProducers();
-
-    /**
-     * Query the network for a set contain the conduits that make up the network
-     * 
-     * @return A set of the heat conduits that make up the network
-     */
-    public Set<IHeatConduit> getHeatConduits();
-
-    /**
-     * Merges the supplied network with this network
-     * 
-     * @param networks
-     *            The network to be merged with this network
+     * @param network The network to merge with this one
      */
     public void merge(IHeatNetwork network);
 
     /**
-     * Split the network into several networks around the given conduit
+     * Splits a network into the several network by removing a conductor
      * 
-     * @param conduit
-     *            The conduit to split the network around
+     * @param conductor The conductor to remove
      */
-    public void split(IHeatConduit conduit);
+    public void split(IHeatConductor conductor);
+
+    /**
+     * Refreshes the lists of connected consumers and producers
+     */
+    public void refresh();
+
+    /**
+     * Tries to supply an amount of energy to the network. The energy will be evenly spread among the connected
+     * consumers that have space for more heat
+     * 
+     * @param amount Amount of heat to try suppling
+     * @return The amount accepted by the network
+     */
+    public float supplyHeat(float amount);
 }
