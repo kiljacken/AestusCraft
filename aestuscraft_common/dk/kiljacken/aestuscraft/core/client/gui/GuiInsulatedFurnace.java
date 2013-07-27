@@ -15,8 +15,8 @@ import net.minecraft.util.StatCollector;
 
 import org.lwjgl.opengl.GL11;
 
-import dk.kiljacken.aestuscraft.core.blocks.tiles.TileInsulatedFurnace;
 import dk.kiljacken.aestuscraft.core.inventory.ContainerInsulatedFurnace;
+import dk.kiljacken.aestuscraft.core.tiles.TileInsulatedFurnace;
 
 public class GuiInsulatedFurnace extends GuiContainer {
     public static final ResourceLocation GUI_LOCATION = new ResourceLocation("aestuscraft", "textures/gui/insulated_furnace.png");

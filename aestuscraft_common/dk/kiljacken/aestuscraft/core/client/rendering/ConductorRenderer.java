@@ -15,8 +15,8 @@ import net.minecraftforge.client.model.IModelCustom;
 import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.client.FMLClientHandler;
-import dk.kiljacken.aestuscraft.core.blocks.tiles.BaseTile;
-import dk.kiljacken.aestuscraft.core.blocks.tiles.TileHeatConductor;
+import dk.kiljacken.aestuscraft.core.tiles.BaseTile;
+import dk.kiljacken.aestuscraft.core.tiles.TileHeatConductor;
 
 public class ConductorRenderer extends TileRenderer {
     private IModelCustom m_Model = AdvancedModelLoader.loadModel("/assets/aestuscraft/models/conductor.obj");

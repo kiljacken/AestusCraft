@@ -20,8 +20,8 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import dk.kiljacken.aestuscraft.core.blocks.tiles.TileHeatConductor;
 import dk.kiljacken.aestuscraft.core.client.rendering.RenderIds;
+import dk.kiljacken.aestuscraft.core.tiles.TileHeatConductor;
 
 public class BlockHeatConductor extends BlockContainer {
     public BlockHeatConductor(int id) {

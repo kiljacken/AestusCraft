@@ -12,11 +12,11 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import cpw.mods.fml.common.network.IGuiHandler;
-import dk.kiljacken.aestuscraft.core.blocks.tiles.TileFuelBurner;
-import dk.kiljacken.aestuscraft.core.blocks.tiles.TileInsulatedFurnace;
 import dk.kiljacken.aestuscraft.core.client.gui.GuiIds;
 import dk.kiljacken.aestuscraft.core.inventory.ContainerFuelBurner;
 import dk.kiljacken.aestuscraft.core.inventory.ContainerInsulatedFurnace;
+import dk.kiljacken.aestuscraft.core.tiles.TileFuelBurner;
+import dk.kiljacken.aestuscraft.core.tiles.TileInsulatedFurnace;
 
 public class CommonProxy implements IGuiHandler {
     @Override

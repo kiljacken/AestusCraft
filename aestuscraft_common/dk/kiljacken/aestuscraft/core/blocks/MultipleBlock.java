@@ -8,11 +8,13 @@
  */
 package dk.kiljacken.aestuscraft.core.blocks;
 
+import java.util.List;
 import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -87,6 +89,14 @@ public abstract class MultipleBlock extends Block {
     @Override
     public boolean onBlockEventReceived(World world, int x, int y, int z, int eventId, int eventData) {
         return m_SubBlocks[world.getBlockMetadata(x, y, z)].onBlockEventReceived(world, x, y, z, eventId, eventData);
+    }
+    
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @Override
+    public void getSubBlocks(int id, CreativeTabs creativeTab, List list) {
+        for (int i=0; i < m_SubBlocks.length; i++) {
+            list.add(new ItemStack(id, 1, i));
+        }
     }
 
     public static abstract class SubBlock {

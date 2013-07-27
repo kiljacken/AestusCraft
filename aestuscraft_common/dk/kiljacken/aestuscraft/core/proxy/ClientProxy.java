@@ -18,14 +18,14 @@ import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import dk.kiljacken.aestuscraft.api.heat.IHeatContainer;
 import dk.kiljacken.aestuscraft.core.blocks.BlockInfo;
-import dk.kiljacken.aestuscraft.core.blocks.tiles.TileFuelBurner;
-import dk.kiljacken.aestuscraft.core.blocks.tiles.TileHeatConductor;
-import dk.kiljacken.aestuscraft.core.blocks.tiles.TileInsulatedFurnace;
 import dk.kiljacken.aestuscraft.core.client.gui.GuiFuelBurner;
 import dk.kiljacken.aestuscraft.core.client.gui.GuiIds;
 import dk.kiljacken.aestuscraft.core.client.gui.GuiInsulatedFurnace;
 import dk.kiljacken.aestuscraft.core.client.rendering.ConductorRenderer;
 import dk.kiljacken.aestuscraft.core.client.rendering.RenderIds;
+import dk.kiljacken.aestuscraft.core.tiles.TileFuelBurner;
+import dk.kiljacken.aestuscraft.core.tiles.TileHeatConductor;
+import dk.kiljacken.aestuscraft.core.tiles.TileInsulatedFurnace;
 
 public class ClientProxy extends CommonProxy {
     @Override

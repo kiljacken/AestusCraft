@@ -13,9 +13,10 @@ import java.io.File;
 import net.minecraftforge.common.Configuration;
 import dk.kiljacken.aestuscraft.AestusCraft;
 import dk.kiljacken.aestuscraft.core.blocks.BlockInfo;
-import dk.kiljacken.aestuscraft.core.blocks.tiles.TileFuelBurner;
-import dk.kiljacken.aestuscraft.core.blocks.tiles.TileInsulatedFurnace;
 import dk.kiljacken.aestuscraft.core.items.ItemInfo;
+import dk.kiljacken.aestuscraft.core.tiles.TileFrictionHeater;
+import dk.kiljacken.aestuscraft.core.tiles.TileFuelBurner;
+import dk.kiljacken.aestuscraft.core.tiles.TileInsulatedFurnace;
 
 public class Config {
     public Config(File file) {
@@ -40,6 +41,10 @@ public class Config {
 
                 // Insulated furnace
                 TileInsulatedFurnace.HEAT_PER_BURN_TICK = (float) configuration.get("balance", "insulatedFurnace.heatPerBurnTick", TileInsulatedFurnace.HEAT_PER_BURN_TICK).getDouble(TileInsulatedFurnace.HEAT_PER_BURN_TICK);
+                
+                // Friction heater
+                TileFrictionHeater.HEAT_PER_MJ = (float) configuration.get("balance", "frictionHeater.heatPerMJ", TileFrictionHeater.HEAT_PER_MJ).getDouble(TileFrictionHeater.HEAT_PER_MJ);
+                TileFrictionHeater.HEAT_TRANSFER_RATE = (float) configuration.get("balance", "frictionHeater.heatTransferRate", TileFrictionHeater.HEAT_TRANSFER_RATE).getDouble(TileFrictionHeater.HEAT_TRANSFER_RATE);
             }
         } catch (Exception e) {
             AestusCraft.log.severe("Exception while loading configuration");

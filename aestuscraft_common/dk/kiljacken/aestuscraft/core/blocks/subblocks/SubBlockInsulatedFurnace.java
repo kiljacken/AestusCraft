@@ -19,8 +19,8 @@ import net.minecraftforge.common.ForgeDirection;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import dk.kiljacken.aestuscraft.AestusCraft;
-import dk.kiljacken.aestuscraft.core.blocks.tiles.TileInsulatedFurnace;
 import dk.kiljacken.aestuscraft.core.client.gui.GuiIds;
+import dk.kiljacken.aestuscraft.core.tiles.TileInsulatedFurnace;
 
 public class SubBlockInsulatedFurnace extends SubBlockTile {
     @SideOnly(Side.CLIENT)

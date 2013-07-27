@@ -11,7 +11,7 @@ package dk.kiljacken.aestuscraft.core.blocks;
 public class BlockInfo {
     public static int BLOCK_PRODUCERS_ID = 2501;
     public static final String BLOCK_PRODUCERS_NAME = "producers";
-    public static final String[] BLOCK_PRODUCERS_NAME_META = { "fuelBurner" };
+    public static final String[] BLOCK_PRODUCERS_NAME_META = { "fuelBurner", "frictionHeater" };
 
     public static int BLOCK_CONSUMERS_ID = 2502;
     public static final String BLOCK_CONSUMERS_NAME = "consumers";

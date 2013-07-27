@@ -13,7 +13,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
-import dk.kiljacken.aestuscraft.core.blocks.tiles.TileInsulatedFurnace;
+import dk.kiljacken.aestuscraft.core.tiles.TileInsulatedFurnace;
 
 public class ContainerInsulatedFurnace extends ContainerWithPlayerInventory {
     public ContainerInsulatedFurnace(InventoryPlayer inventoryPlayer, TileInsulatedFurnace tileInsulatedFurnace) {

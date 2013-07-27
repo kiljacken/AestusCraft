@@ -3,4 +3,5 @@ itemGroup.AestusCraft=AestusCraft
 tile.fuelBurner.name=Fuel Burner
 tile.insulatedFurnace.name=Insulated Furnace
 tile.heatConductor.name=Heat Conductor
+tile.frictionHeater.name=Friction Heater
 item.networkDebugger.name=Network Debugger

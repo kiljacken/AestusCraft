@@ -13,7 +13,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityFurnace;
-import dk.kiljacken.aestuscraft.core.blocks.tiles.TileFuelBurner;
+import dk.kiljacken.aestuscraft.core.tiles.TileFuelBurner;
 
 public class ContainerFuelBurner extends ContainerWithPlayerInventory {
     public ContainerFuelBurner(InventoryPlayer inventoryPlayer, TileFuelBurner tileFuelBurner) {

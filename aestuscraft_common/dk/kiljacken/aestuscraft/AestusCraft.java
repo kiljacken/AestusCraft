@@ -27,7 +27,7 @@ import dk.kiljacken.aestuscraft.core.Registry;
 import dk.kiljacken.aestuscraft.core.network.PacketHandler;
 import dk.kiljacken.aestuscraft.core.proxy.CommonProxy;
 
-@Mod(modid = AestusCraftAPI.MOD_ID, name = "AestusCraft", version = "v0.1")
+@Mod(modid = AestusCraftAPI.MOD_ID, name = "AestusCraft", version = "v0.1", dependencies = "after:BuildCraft|Energy")
 @NetworkMod(clientSideRequired = true, serverSideRequired = true, channels = { PacketHandler.CHANNEL }, packetHandler = PacketHandler.class)
 public class AestusCraft {
     @Instance(AestusCraftAPI.MOD_ID)

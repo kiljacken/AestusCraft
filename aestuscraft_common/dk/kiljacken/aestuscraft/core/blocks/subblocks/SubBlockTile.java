@@ -19,7 +19,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import dk.kiljacken.aestuscraft.core.blocks.MultipleBlock.SubBlock;
-import dk.kiljacken.aestuscraft.core.blocks.tiles.BaseTile;
+import dk.kiljacken.aestuscraft.core.tiles.BaseTile;
 
 public abstract class SubBlockTile extends SubBlock {
     private final Random m_Random = new Random();

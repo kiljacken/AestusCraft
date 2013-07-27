@@ -12,7 +12,7 @@ import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.client.IItemRenderer;
-import dk.kiljacken.aestuscraft.core.blocks.tiles.BaseTile;
+import dk.kiljacken.aestuscraft.core.tiles.BaseTile;
 
 public abstract class TileRenderer extends TileEntitySpecialRenderer implements IItemRenderer {
     @Override

@@ -15,8 +15,8 @@ import net.minecraft.util.StatCollector;
 
 import org.lwjgl.opengl.GL11;
 
-import dk.kiljacken.aestuscraft.core.blocks.tiles.TileFuelBurner;
 import dk.kiljacken.aestuscraft.core.inventory.ContainerFuelBurner;
+import dk.kiljacken.aestuscraft.core.tiles.TileFuelBurner;
 
 public class GuiFuelBurner extends GuiContainer {
     public static final ResourceLocation GUI_LOCATION = new ResourceLocation("aestuscraft", "textures/gui/fuel_burner.png");

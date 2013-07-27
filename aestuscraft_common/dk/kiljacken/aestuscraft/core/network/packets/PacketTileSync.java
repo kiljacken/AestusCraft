@@ -16,8 +16,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.INetworkManager;
 import cpw.mods.fml.common.network.Player;
 import dk.kiljacken.aestuscraft.AestusCraft;
-import dk.kiljacken.aestuscraft.core.blocks.tiles.BaseTile;
 import dk.kiljacken.aestuscraft.core.network.CustomPacket;
+import dk.kiljacken.aestuscraft.core.tiles.BaseTile;
 import dk.kiljacken.aestuscraft.library.nbt.NBTUtil;
 
 public class PacketTileSync extends CustomPacket {
