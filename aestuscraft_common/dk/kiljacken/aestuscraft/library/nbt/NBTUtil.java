@@ -21,6 +21,7 @@ import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import dk.kiljacken.aestuscraft.AestusCraft;
 import dk.kiljacken.aestuscraft.library.ReflectionUtil;
+import dk.kiljacken.aestuscraft.library.nbt.handlers.NativesNBTHandler;
 
 public class NBTUtil {
     /**

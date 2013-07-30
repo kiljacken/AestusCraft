@@ -9,8 +9,8 @@
 package dk.kiljacken.aestuscraft.core.tiles;
 
 import dk.kiljacken.aestuscraft.core.blocks.BlockInfo;
-import dk.kiljacken.aestuscraft.library.nbt.BooleanNBTHandler;
 import dk.kiljacken.aestuscraft.library.nbt.NBTUtil.NBTValue;
+import dk.kiljacken.aestuscraft.library.nbt.handlers.BooleanNBTHandler;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import buildcraft.api.power.IPowerReceptor;

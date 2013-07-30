@@ -14,9 +14,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.util.Vec3;
 import dk.kiljacken.aestuscraft.core.blocks.BlockInfo;
-import dk.kiljacken.aestuscraft.library.nbt.BooleanNBTHandler;
-import dk.kiljacken.aestuscraft.library.nbt.ItemStackNBTHandler;
 import dk.kiljacken.aestuscraft.library.nbt.NBTUtil.NBTValue;
+import dk.kiljacken.aestuscraft.library.nbt.handlers.BooleanNBTHandler;
+import dk.kiljacken.aestuscraft.library.nbt.handlers.ItemStackNBTHandler;
 
 public class TileInsulatedFurnace extends HeatConsumerBaseTile implements IInventory {
     public static final int INVENTORY_SIZE = 6;

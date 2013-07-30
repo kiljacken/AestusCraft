@@ -15,9 +15,9 @@ import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.Vec3;
 import dk.kiljacken.aestuscraft.api.heat.IHeatNetwork;
 import dk.kiljacken.aestuscraft.core.blocks.BlockInfo;
-import dk.kiljacken.aestuscraft.library.nbt.BooleanNBTHandler;
-import dk.kiljacken.aestuscraft.library.nbt.ItemStackNBTHandler;
 import dk.kiljacken.aestuscraft.library.nbt.NBTUtil.NBTValue;
+import dk.kiljacken.aestuscraft.library.nbt.handlers.BooleanNBTHandler;
+import dk.kiljacken.aestuscraft.library.nbt.handlers.ItemStackNBTHandler;
 
 public class TileFuelBurner extends HeatProducerBaseTile implements IInventory {
     public static final int INVENTORY_SIZE = 4;

@@ -13,9 +13,9 @@ import net.minecraft.network.packet.Packet;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import dk.kiljacken.aestuscraft.core.network.packets.PacketTileSync;
-import dk.kiljacken.aestuscraft.library.nbt.ForgeDirectionNBTHandler;
 import dk.kiljacken.aestuscraft.library.nbt.NBTUtil;
 import dk.kiljacken.aestuscraft.library.nbt.NBTUtil.NBTValue;
+import dk.kiljacken.aestuscraft.library.nbt.handlers.ForgeDirectionNBTHandler;
 
 public abstract class BaseTile extends TileEntity {
     @NBTValue(name = "CustomName")
