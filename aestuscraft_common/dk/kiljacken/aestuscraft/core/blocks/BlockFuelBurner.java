@@ -6,10 +6,11 @@
  * @author Kiljacken
  * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
  */
-package dk.kiljacken.aestuscraft.core.blocks.subblocks;
+package dk.kiljacken.aestuscraft.core.blocks;
 
 import java.util.Random;
 
+import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
@@ -22,7 +23,7 @@ import dk.kiljacken.aestuscraft.AestusCraft;
 import dk.kiljacken.aestuscraft.core.client.gui.GuiIds;
 import dk.kiljacken.aestuscraft.core.tiles.TileFuelBurner;
 
-public class SubBlockFuelBurner extends SubBlockTile {
+public class BlockFuelBurner extends BlockBaseTile {
     @SideOnly(Side.CLIENT)
     private Icon m_IconSide;
 
@@ -31,14 +32,15 @@ public class SubBlockFuelBurner extends SubBlockTile {
 
     @SideOnly(Side.CLIENT)
     private Icon m_IconInactive;
-
-    @Override
-    public float getBlockHardness(World world, int x, int y, int z) {
-        return 3.0f;
+    
+    public BlockFuelBurner(int id) {
+        super(id, Material.rock);
+        
+        setHardness(3.0f);
     }
 
     @Override
-    public TileEntity createTileEntity(World world) {
+    public TileEntity createNewTileEntity(World world) {
         return new TileFuelBurner();
     }
 

@@ -55,18 +55,18 @@ public class TileInsulatedFurnace extends HeatConsumerBaseTile implements IInven
             if (m_BurnTicksLeft == 0 && canSmelt) {
                 m_BurnTicksLeft = 200;
                 m_Active = true;
-                worldObj.addBlockEvent(xCoord, yCoord, zCoord, BlockInfo.BLOCK_CONSUMERS_ID, 0, m_Active ? 1 : 0);
+                worldObj.addBlockEvent(xCoord, yCoord, zCoord, BlockInfo.BLOCK_INSULATED_FURNACE_ID, 0, m_Active ? 1 : 0);
             } else if (m_BurnTicksLeft > 0 && !canSmelt) {
                 m_BurnTicksLeft = 0;
                 m_Active = false;
-                worldObj.addBlockEvent(xCoord, yCoord, zCoord, BlockInfo.BLOCK_CONSUMERS_ID, 0, m_Active ? 1 : 0);
+                worldObj.addBlockEvent(xCoord, yCoord, zCoord, BlockInfo.BLOCK_INSULATED_FURNACE_ID, 0, m_Active ? 1 : 0);
             }
 
             if (m_BurnTicksLeft > 0 && getHeatLevel() > HEAT_PER_BURN_TICK) {
                 setHeatLevel(getHeatLevel() - HEAT_PER_BURN_TICK);
                 m_BurnTicksLeft--;
                 // TODO: Limit burn ticks events?
-                worldObj.addBlockEvent(xCoord, yCoord, zCoord, BlockInfo.BLOCK_CONSUMERS_ID, 1, m_BurnTicksLeft);
+                worldObj.addBlockEvent(xCoord, yCoord, zCoord, BlockInfo.BLOCK_INSULATED_FURNACE_ID, 1, m_BurnTicksLeft);
 
                 if (m_BurnTicksLeft == 0) {
                     if (canSmelt1) {
@@ -87,7 +87,7 @@ public class TileInsulatedFurnace extends HeatConsumerBaseTile implements IInven
                     canSmelt = canSmelt1 | canSmelt2 | canSmelt3;
                     if (!canSmelt) {
                         m_Active = false;
-                        worldObj.addBlockEvent(xCoord, yCoord, zCoord, BlockInfo.BLOCK_CONSUMERS_ID, 0, m_Active ? 1 : 0);
+                        worldObj.addBlockEvent(xCoord, yCoord, zCoord, BlockInfo.BLOCK_INSULATED_FURNACE_ID, 0, m_Active ? 1 : 0);
                     }
                 }
             }

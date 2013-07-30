@@ -62,8 +62,8 @@ public class TileFuelBurner extends HeatProducerBaseTile implements IInventory {
                 fuelStack.stackSize--;
 
                 m_Active = true;
-                worldObj.addBlockEvent(xCoord, yCoord, zCoord, BlockInfo.BLOCK_PRODUCERS_ID, 0, m_Active ? 1 : 0);
-                worldObj.addBlockEvent(xCoord, yCoord, zCoord, BlockInfo.BLOCK_PRODUCERS_ID, 2, m_FuelTicks);
+                worldObj.addBlockEvent(xCoord, yCoord, zCoord, BlockInfo.BLOCK_FRICTION_HEATER_ID, 0, m_Active ? 1 : 0);
+                worldObj.addBlockEvent(xCoord, yCoord, zCoord, BlockInfo.BLOCK_FRICTION_HEATER_ID, 2, m_FuelTicks);
 
                 if (fuelStack.stackSize <= 0) {
                     m_InventoryStacks[SLOT_FUEL] = fuelStack.getItem().getContainerItemStack(fuelStack);
@@ -84,13 +84,13 @@ public class TileFuelBurner extends HeatProducerBaseTile implements IInventory {
                     m_FuelTicksLeft--;
                     setHeatLevel(getHeatLevel() + HEAT_PER_FUEL);
                     // TODO: Limit fuel ticks events?
-                    worldObj.addBlockEvent(xCoord, yCoord, zCoord, BlockInfo.BLOCK_PRODUCERS_ID, 1, m_FuelTicksLeft);
+                    worldObj.addBlockEvent(xCoord, yCoord, zCoord, BlockInfo.BLOCK_FRICTION_HEATER_ID, 1, m_FuelTicksLeft);
 
                     if (m_FuelTicksLeft == 0) {
                         m_FuelTicks = 0;
                         m_Active = false;
 
-                        worldObj.addBlockEvent(xCoord, yCoord, zCoord, BlockInfo.BLOCK_PRODUCERS_ID, 0, m_Active ? 1 : 0);
+                        worldObj.addBlockEvent(xCoord, yCoord, zCoord, BlockInfo.BLOCK_FRICTION_HEATER_ID, 0, m_Active ? 1 : 0);
                     }
                 }
             }

@@ -26,12 +26,15 @@ public class Config {
             configuration.load();
 
             // Block Ids
-            BlockInfo.BLOCK_PRODUCERS_ID = configuration.getBlock(BlockInfo.BLOCK_PRODUCERS_NAME, BlockInfo.BLOCK_PRODUCERS_ID).getInt();
-            BlockInfo.BLOCK_CONSUMERS_ID = configuration.getBlock(BlockInfo.BLOCK_CONSUMERS_NAME, BlockInfo.BLOCK_CONSUMERS_ID).getInt();
             BlockInfo.BLOCK_HEAT_CONDUCTOR_ID = configuration.getBlock(BlockInfo.BLOCK_HEAT_CONDUCTOR_NAME, BlockInfo.BLOCK_HEAT_CONDUCTOR_ID).getInt();
+            
+            BlockInfo.BLOCK_FUEL_BURNER_ID = configuration.getBlock(BlockInfo.BLOCK_FUEL_BURNER_NAME, BlockInfo.BLOCK_FUEL_BURNER_ID).getInt();
+            BlockInfo.BLOCK_FRICTION_HEATER_ID = configuration.getBlock(BlockInfo.BLOCK_FRICTION_HEATER_NAME, BlockInfo.BLOCK_FRICTION_HEATER_ID).getInt();
+            
+            BlockInfo.BLOCK_INSULATED_FURNACE_ID = configuration.getBlock(BlockInfo.BLOCK_INSULATED_FURNACE_NAME, BlockInfo.BLOCK_INSULATED_FURNACE_ID).getInt();
 
             // Item Ids
-            ItemInfo.NETWORK_DEBUGGER_ID = configuration.getItem(ItemInfo.NETWORK_DEBUGGER_NAME, ItemInfo.NETWORK_DEBUGGER_ID).getInt();
+            ItemInfo.NETWORK_DEBUGGER_ID = configuration.getItem(ItemInfo.NETWORK_DEBUGGER_NAME, ItemInfo.NETWORK_DEBUGGER_ID).getInt() - 256;
 
             // Balancing values
             {

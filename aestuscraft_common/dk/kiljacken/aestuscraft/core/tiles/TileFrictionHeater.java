@@ -58,7 +58,7 @@ public class TileFrictionHeater extends HeatProducerBaseTile implements IPowerRe
             if (m_UpdateTicks == 0) {
                 m_Active = m_RecievedEnergy;
                 
-                worldObj.addBlockEvent(xCoord, yCoord, zCoord, BlockInfo.BLOCK_PRODUCERS_ID, 0, m_Active ? 1 : 0);
+                worldObj.addBlockEvent(xCoord, yCoord, zCoord, BlockInfo.BLOCK_FRICTION_HEATER_ID, 0, m_Active ? 1 : 0);
                 
                 m_UpdateTicks = 100;
                 m_RecievedEnergy = false;

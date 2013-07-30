@@ -6,20 +6,21 @@
  * @author Kiljacken
  * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
  */
-package dk.kiljacken.aestuscraft.core.blocks.subblocks;
+package dk.kiljacken.aestuscraft.core.blocks;
 
 import java.util.Random;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import dk.kiljacken.aestuscraft.core.tiles.TileFrictionHeater;
+import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 
-public class SubBlockFrictionHeater extends SubBlockTile {
+public class BlockFrictionHeater extends BlockBaseTile {
     @SideOnly(Side.CLIENT)
     private Icon m_IconGrindstoneInactive;
 
@@ -34,9 +35,15 @@ public class SubBlockFrictionHeater extends SubBlockTile {
 
     @SideOnly(Side.CLIENT)
     private Icon m_IconInsulatedSide;
+    
+    public BlockFrictionHeater(int id) {
+        super(id, Material.rock);
+        
+        setHardness(3.0f);
+    }
 
     @Override
-    public TileEntity createTileEntity(World world) {
+    public TileEntity createNewTileEntity(World world) {
         return new TileFrictionHeater();
     }
 
