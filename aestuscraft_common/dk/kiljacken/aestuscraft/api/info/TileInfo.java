@@ -6,7 +6,7 @@
  * @author Kiljacken
  * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
  */
-package dk.kiljacken.aestuscraft.core.tiles;
+package dk.kiljacken.aestuscraft.api.info;
 
 public class TileInfo {
     public static final String FUEL_BURNER_NAME = "tile.fuelBurner.name";

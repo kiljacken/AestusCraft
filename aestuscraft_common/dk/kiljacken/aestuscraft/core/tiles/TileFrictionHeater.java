@@ -8,7 +8,7 @@
  */
 package dk.kiljacken.aestuscraft.core.tiles;
 
-import dk.kiljacken.aestuscraft.core.blocks.BlockInfo;
+import dk.kiljacken.aestuscraft.api.info.BlockInfo;
 import dk.kiljacken.aestuscraft.library.nbt.NBTUtil.NBTValue;
 import dk.kiljacken.aestuscraft.library.nbt.handlers.BooleanNBTHandler;
 import net.minecraft.world.World;
@@ -58,7 +58,7 @@ public class TileFrictionHeater extends HeatProducerBaseTile implements IPowerRe
             if (m_UpdateTicks == 0) {
                 m_Active = m_RecievedEnergy;
 
-                worldObj.addBlockEvent(xCoord, yCoord, zCoord, BlockInfo.BLOCK_FRICTION_HEATER_ID, 0, m_Active ? 1 : 0);
+                worldObj.addBlockEvent(xCoord, yCoord, zCoord, BlockInfo.FRICTION_HEATER_ID, 0, m_Active ? 1 : 0);
 
                 m_UpdateTicks = 100;
                 m_RecievedEnergy = false;

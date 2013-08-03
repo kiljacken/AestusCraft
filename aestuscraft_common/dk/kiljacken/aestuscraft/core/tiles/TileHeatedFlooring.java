@@ -9,13 +9,14 @@
 package dk.kiljacken.aestuscraft.core.tiles;
 
 import net.minecraft.block.Block;
-import dk.kiljacken.aestuscraft.core.blocks.BlockInfo;
+import dk.kiljacken.aestuscraft.api.info.BlockInfo;
 import dk.kiljacken.aestuscraft.library.ConnectedTextureHelper;
 import dk.kiljacken.aestuscraft.library.WorkAdaptingDelay;
 import dk.kiljacken.aestuscraft.library.WorkAdaptingDelay.WorkAdaptingDelayNBTHandler;
 import dk.kiljacken.aestuscraft.library.nbt.NBTUtil.NBTValue;
 
 // TODO Make heated flooring act like conductors?
+// TODO Add damaging and a way to activate it
 public class TileHeatedFlooring extends HeatConsumerBaseTile {
     public static float HEAT_PER_REMOVED_SNOW = 1.0f;
 
@@ -60,7 +61,7 @@ public class TileHeatedFlooring extends HeatConsumerBaseTile {
 
                 if (connetedSides != m_ConnectedSides) {
                     m_ConnectedSides = connetedSides;
-                    worldObj.addBlockEvent(xCoord, yCoord, zCoord, BlockInfo.BLOCK_HEATED_FLOORING_ID, 0, m_ConnectedSides);
+                    worldObj.addBlockEvent(xCoord, yCoord, zCoord, BlockInfo.HEATED_FLOORING_ID, 0, m_ConnectedSides);
                 }
 
                 m_ShouldUpdate = false;

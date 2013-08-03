@@ -17,7 +17,7 @@ import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import dk.kiljacken.aestuscraft.api.heat.IHeatContainer;
-import dk.kiljacken.aestuscraft.core.blocks.BlockInfo;
+import dk.kiljacken.aestuscraft.api.info.BlockInfo;
 import dk.kiljacken.aestuscraft.core.client.gui.GuiFuelBurner;
 import dk.kiljacken.aestuscraft.core.client.gui.GuiIds;
 import dk.kiljacken.aestuscraft.core.client.gui.GuiInsulatedFurnace;
@@ -65,6 +65,6 @@ public class ClientProxy extends CommonProxy {
         RenderIds.HEAT_CONDUCTOR = RenderingRegistry.getNextAvailableRenderId();
 
         ClientRegistry.bindTileEntitySpecialRenderer(TileHeatConductor.class, new ConductorRenderer());
-        MinecraftForgeClient.registerItemRenderer(BlockInfo.BLOCK_HEAT_CONDUCTOR_ID, new ConductorRenderer());
+        MinecraftForgeClient.registerItemRenderer(BlockInfo.HEAT_CONDUCTOR_ID, new ConductorRenderer());
     }
 }

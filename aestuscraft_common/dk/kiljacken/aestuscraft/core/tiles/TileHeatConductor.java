@@ -21,7 +21,7 @@ import dk.kiljacken.aestuscraft.api.heat.IHeatConductor;
 import dk.kiljacken.aestuscraft.api.heat.IHeatConsumer;
 import dk.kiljacken.aestuscraft.api.heat.IHeatNetwork;
 import dk.kiljacken.aestuscraft.api.heat.IHeatProducer;
-import dk.kiljacken.aestuscraft.core.blocks.BlockInfo;
+import dk.kiljacken.aestuscraft.api.info.BlockInfo;
 import dk.kiljacken.aestuscraft.library.nbt.NBTUtil.NBTValue;
 
 public class TileHeatConductor extends BaseTile implements IHeatConductor {
@@ -81,7 +81,7 @@ public class TileHeatConductor extends BaseTile implements IHeatConductor {
 
             getNetwork().refresh();
 
-            worldObj.addBlockEvent(xCoord, yCoord, zCoord, BlockInfo.BLOCK_HEAT_CONDUCTOR_ID, 0, m_ConnectedSides);
+            worldObj.addBlockEvent(xCoord, yCoord, zCoord, BlockInfo.HEAT_CONDUCTOR_ID, 0, m_ConnectedSides);
 
             m_ShouldUpdate = false;
         }

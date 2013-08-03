@@ -14,19 +14,19 @@ import net.minecraft.item.ItemStack;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.registry.GameRegistry;
 import dk.kiljacken.aestuscraft.AestusCraft;
+import dk.kiljacken.aestuscraft.api.info.BlockInfo;
+import dk.kiljacken.aestuscraft.api.info.ItemInfo;
+import dk.kiljacken.aestuscraft.api.info.TileInfo;
 import dk.kiljacken.aestuscraft.core.blocks.BlockFrictionHeater;
 import dk.kiljacken.aestuscraft.core.blocks.BlockFuelBurner;
 import dk.kiljacken.aestuscraft.core.blocks.BlockHeatConductor;
 import dk.kiljacken.aestuscraft.core.blocks.BlockHeatedFlooring;
-import dk.kiljacken.aestuscraft.core.blocks.BlockInfo;
 import dk.kiljacken.aestuscraft.core.blocks.BlockInsulatedFurnace;
-import dk.kiljacken.aestuscraft.core.items.ItemInfo;
 import dk.kiljacken.aestuscraft.core.items.ItemNetworkDebugger;
 import dk.kiljacken.aestuscraft.core.tiles.TileFrictionHeater;
 import dk.kiljacken.aestuscraft.core.tiles.TileFuelBurner;
 import dk.kiljacken.aestuscraft.core.tiles.TileHeatConductor;
 import dk.kiljacken.aestuscraft.core.tiles.TileHeatedFlooring;
-import dk.kiljacken.aestuscraft.core.tiles.TileInfo;
 import dk.kiljacken.aestuscraft.core.tiles.TileInsulatedFurnace;
 
 public class Content {
@@ -44,20 +44,20 @@ public class Content {
      * Registers all blocks and tile entities
      */
     public void registerBlocks() {
-        blockConductor = Registry.registerBlock(new BlockHeatConductor(BlockInfo.BLOCK_HEAT_CONDUCTOR_ID), BlockInfo.BLOCK_HEAT_CONDUCTOR_NAME);
+        blockConductor = Registry.registerBlock(new BlockHeatConductor(BlockInfo.HEAT_CONDUCTOR_ID), BlockInfo.HEAT_CONDUCTOR_NAME);
         GameRegistry.registerTileEntity(TileHeatConductor.class, TileInfo.HEAT_CONDUCTOR_NAME);
 
-        blockFuelBurner = Registry.registerBlock(new BlockFuelBurner(BlockInfo.BLOCK_FUEL_BURNER_ID), BlockInfo.BLOCK_FUEL_BURNER_NAME);
+        blockFuelBurner = Registry.registerBlock(new BlockFuelBurner(BlockInfo.FUEL_BURNER_ID), BlockInfo.FUEL_BURNER_NAME);
         GameRegistry.registerTileEntity(TileFuelBurner.class, TileInfo.FUEL_BURNER_NAME);
 
-        blockInsulatedFurnace = Registry.registerBlock(new BlockInsulatedFurnace(BlockInfo.BLOCK_INSULATED_FURNACE_ID), BlockInfo.BLOCK_INSULATED_FURNACE_NAME);
+        blockInsulatedFurnace = Registry.registerBlock(new BlockInsulatedFurnace(BlockInfo.INSULATED_FURNACE_ID), BlockInfo.INSULATED_FURNACE_NAME);
         GameRegistry.registerTileEntity(TileInsulatedFurnace.class, TileInfo.INSULATED_FURNACE_NAME);
 
-        blockHeatedFlooring = Registry.registerBlock(new BlockHeatedFlooring(BlockInfo.BLOCK_HEATED_FLOORING_ID), BlockInfo.BLOCK_HEATED_FLOORING_NAME);
+        blockHeatedFlooring = Registry.registerBlock(new BlockHeatedFlooring(BlockInfo.HEATED_FLOORING_ID), BlockInfo.HEATED_FLOORING_NAME);
         GameRegistry.registerTileEntity(TileHeatedFlooring.class, TileInfo.HEATED_FLOORING_NAME);
 
         if (Loader.isModLoaded("BuildCraft|Energy")) {
-            blockFrictionHeater = Registry.registerBlock(new BlockFrictionHeater(BlockInfo.BLOCK_FRICTION_HEATER_ID), BlockInfo.BLOCK_FRICTION_HEATER_NAME);
+            blockFrictionHeater = Registry.registerBlock(new BlockFrictionHeater(BlockInfo.FRICTION_HEATER_ID), BlockInfo.FRICTION_HEATER_NAME);
             GameRegistry.registerTileEntity(TileFrictionHeater.class, TileInfo.FRICTION_HEATER_NAME);
         }
 

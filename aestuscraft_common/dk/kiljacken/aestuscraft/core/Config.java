@@ -12,8 +12,8 @@ import java.io.File;
 
 import net.minecraftforge.common.Configuration;
 import dk.kiljacken.aestuscraft.AestusCraft;
-import dk.kiljacken.aestuscraft.core.blocks.BlockInfo;
-import dk.kiljacken.aestuscraft.core.items.ItemInfo;
+import dk.kiljacken.aestuscraft.api.info.BlockInfo;
+import dk.kiljacken.aestuscraft.api.info.ItemInfo;
 import dk.kiljacken.aestuscraft.core.tiles.TileFrictionHeater;
 import dk.kiljacken.aestuscraft.core.tiles.TileFuelBurner;
 import dk.kiljacken.aestuscraft.core.tiles.TileHeatedFlooring;
@@ -27,13 +27,13 @@ public class Config {
             configuration.load();
 
             // Block Ids
-            BlockInfo.BLOCK_HEAT_CONDUCTOR_ID = configuration.getBlock(BlockInfo.BLOCK_HEAT_CONDUCTOR_NAME, BlockInfo.BLOCK_HEAT_CONDUCTOR_ID).getInt();
+            BlockInfo.HEAT_CONDUCTOR_ID = configuration.getBlock(BlockInfo.HEAT_CONDUCTOR_NAME, BlockInfo.HEAT_CONDUCTOR_ID).getInt();
 
-            BlockInfo.BLOCK_FUEL_BURNER_ID = configuration.getBlock(BlockInfo.BLOCK_FUEL_BURNER_NAME, BlockInfo.BLOCK_FUEL_BURNER_ID).getInt();
-            BlockInfo.BLOCK_FRICTION_HEATER_ID = configuration.getBlock(BlockInfo.BLOCK_FRICTION_HEATER_NAME, BlockInfo.BLOCK_FRICTION_HEATER_ID).getInt();
+            BlockInfo.FUEL_BURNER_ID = configuration.getBlock(BlockInfo.FUEL_BURNER_NAME, BlockInfo.FUEL_BURNER_ID).getInt();
+            BlockInfo.FRICTION_HEATER_ID = configuration.getBlock(BlockInfo.FRICTION_HEATER_NAME, BlockInfo.FRICTION_HEATER_ID).getInt();
 
-            BlockInfo.BLOCK_INSULATED_FURNACE_ID = configuration.getBlock(BlockInfo.BLOCK_INSULATED_FURNACE_NAME, BlockInfo.BLOCK_INSULATED_FURNACE_ID).getInt();
-            BlockInfo.BLOCK_HEATED_FLOORING_ID = configuration.getBlock(BlockInfo.BLOCK_HEATED_FLOORING_NAME, BlockInfo.BLOCK_HEATED_FLOORING_ID).getInt();
+            BlockInfo.INSULATED_FURNACE_ID = configuration.getBlock(BlockInfo.INSULATED_FURNACE_NAME, BlockInfo.INSULATED_FURNACE_ID).getInt();
+            BlockInfo.HEATED_FLOORING_ID = configuration.getBlock(BlockInfo.HEATED_FLOORING_NAME, BlockInfo.HEATED_FLOORING_ID).getInt();
 
             // Item Ids
             ItemInfo.NETWORK_DEBUGGER_ID = configuration.getItem(ItemInfo.NETWORK_DEBUGGER_NAME, ItemInfo.NETWORK_DEBUGGER_ID).getInt() - 256;

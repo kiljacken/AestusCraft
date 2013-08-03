@@ -13,7 +13,8 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.util.Vec3;
-import dk.kiljacken.aestuscraft.core.blocks.BlockInfo;
+import dk.kiljacken.aestuscraft.api.info.BlockInfo;
+import dk.kiljacken.aestuscraft.api.info.TileInfo;
 import dk.kiljacken.aestuscraft.library.nbt.NBTUtil.NBTValue;
 import dk.kiljacken.aestuscraft.library.nbt.handlers.BooleanNBTHandler;
 import dk.kiljacken.aestuscraft.library.nbt.handlers.ItemStackNBTHandler;
@@ -55,18 +56,18 @@ public class TileInsulatedFurnace extends HeatConsumerBaseTile implements IInven
             if (m_BurnTicksLeft == 0 && canSmelt) {
                 m_BurnTicksLeft = 200;
                 m_Active = true;
-                worldObj.addBlockEvent(xCoord, yCoord, zCoord, BlockInfo.BLOCK_INSULATED_FURNACE_ID, 0, m_Active ? 1 : 0);
+                worldObj.addBlockEvent(xCoord, yCoord, zCoord, BlockInfo.INSULATED_FURNACE_ID, 0, m_Active ? 1 : 0);
             } else if (m_BurnTicksLeft > 0 && !canSmelt) {
                 m_BurnTicksLeft = 0;
                 m_Active = false;
-                worldObj.addBlockEvent(xCoord, yCoord, zCoord, BlockInfo.BLOCK_INSULATED_FURNACE_ID, 0, m_Active ? 1 : 0);
+                worldObj.addBlockEvent(xCoord, yCoord, zCoord, BlockInfo.INSULATED_FURNACE_ID, 0, m_Active ? 1 : 0);
             }
 
             if (m_BurnTicksLeft > 0 && getHeatLevel() > HEAT_PER_BURN_TICK) {
                 setHeatLevel(getHeatLevel() - HEAT_PER_BURN_TICK);
                 m_BurnTicksLeft--;
                 // TODO: Limit burn ticks events?
-                worldObj.addBlockEvent(xCoord, yCoord, zCoord, BlockInfo.BLOCK_INSULATED_FURNACE_ID, 1, m_BurnTicksLeft);
+                worldObj.addBlockEvent(xCoord, yCoord, zCoord, BlockInfo.INSULATED_FURNACE_ID, 1, m_BurnTicksLeft);
 
                 if (m_BurnTicksLeft == 0) {
                     if (canSmelt1) {
@@ -87,7 +88,7 @@ public class TileInsulatedFurnace extends HeatConsumerBaseTile implements IInven
                     canSmelt = canSmelt1 | canSmelt2 | canSmelt3;
                     if (!canSmelt) {
                         m_Active = false;
-                        worldObj.addBlockEvent(xCoord, yCoord, zCoord, BlockInfo.BLOCK_INSULATED_FURNACE_ID, 0, m_Active ? 1 : 0);
+                        worldObj.addBlockEvent(xCoord, yCoord, zCoord, BlockInfo.INSULATED_FURNACE_ID, 0, m_Active ? 1 : 0);
                     }
                 }
             }
