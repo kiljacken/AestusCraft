@@ -28,10 +28,10 @@ public class Config {
 
             // Block Ids
             BlockInfo.BLOCK_HEAT_CONDUCTOR_ID = configuration.getBlock(BlockInfo.BLOCK_HEAT_CONDUCTOR_NAME, BlockInfo.BLOCK_HEAT_CONDUCTOR_ID).getInt();
-            
+
             BlockInfo.BLOCK_FUEL_BURNER_ID = configuration.getBlock(BlockInfo.BLOCK_FUEL_BURNER_NAME, BlockInfo.BLOCK_FUEL_BURNER_ID).getInt();
             BlockInfo.BLOCK_FRICTION_HEATER_ID = configuration.getBlock(BlockInfo.BLOCK_FRICTION_HEATER_NAME, BlockInfo.BLOCK_FRICTION_HEATER_ID).getInt();
-            
+
             BlockInfo.BLOCK_INSULATED_FURNACE_ID = configuration.getBlock(BlockInfo.BLOCK_INSULATED_FURNACE_NAME, BlockInfo.BLOCK_INSULATED_FURNACE_ID).getInt();
             BlockInfo.BLOCK_HEATED_FLOORING_ID = configuration.getBlock(BlockInfo.BLOCK_HEATED_FLOORING_NAME, BlockInfo.BLOCK_HEATED_FLOORING_ID).getInt();
 
@@ -46,11 +46,11 @@ public class Config {
 
                 // Insulated furnace
                 TileInsulatedFurnace.HEAT_PER_BURN_TICK = (float) configuration.get("balance", "insulatedFurnace.heatPerBurnTick", TileInsulatedFurnace.HEAT_PER_BURN_TICK).getDouble(TileInsulatedFurnace.HEAT_PER_BURN_TICK);
-                
+
                 // Friction heater
                 TileFrictionHeater.HEAT_PER_MJ = (float) configuration.get("balance", "frictionHeater.heatPerMJ", TileFrictionHeater.HEAT_PER_MJ).getDouble(TileFrictionHeater.HEAT_PER_MJ);
                 TileFrictionHeater.HEAT_TRANSFER_RATE = (float) configuration.get("balance", "frictionHeater.heatTransferRate", TileFrictionHeater.HEAT_TRANSFER_RATE).getDouble(TileFrictionHeater.HEAT_TRANSFER_RATE);
-                
+
                 // Heated flooring
                 TileHeatedFlooring.HEAT_PER_REMOVED_SNOW = (float) configuration.get("balance", "heatedFlooring.heatPerRemovedSnow", TileHeatedFlooring.HEAT_PER_REMOVED_SNOW).getDouble(TileHeatedFlooring.HEAT_PER_REMOVED_SNOW);
             }

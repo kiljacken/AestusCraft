@@ -45,29 +45,29 @@ public class TileFrictionHeater extends HeatProducerBaseTile implements IPowerRe
             float energy = m_PowerHandler.useEnergy(0.0f, HEAT_TRANSFER_RATE / HEAT_PER_MJ, true);
             m_RecievedEnergy |= energy > 0;
             float heatSupplied = Math.min(getMaxHeatLevel() - getHeatLevel(), energy * HEAT_PER_MJ);
-            
+
             setHeatLevel(getHeatLevel() + heatSupplied);
             m_PowerHandler.addEnergy(energy - heatSupplied / HEAT_PER_MJ);
-            
+
             if (m_UpdateTicks == 0 && getHeatLevel() > 0.0f && !m_Active) {
                 m_Active = true;
             } else if (m_UpdateTicks == 0 && m_Active) {
                 m_Active = false;
             }
-            
+
             if (m_UpdateTicks == 0) {
                 m_Active = m_RecievedEnergy;
-                
+
                 worldObj.addBlockEvent(xCoord, yCoord, zCoord, BlockInfo.BLOCK_FRICTION_HEATER_ID, 0, m_Active ? 1 : 0);
-                
+
                 m_UpdateTicks = 100;
                 m_RecievedEnergy = false;
             }
-            
+
             if (getNetwork() != null) {
                 setHeatLevel(getHeatLevel() - getNetwork().supplyHeat(Math.min(getHeatLevel(), HEAT_TRANSFER_RATE)));
             }
-            
+
             m_UpdateTicks--;
         }
     }

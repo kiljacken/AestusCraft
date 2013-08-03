@@ -22,7 +22,7 @@ import net.minecraftforge.common.ForgeDirection;
 public class BlockHeatedFlooring extends BlockBaseTile {
     @SideOnly(Side.CLIENT)
     private Icon[] m_Icons;
-    
+
     @SideOnly(Side.CLIENT)
     private Icon m_InsulatedSideIcon;
 
@@ -44,7 +44,7 @@ public class BlockHeatedFlooring extends BlockBaseTile {
         for (int i = 0; i < 16; i++) {
             m_Icons[i] = iconRegister.registerIcon("aestuscraft:heated_flooring/heated_flooring_" + i);
         }
-        
+
         m_InsulatedSideIcon = iconRegister.registerIcon("aestuscraft:insulated_side");
     }
 
@@ -55,21 +55,21 @@ public class BlockHeatedFlooring extends BlockBaseTile {
 
             return m_Icons[heatedFlooring.getConnectedSides()];
         }
-        
+
         if (side == ForgeDirection.UP) {
             return m_Icons[0];
         } else {
             return m_InsulatedSideIcon;
         }
     }
-    
+
     @Override
     public void onNeighborBlockChange(World par1World, int par2, int par3, int par4, int par5) {
         TileEntity tile = par1World.getBlockTileEntity(par2, par3, par4);
-        
+
         if (tile instanceof TileHeatedFlooring) {
             TileHeatedFlooring heatedFlooring = (TileHeatedFlooring) tile;
-            
+
             heatedFlooring.setShouldUpdate();
         }
     }

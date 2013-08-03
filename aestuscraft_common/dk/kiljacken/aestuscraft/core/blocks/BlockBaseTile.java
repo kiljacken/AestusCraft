@@ -26,25 +26,25 @@ import net.minecraftforge.common.ForgeDirection;
 
 public abstract class BlockBaseTile extends BlockContainer {
     private Random m_Random;
-    
+
     protected BlockBaseTile(int id, Material material) {
         super(id, material);
-        
+
         m_Random = new Random();
     }
-    
+
     public abstract Icon getIcon(TileEntity tile, ForgeDirection side);
-    
+
     @Override
     public Icon getIcon(int side, int meta) {
         return getIcon(null, ForgeDirection.getOrientation(side));
     }
-    
+
     @Override
     public Icon getBlockTexture(IBlockAccess world, int x, int y, int z, int side) {
         return getIcon(world.getBlockTileEntity(x, y, z), ForgeDirection.getOrientation(side));
     }
-    
+
     @Override
     public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entityLivingBase, ItemStack itemStack) {
         ForgeDirection direction = ForgeDirection.UNKNOWN;

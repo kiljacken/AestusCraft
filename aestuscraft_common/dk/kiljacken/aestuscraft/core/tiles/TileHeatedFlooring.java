@@ -89,7 +89,7 @@ public class TileHeatedFlooring extends HeatConsumerBaseTile {
                             worldObj.setBlock(x, y, z, newBlockId, 0, 3);
                             setHeatLevel(getHeatLevel() - HEAT_PER_REMOVED_SNOW);
                         }
-                        
+
                         didWork = true;
                     }
                 }

@@ -35,10 +35,10 @@ public class BlockInsulatedFurnace extends BlockBaseTile {
 
     public BlockInsulatedFurnace(int id) {
         super(id, Material.rock);
-        
+
         setHardness(3.0f);
     }
-    
+
     @Override
     public TileEntity createNewTileEntity(World world) {
         return new TileInsulatedFurnace();

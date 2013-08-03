@@ -32,10 +32,10 @@ public class BlockFuelBurner extends BlockBaseTile {
 
     @SideOnly(Side.CLIENT)
     private Icon m_IconInactive;
-    
+
     public BlockFuelBurner(int id) {
         super(id, Material.rock);
-        
+
         setHardness(3.0f);
     }
 

@@ -35,10 +35,10 @@ public class BlockFrictionHeater extends BlockBaseTile {
 
     @SideOnly(Side.CLIENT)
     private Icon m_IconInsulatedSide;
-    
+
     public BlockFrictionHeater(int id) {
         super(id, Material.rock);
-        
+
         setHardness(3.0f);
     }
 
