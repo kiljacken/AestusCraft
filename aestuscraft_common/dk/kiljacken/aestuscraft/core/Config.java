@@ -16,6 +16,7 @@ import dk.kiljacken.aestuscraft.core.blocks.BlockInfo;
 import dk.kiljacken.aestuscraft.core.items.ItemInfo;
 import dk.kiljacken.aestuscraft.core.tiles.TileFrictionHeater;
 import dk.kiljacken.aestuscraft.core.tiles.TileFuelBurner;
+import dk.kiljacken.aestuscraft.core.tiles.TileHeatedFlooring;
 import dk.kiljacken.aestuscraft.core.tiles.TileInsulatedFurnace;
 
 public class Config {
@@ -32,6 +33,7 @@ public class Config {
             BlockInfo.BLOCK_FRICTION_HEATER_ID = configuration.getBlock(BlockInfo.BLOCK_FRICTION_HEATER_NAME, BlockInfo.BLOCK_FRICTION_HEATER_ID).getInt();
             
             BlockInfo.BLOCK_INSULATED_FURNACE_ID = configuration.getBlock(BlockInfo.BLOCK_INSULATED_FURNACE_NAME, BlockInfo.BLOCK_INSULATED_FURNACE_ID).getInt();
+            BlockInfo.BLOCK_HEATED_FLOORING_ID = configuration.getBlock(BlockInfo.BLOCK_HEATED_FLOORING_NAME, BlockInfo.BLOCK_HEATED_FLOORING_ID).getInt();
 
             // Item Ids
             ItemInfo.NETWORK_DEBUGGER_ID = configuration.getItem(ItemInfo.NETWORK_DEBUGGER_NAME, ItemInfo.NETWORK_DEBUGGER_ID).getInt() - 256;
@@ -48,6 +50,9 @@ public class Config {
                 // Friction heater
                 TileFrictionHeater.HEAT_PER_MJ = (float) configuration.get("balance", "frictionHeater.heatPerMJ", TileFrictionHeater.HEAT_PER_MJ).getDouble(TileFrictionHeater.HEAT_PER_MJ);
                 TileFrictionHeater.HEAT_TRANSFER_RATE = (float) configuration.get("balance", "frictionHeater.heatTransferRate", TileFrictionHeater.HEAT_TRANSFER_RATE).getDouble(TileFrictionHeater.HEAT_TRANSFER_RATE);
+                
+                // Heated flooring
+                TileHeatedFlooring.HEAT_PER_REMOVED_SNOW = (float) configuration.get("balance", "heatedFlooring.heatPerRemovedSnow", TileHeatedFlooring.HEAT_PER_REMOVED_SNOW).getDouble(TileHeatedFlooring.HEAT_PER_REMOVED_SNOW);
             }
         } catch (Exception e) {
             AestusCraft.log.severe("Exception while loading configuration");

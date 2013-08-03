@@ -20,4 +20,7 @@ public class BlockInfo {
     
     public static int BLOCK_INSULATED_FURNACE_ID = 2511;
     public static final String BLOCK_INSULATED_FURNACE_NAME = "insulatedFurnace";
+    
+    public static int BLOCK_HEATED_FLOORING_ID = 2512;
+    public static final String BLOCK_HEATED_FLOORING_NAME = "heatedFlooring";
 }

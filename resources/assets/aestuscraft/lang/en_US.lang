@@ -4,4 +4,5 @@ tile.fuelBurner.name=Fuel Burner
 tile.insulatedFurnace.name=Insulated Furnace
 tile.heatConductor.name=Heat Conductor
 tile.frictionHeater.name=Friction Heater
+tile.heatedFlooring.name=Heated Flooring
 item.networkDebugger.name=Network Debugger
