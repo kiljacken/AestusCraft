@@ -1,58 +1,179 @@
-<?xml version="1.0" ?>
-<!--
-Ant build script for minecraft mods
+<project name="AestusCraft" default="main">
+	<property environment="env"/>
+	<!-- Properties -->
 
-Only modifications to build.properties should be needed to suit your needs
- 
-Based on Equivalent-Exchange-3 build script by pahimar
--->
-<project name="AestusCraft" default="build">
-	<property file="build.properties" prefix="build"/>
-	
+	<dirname property="imported.basedir" file="${ant.file.AestusCraft}"/>
+	<property name="build.dir" value="build"/>
+	<property name="src.dir" value="${imported.basedir}"/>
+	<property name="resources.dir" value="${imported.basedir}/resources"/>
+
+	<property name="download.dir" value="download"/>
+
+	<property name="classes.dir" value="${build.dir}/classes"/>
+	<property name="jar.dir" value="bin"/>
+
+	<property name="forge.dir" value="../../forge"/>
+	<property name="mcp.dir" value="${forge.dir}/mcp"/>
+
+	<property name="mcpsrc.dir" value="${mcp.dir}/src"/>
+    
+    <property name="mc.version" value="1.6.2"/>
+
+	<property name="aestuscraft.name" value="aestuscraft"/>
+
+	<available file="${src.dir}/.git" type="dir" property="git.present"/>
+
+	<!-- Targets -->
+
+	<!-- Clear build directory -->
 	<target name="clean">
-		<delete dir="${build.mcp_dir}\src\minecraft\${build.base_package}" />
-		<delete dir="${build.mcp_dir}\reobf\minecraft" />
+		<delete dir="${build.dir}"/>
 	</target>
-	
-	<target name="prep">
-		<copy todir="${build.mcp_dir}\src\minecraft">
-			<fileset dir="${build.source_dir}" />
+
+	<!-- Set full version -->
+	<target name="initialize-version" depends="version-provided,version-not-provided,git.revision">
+		<property name="project.version.full" value="${project.version}.${build.number}"/>
+	</target>
+
+	<!-- Set unknown build number -->
+	<target name="version-not-provided" unless="env.BUILD_NUMBER">
+		<property name="build.number" value="unknown"/>
+	</target>
+
+	<!-- Set build number from environment -->
+	<target name="version-provided" if="env.BUILD_NUMBER">
+		<property name="build.number" value="${env.BUILD_NUMBER}"/>
+	</target>
+
+	<target name="git.revision">
+		<exec executable="git" dir="${src.dir}" outputproperty="git.revision" failifexecutionfails="false" errorproperty="">
+			<arg value="describe"/>
+			<arg value="--tags"/>
+		</exec>
+		<loadresource property="git.clean.revision">
+			<propertyresource name="git.revision"/>
+			<filterchain>
+				<tokenfilter>
+					<filetokenizer/>
+					<replaceregex pattern="-[a-z0-9]+$" replace=""/>
+					<replacestring from="-" to="."/>
+				</tokenfilter>
+			</filterchain>
+		</loadresource>
+
+		<condition property="project.version" value="${git.clean.revision}" else="0.0.0">
+			<and>
+				<isset property="git.clean.revision"/>
+				<length string="${git.clean.revision}" trim="yes" length="0" when="greater"/>
+			</and>
+		</condition>
+		<condition property="project.complete.version" value="${git.revision}" else="0.0.0">
+			<and>
+				<isset property="git.revision"/>
+				<length string="${git.revision}" trim="yes" length="0" when="greater"/>
+			</and>
+		</condition>
+		<echo>Building aestuscraft version ${project.complete.version} (${project.version})</echo>
+	</target>
+
+	<target name="clean-src">
+		<delete verbose="false" includeemptydirs="true">
+			<fileset dir="${mcpsrc.dir}/minecraft" >
+				<present present="both" targetdir="${src.dir}/aestuscraft_common" /> 
+			</fileset>
+		</delete>
+	</target>
+    
+	<target name="copy-src" depends="clean-src,initialize-version">
+		<!-- Copy sources -->
+		<copy todir="${mcpsrc.dir}/minecraft" verbose="true">
+			<fileset dir="${src.dir}/aestuscraft_common"/>
+			<filterset>
+				<filter token="VERSION" value="${project.complete.version}" />
+				<filter token="BUILD_NUMBER" value="${build.number}" />
+			</filterset>
 		</copy>
 	</target>
-	
-	<target name="recompile">
-		<exec dir="${build.mcp_dir}" executable="cmd" osfamily="windows">
-			<arg line="/c recompile.bat" />
+
+	<target name="compile" depends="initialize-version,copy-src">
+
+		<mkdir dir="${classes.dir}"/>
+		<delete includeemptydirs="true">
+			<fileset dir="${classes.dir}" includes="**/*"/>
+		</delete>
+
+		<!-- Recompile -->
+		<exec dir="${mcp.dir}" executable="cmd" osfamily="windows">
+			<arg line="/c recompile.bat"/>
 		</exec>
-		<exec dir="${build.mcp_dir}" executable="bash" osfamily="unix">
-			<arg line="recompile.sh" />
+
+		<exec dir="${mcp.dir}" executable="sh" osfamily="unix">
+			<arg value="recompile.sh"/>
 		</exec>
+
+		<!-- Check for failure -->
+		<fail message="MCP failed to build">
+			<condition>
+				<resourcecontains resource="${mcp.dir}/logs/client_compile.log" substring="error:"/>
+			</condition>
+		</fail>
+
 	</target>
-	
-	<target name="reobfuscate">
-		<exec dir="${build.mcp_dir}" executable="cmd" osfamily="windows">
-			<arg line="/c reobfuscate_srg.bat" />
+
+	<target name="reobf" depends="compile">
+
+		<!-- Reobfuscate -->
+		<exec dir="${mcp.dir}" executable="cmd" osfamily="windows">
+			<arg line="/c reobfuscate_srg.bat"/>
 		</exec>
-		<exec dir="${build.mcp_dir}" executable="bash" osfamily="unix">
-			<arg line="reobfuscate_srg.sh" />
+
+		<exec dir="${mcp.dir}" executable="sh" osfamily="unix">
+			<arg value="reobfuscate_srg.sh"/>
 		</exec>
+
+		<!-- Copy classes -->
+		<copy todir="${classes.dir}" includeEmptyDirs="false">
+			<fileset dir="${mcp.dir}/reobf/minecraft">
+                <exclude name="cpw/mods/fml/**"/>
+                <exclude name="ibxm/**"/>
+				<exclude name="net/minecraft/**"/>
+                <exclude name="net/minecraftforge/**"/>
+                <exclude name="paulscode/**"/>
+			</fileset>
+		</copy>
+
+		<!-- Copy resources -->
+		<copy todir="${classes.dir}">
+			<fileset dir="${resources.dir}">
+				<exclude name="build.xml"/>
+			</fileset>
+		</copy>
+
+		<!-- Reset src dir to post-forge-install state -->
+        <antcall target="clean-src"/>
+
 	</target>
-	
-	<target name="build">
-		<!-- Prep for the build -->
-		<antcall target="clean" />
-		<antcall target="prep" />
-		<antcall target="recompile" />		
-		<antcall target="reobfuscate" />
+
+	<!-- Package the compiled files -->
+	<target name="package" depends="reobf">
+
+		<mkdir dir="${jar.dir}"/>
+		<delete includeemptydirs="true">
+			<fileset dir="${jar.dir}" includes="**/*"/>
+		</delete>
+        
+        <property name="jar.file.name" value="${jar.dir}/${aestuscraft.name}-${mc.version}-${project.version.full}.jar"/>
 		
-		<!-- Build the jar -->
-		<mkdir dir="${build.jar_dir}" />
-		<jar destfile="${build.jar_dir}\${build.mod_name}-${build.mod_version}-mc${build.mc_version}.jar">
-			<fileset dir="${build.mcp_dir}\reobf\minecraft\" includes="${build.base_package}\**"/>
-			<fileset dir="${build.resource_dir}" />
-		</jar>
-		
-		<!-- Clean up the MCP source now that we are done -->
-		<antcall target="clean" />
+		<jar destfile="${jar.file.name}" basedir="${classes.dir}"/>
+		<!--<copy todir="${jar.dir}/changelog">
+			<fileset dir="${resources.dir}/changelog">
+				<include name="*" />
+			</fileset>
+		</copy> --> <!-- FIXIT -->
+
 	</target>
+
+	<!-- Default target to run -->
+	<target name="main" depends="package"/>
+
 </project>

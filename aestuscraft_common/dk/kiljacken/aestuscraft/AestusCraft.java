@@ -21,16 +21,17 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import dk.kiljacken.aestuscraft.api.AestusCraftAPI;
+import dk.kiljacken.aestuscraft.api.info.ModInfo;
 import dk.kiljacken.aestuscraft.core.Config;
 import dk.kiljacken.aestuscraft.core.Content;
 import dk.kiljacken.aestuscraft.core.Registry;
 import dk.kiljacken.aestuscraft.core.network.PacketHandler;
 import dk.kiljacken.aestuscraft.core.proxy.CommonProxy;
 
-@Mod(modid = AestusCraftAPI.MOD_ID, name = "AestusCraft", version = "v0.1", dependencies = "after:BuildCraft|Energy")
+@Mod(modid = ModInfo.MOD_ID, name = "AestusCraft", version = ModInfo.VERSION, dependencies = "after:BuildCraft|Energy")
 @NetworkMod(clientSideRequired = true, serverSideRequired = true, channels = { PacketHandler.CHANNEL }, packetHandler = PacketHandler.class)
 public class AestusCraft {
-    @Instance(AestusCraftAPI.MOD_ID)
+    @Instance(ModInfo.MOD_ID)
     public static AestusCraft instance;
 
     @SidedProxy(clientSide = "dk.kiljacken.aestuscraft.core.proxy.ClientProxy", serverSide = "dk.kiljacken.aestuscraft.core.proxy.CommonProxy")
