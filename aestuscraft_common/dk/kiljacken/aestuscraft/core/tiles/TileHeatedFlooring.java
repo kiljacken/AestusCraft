@@ -44,13 +44,7 @@ public class TileHeatedFlooring extends HeatConsumerBaseTile {
         m_Delay = new WorkAdaptingDelay(100);
         m_Ticks = m_Delay.getDelay();
 
-        m_SpiralX = 0;
-        m_SpiralZ = 0;
-        m_SpiralSide = 0;
-        m_SpiralSideLenth = 1;
-        m_SpiralISide = 0;
-        m_SpiralI = 0;
-        m_SpiralIMax = 5 * 5;
+        resetSpiral();
     }
 
     @Override
@@ -94,44 +88,8 @@ public class TileHeatedFlooring extends HeatConsumerBaseTile {
                         didWork = true;
                     }
                 }
-
-                m_SpiralI++;
-                m_SpiralISide++;
-
-                switch (m_SpiralSide) {
-                    case 0:
-                        m_SpiralX++;
-                        break;
-                    case 1:
-                        m_SpiralZ++;
-                        break;
-                    case 2:
-                        m_SpiralX--;
-                        break;
-                    case 3:
-                        m_SpiralZ--;
-                        break;
-                }
-
-                if (m_SpiralISide == m_SpiralSideLenth) {
-                    m_SpiralSide = (m_SpiralSide + 1) % 4;
-
-                    if (m_SpiralSide % 2 == 0) {
-                        m_SpiralSideLenth++;
-                    }
-
-                    m_SpiralISide = 0;
-                }
-
-                if (m_SpiralI >= m_SpiralIMax) {
-                    m_SpiralX = 0;
-                    m_SpiralZ = 0;
-                    m_SpiralSide = 0;
-                    m_SpiralSideLenth = 1;
-                    m_SpiralISide = 0;
-                    m_SpiralI = 0;
-                    m_SpiralIMax = 5 * 5;
-                }
+                
+                updateSpiral();
 
                 m_Delay.onCycleEnd(didWork);
                 m_Ticks = m_Delay.getDelay();
@@ -139,6 +97,50 @@ public class TileHeatedFlooring extends HeatConsumerBaseTile {
 
         }
     }
+    
+    private void updateSpiral() {
+    	m_SpiralI++;
+        m_SpiralISide++;
+
+        switch (m_SpiralSide) {
+            case 0:
+                m_SpiralX++;
+                break;
+            case 1:
+                m_SpiralZ++;
+                break;
+            case 2:
+                m_SpiralX--;
+                break;
+            case 3:
+                m_SpiralZ--;
+                break;
+        }
+
+        if (m_SpiralISide == m_SpiralSideLenth) {
+            m_SpiralSide = (m_SpiralSide + 1) % 4;
+
+            if (m_SpiralSide % 2 == 0) {
+                m_SpiralSideLenth++;
+            }
+
+            m_SpiralISide = 0;
+        }
+
+        if (m_SpiralI >= m_SpiralIMax) {
+            resetSpiral();
+        }
+	}
+    
+    private void resetSpiral() {
+    	m_SpiralX = 0;
+        m_SpiralZ = 0;
+        m_SpiralSide = 0;
+        m_SpiralSideLenth = 1;
+        m_SpiralISide = 0;
+        m_SpiralI = 0;
+        m_SpiralIMax = 5 * 5;
+	}
 
     @Override
     public boolean receiveClientEvent(int id, int data) {
