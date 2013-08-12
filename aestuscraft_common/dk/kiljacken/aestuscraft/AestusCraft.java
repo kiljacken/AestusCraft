@@ -42,7 +42,8 @@ public class AestusCraft {
     public static Config config;
 
     @EventHandler
-    public void preInit(FMLPreInitializationEvent event) {
+    public void preInit(FMLPreInitializationEvent event)
+    {
         AestusCraft.log = Logger.getLogger("AestusCraft");
         AestusCraft.log.setParent(FMLLog.getLogger());
         AestusCraft.config = new Config(event.getSuggestedConfigurationFile());
@@ -60,12 +61,14 @@ public class AestusCraft {
     }
 
     @EventHandler
-    public void init(FMLInitializationEvent event) {
+    public void init(FMLInitializationEvent event)
+    {
         content.registerRecipes();
     }
 
     @EventHandler
-    public void postInit(FMLPostInitializationEvent event) {
+    public void postInit(FMLPostInitializationEvent event)
+    {
 
     }
 }

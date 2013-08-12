@@ -11,7 +11,7 @@ package dk.kiljacken.aestuscraft.api.heat;
 /**
  * A tile that contains heat
  */
-public interface IHeatContainer {
+public interface IHeatContainer extends IHeatMachine {
     /**
      * Gets the current heat level of the consumer
      * 
@@ -22,7 +22,8 @@ public interface IHeatContainer {
     /**
      * Sets the current heat level of the consumer
      * 
-     * @param heatLevel The heat level to set
+     * @param heatLevel
+     *            The heat level to set
      */
     public void setHeatLevel(float heatLevel);
 

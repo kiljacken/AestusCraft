@@ -12,37 +12,32 @@ import java.util.List;
 
 public interface IHeatNetwork {
     /**
-     * Gets an array of consumers connected to this network
+     * Gets a list of machines connected to this network
      * 
-     * @return An array of consumers connected to this conductor
+     * @return A list of machines connected to this network
      */
-    public List<IHeatConsumer> getConnectedConsumers();
+    public List<IHeatMachine> getConnectedMachines();
 
     /**
-     * Gets an array of producers connected to this network
+     * Gets a list of conductors that are part of this network
      * 
-     * @return An array of producers connected to this conductor
-     */
-    public List<IHeatProducer> getConnectedProducers();
-
-    /**
-     * Gets an array of conductors connected to this network
-     * 
-     * @return An array of conductors connected to this conductor
+     * @return A list of conductors connected to this network
      */
     public List<IHeatConductor> getConnectedConductors();
 
     /**
      * Merges two networks
      * 
-     * @param network The network to merge with this one
+     * @param network
+     *            The network to merge with this one
      */
     public void merge(IHeatNetwork network);
 
     /**
      * Splits a network into the several network by removing a conductor
      * 
-     * @param conductor The conductor to remove
+     * @param conductor
+     *            The conductor to remove
      */
     public void split(IHeatConductor conductor);
 
@@ -52,10 +47,11 @@ public interface IHeatNetwork {
     public void refresh();
 
     /**
-     * Tries to supply an amount of energy to the network. The energy will be evenly spread among the connected
-     * consumers that have space for more heat
+     * Tries to supply an amount of energy to the network. The energy will be
+     * evenly spread among the connected consumers that have space for more heat
      * 
-     * @param amount Amount of heat to try suppling
+     * @param amount
+     *            Amount of heat to try suppling
      * @return The amount accepted by the network
      */
     public float supplyHeat(float amount);

@@ -20,10 +20,12 @@ import dk.kiljacken.aestuscraft.core.tiles.TileHeatedFlooring;
 import dk.kiljacken.aestuscraft.core.tiles.TileInsulatedFurnace;
 
 public class Config {
-    public Config(File file) {
+    public Config(File file)
+    {
         Configuration configuration = new Configuration(file);
 
-        try {
+        try
+        {
             configuration.load();
 
             // Block Ids
@@ -41,22 +43,32 @@ public class Config {
             // Balancing values
             {
                 // Fuel burner
-                TileFuelBurner.HEAT_PER_FUEL = (float) configuration.get("balance", "fuelBurner.heatPerFuel", TileFuelBurner.HEAT_PER_FUEL).getDouble(TileFuelBurner.HEAT_PER_FUEL);
-                TileFuelBurner.HEAT_TRANSFER_RATE = (float) configuration.get("balance", "fuelBurner.heatTransferRate", TileFuelBurner.HEAT_TRANSFER_RATE).getDouble(TileFuelBurner.HEAT_TRANSFER_RATE);
+                TileFuelBurner.HEAT_PER_FUEL = (float) configuration.get("balance", "fuelBurner.heatPerFuel", TileFuelBurner.HEAT_PER_FUEL).getDouble(
+                        TileFuelBurner.HEAT_PER_FUEL);
+                TileFuelBurner.HEAT_TRANSFER_RATE = (float) configuration.get("balance", "fuelBurner.heatTransferRate", TileFuelBurner.HEAT_TRANSFER_RATE)
+                        .getDouble(TileFuelBurner.HEAT_TRANSFER_RATE);
 
                 // Insulated furnace
-                TileInsulatedFurnace.HEAT_PER_BURN_TICK = (float) configuration.get("balance", "insulatedFurnace.heatPerBurnTick", TileInsulatedFurnace.HEAT_PER_BURN_TICK).getDouble(TileInsulatedFurnace.HEAT_PER_BURN_TICK);
+                TileInsulatedFurnace.HEAT_PER_BURN_TICK = (float) configuration.get("balance", "insulatedFurnace.heatPerBurnTick",
+                        TileInsulatedFurnace.HEAT_PER_BURN_TICK).getDouble(TileInsulatedFurnace.HEAT_PER_BURN_TICK);
 
                 // Friction heater
-                TileFrictionHeater.HEAT_PER_MJ = (float) configuration.get("balance", "frictionHeater.heatPerMJ", TileFrictionHeater.HEAT_PER_MJ).getDouble(TileFrictionHeater.HEAT_PER_MJ);
-                TileFrictionHeater.HEAT_TRANSFER_RATE = (float) configuration.get("balance", "frictionHeater.heatTransferRate", TileFrictionHeater.HEAT_TRANSFER_RATE).getDouble(TileFrictionHeater.HEAT_TRANSFER_RATE);
+                TileFrictionHeater.HEAT_PER_MJ = (float) configuration.get("balance", "frictionHeater.heatPerMJ", TileFrictionHeater.HEAT_PER_MJ).getDouble(
+                        TileFrictionHeater.HEAT_PER_MJ);
+                TileFrictionHeater.HEAT_TRANSFER_RATE = (float) configuration.get("balance", "frictionHeater.heatTransferRate",
+                        TileFrictionHeater.HEAT_TRANSFER_RATE).getDouble(TileFrictionHeater.HEAT_TRANSFER_RATE);
 
                 // Heated flooring
-                TileHeatedFlooring.HEAT_PER_REMOVED_SNOW = (float) configuration.get("balance", "heatedFlooring.heatPerRemovedSnow", TileHeatedFlooring.HEAT_PER_REMOVED_SNOW).getDouble(TileHeatedFlooring.HEAT_PER_REMOVED_SNOW);
+                TileHeatedFlooring.HEAT_PER_TICK = (float) configuration.get("balance", "heatedFlooring.heatPerTick", TileHeatedFlooring.HEAT_PER_TICK)
+                        .getDouble(TileHeatedFlooring.HEAT_PER_TICK);
             }
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             AestusCraft.log.severe("Exception while loading configuration");
-        } finally {
+        }
+        finally
+        {
             configuration.save();
         }
     }

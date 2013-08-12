@@ -9,6 +9,7 @@
 package dk.kiljacken.aestuscraft.api.heat;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -16,35 +17,39 @@ import java.util.List;
 import java.util.Queue;
 import java.util.Set;
 
+import net.minecraft.tileentity.TileEntity;
+
+import com.google.common.base.Predicates;
+import com.google.common.collect.Collections2;
+
 public class HeatNetworkImpl implements IHeatNetwork {
-    private List<IHeatConsumer> m_ConnectedConsumers;
-    private List<IHeatProducer> m_ConnectedProducers;
-    private List<IHeatConductor> m_ConnectedConductors;
+    private List<IHeatMachine> m_Machines;
+    private List<IHeatConductor> m_Conductors;
+    private int m_CurrentIndex = 0;
 
-    public HeatNetworkImpl() {
-        m_ConnectedConsumers = new ArrayList<>();
-        m_ConnectedProducers = new ArrayList<>();
-        m_ConnectedConductors = new ArrayList<>();
+    public HeatNetworkImpl()
+    {
+        m_Machines = new ArrayList<>();
+        m_Conductors = new ArrayList<>();
     }
 
     @Override
-    public List<IHeatConsumer> getConnectedConsumers() {
-        return m_ConnectedConsumers;
+    public List<IHeatMachine> getConnectedMachines()
+    {
+        return m_Machines;
     }
 
     @Override
-    public List<IHeatProducer> getConnectedProducers() {
-        return m_ConnectedProducers;
+    public List<IHeatConductor> getConnectedConductors()
+    {
+        return m_Conductors;
     }
 
     @Override
-    public List<IHeatConductor> getConnectedConductors() {
-        return m_ConnectedConductors;
-    }
-
-    @Override
-    public void merge(IHeatNetwork network) {
-        if (network == null || network == this) {
+    public void merge(IHeatNetwork network)
+    {
+        if (network == null || network == this)
+        {
             return;
         }
 
@@ -55,36 +60,43 @@ public class HeatNetworkImpl implements IHeatNetwork {
     }
 
     @Override
-    public void split(IHeatConductor conductor) {
+    public void split(IHeatConductor conductor)
+    {
         // Remove the conductor from this network
-        m_ConnectedConductors.remove(conductor);
+        m_Conductors.remove(conductor);
 
         // Clear lists to make avoid dead references
-        m_ConnectedConsumers.clear();
-        m_ConnectedProducers.clear();
+        m_Machines.clear();
 
         // Initialize flood fill queue
         Queue<IHeatConductor> floodQueue = new LinkedList<>();
 
         // Loop until the conductors in this network has been removed
-        while (!m_ConnectedConductors.isEmpty()) {
-            // Get a conductor from this network and remove it. We get the last one as it's best for performance
-            floodQueue.add(m_ConnectedConductors.remove(m_ConnectedConductors.size() - 1));
+        while (!m_Conductors.isEmpty())
+        {
+            // Get a conductor from this network and remove it. We get the last
+            // one as it's best for performance
+            floodQueue.add(m_Conductors.remove(m_Conductors.size() - 1));
 
             // Create a new network
             IHeatNetwork network = new HeatNetworkImpl();
 
-            // Loop through all conductors connected to this one and add them to the network
-            while (!floodQueue.isEmpty()) {
+            // Loop through all conductors connected to this one and add them to
+            // the network
+            while (!floodQueue.isEmpty())
+            {
                 IHeatConductor floodConductor = floodQueue.poll();
 
                 // Add the conductor to the new network
                 network.getConnectedConductors().add(floodConductor);
                 floodConductor.setNetwork(network);
 
-                // Add adjacent conductors to the queue if they're not already in the new network
-                for (IHeatConductor connectedConductor : floodConductor.getConnectedConductors()) {
-                    if (connectedConductor != conductor && !network.getConnectedConductors().contains(connectedConductor)) {
+                // Add adjacent conductors to the queue if they're not already
+                // in the new network
+                for (IHeatConductor connectedConductor : floodConductor.getConnectedConductors())
+                {
+                    if (connectedConductor != conductor && !network.getConnectedConductors().contains(connectedConductor))
+                    {
                         floodQueue.add(connectedConductor);
                     }
                 }
@@ -95,55 +107,76 @@ public class HeatNetworkImpl implements IHeatNetwork {
     }
 
     @Override
-    public void refresh() {
-        int size = getConnectedConductors().size() * 5;
-        Set<IHeatConsumer> consumers = new HashSet<>(size);
-        Set<IHeatProducer> producers = new HashSet<>(size);
+    public void refresh()
+    {
+        Set<IHeatConductor> conductorSet = new HashSet<>(getConnectedConductors());
+        getConnectedConductors().clear();
+        getConnectedConductors().addAll(conductorSet);
+
+        int size = getConnectedConductors().size() * 4;
+        Set<IHeatMachine> machines = new HashSet<>(size);
 
         Iterator<IHeatConductor> iter = getConnectedConductors().iterator();
 
-        while (iter.hasNext()) {
+        while (iter.hasNext())
+        {
             IHeatConductor conductor = iter.next();
+            TileEntity conductorTile = (TileEntity) conductor;
 
-            if (conductor == null || !conductor.isValid()) {
+            if (conductor == null || conductorTile.isInvalid())
+            {
                 iter.remove();
-            } else {
+            }
+            else
+            {
                 conductor.setNetwork(this);
 
-                consumers.addAll(conductor.getConnectedConsumers());
-                producers.addAll(conductor.getConnectedProducers());
+                machines.addAll(conductor.getConnectedMachines());
             }
         }
 
-        getConnectedConsumers().clear();
-        getConnectedConsumers().addAll(consumers);
+        getConnectedMachines().clear();
+        getConnectedMachines().addAll(machines);
 
-        getConnectedProducers().clear();
-        getConnectedProducers().addAll(producers);
-
-        for (IHeatProducer producer : getConnectedProducers()) {
-            producer.setNetwork(this);
+        for (IHeatMachine machine : getConnectedMachines())
+        {
+            machine.setNetwork(this);
         }
     }
 
     @Override
-    public float supplyHeat(float amount) {
-        int consumersWithSpace = 0;
-        for (IHeatConsumer consumer : getConnectedConsumers()) {
-            if (consumer.getHeatLevel() < consumer.getMaxHeatLevel()) {
-                consumersWithSpace++;
-            }
+    public float supplyHeat(float amount)
+    {
+        if (amount < 0.0f)
+        {
+            return 0.0f;
         }
 
-        float consumedAmount = 0;
-        for (IHeatConsumer consumer : getConnectedConsumers()) {
-            if (consumer.getHeatLevel() < consumer.getMaxHeatLevel()) {
-                consumedAmount += consumer.supplyHeat(amount - consumedAmount / consumersWithSpace);
+        Collection<IHeatConsumer> consumers = (Collection<IHeatConsumer>) (Object) Collections2.filter(getConnectedMachines(),
+                Predicates.instanceOf(IHeatConsumer.class));
+        float consumed = supplyHeat(amount, consumers, 0);
 
-                consumersWithSpace--;
-            }
+        return consumed;
+    }
+
+    private float supplyHeat(float amount, Collection<IHeatConsumer> consumers, int depth)
+    {
+        if (depth >= 4)
+        {
+            return 0.0f;
         }
 
-        return consumedAmount;
+        float consumed = 0.0f;
+        for (IHeatConsumer consumer : consumers)
+        {
+            consumed += consumer.supplyHeat(amount / consumers.size());
+        }
+
+        if (consumed < amount)
+        {
+            consumed += supplyHeat(amount - consumed, consumers, depth + 1);
+        }
+
+        return consumed;
     }
 }

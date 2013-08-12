@@ -43,7 +43,8 @@ public class Content {
     /**
      * Registers all blocks and tile entities
      */
-    public void registerBlocks() {
+    public void registerBlocks()
+    {
         blockConductor = Registry.registerBlock(new BlockHeatConductor(BlockInfo.HEAT_CONDUCTOR_ID), BlockInfo.HEAT_CONDUCTOR_NAME);
         GameRegistry.registerTileEntity(TileHeatConductor.class, TileInfo.HEAT_CONDUCTOR_NAME);
 
@@ -56,7 +57,8 @@ public class Content {
         blockHeatedFlooring = Registry.registerBlock(new BlockHeatedFlooring(BlockInfo.HEATED_FLOORING_ID), BlockInfo.HEATED_FLOORING_NAME);
         GameRegistry.registerTileEntity(TileHeatedFlooring.class, TileInfo.HEATED_FLOORING_NAME);
 
-        if (Loader.isModLoaded("BuildCraft|Energy")) {
+        if (Loader.isModLoaded("BuildCraft|Energy"))
+        {
             blockFrictionHeater = Registry.registerBlock(new BlockFrictionHeater(BlockInfo.FRICTION_HEATER_ID), BlockInfo.FRICTION_HEATER_NAME);
             GameRegistry.registerTileEntity(TileFrictionHeater.class, TileInfo.FRICTION_HEATER_NAME);
         }
@@ -67,33 +69,41 @@ public class Content {
     /**
      * Registers all items
      */
-    public void registerItems() {
+    public void registerItems()
+    {
         networkDebugger = Registry.registerItem(new ItemNetworkDebugger(ItemInfo.NETWORK_DEBUGGER_ID), ItemInfo.NETWORK_DEBUGGER_NAME);
     }
 
     /**
      * Registers all recipes
      */
-    public void registerRecipes() {
+    public void registerRecipes()
+    {
         GameRegistry.addShapedRecipe(new ItemStack(blockInsulatedFurnace), "ccc", "cfc", "ccc", 'c', Block.cloth, 'f', Block.furnaceIdle);
         GameRegistry.addShapedRecipe(new ItemStack(blockFuelBurner), "ccc", "cfc", "ccc", 'c', blockConductor, 'f', Block.furnaceIdle);
         GameRegistry.addShapedRecipe(new ItemStack(blockConductor, 8), "ccc", "cic", "ccc", 'c', Block.cloth, 'i', Item.ingotIron);
 
-        if (Loader.isModLoaded("BuildCraft|Energy")) {
+        if (Loader.isModLoaded("BuildCraft|Energy"))
+        {
             boolean buildcraftItems = false;
             Item woodenGear = null;
             Item stoneGear = null;
 
-            try {
+            try
+            {
                 woodenGear = (Item) Class.forName("buildcraft.BuildCraftCore").getField("woodenGearItem").get(null);
                 stoneGear = (Item) Class.forName("buildcraft.BuildCraftCore").getField("stoneGearItem").get(null);
                 buildcraftItems = true;
-            } catch (Exception ex) {
+            }
+            catch (Exception ex)
+            {
                 AestusCraft.log.severe("Unable to find Buildcraft items");
             }
 
-            if (buildcraftItems) {
-                GameRegistry.addShapedRecipe(new ItemStack(blockFrictionHeater), "scs", "i i", "WwW", 's', Block.stone, 'c', blockConductor, 'i', stoneGear, 'W', Block.cloth, 'w', woodenGear);
+            if (buildcraftItems)
+            {
+                GameRegistry.addShapedRecipe(new ItemStack(blockFrictionHeater), "scs", "i i", "WwW", 's', Block.stone, 'c', blockConductor, 'i', stoneGear,
+                        'W', Block.cloth, 'w', woodenGear);
             }
         }
     }

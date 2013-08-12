@@ -13,10 +13,12 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
+import dk.kiljacken.aestuscraft.core.common.inventory.ContainerWithPlayerInventory;
 import dk.kiljacken.aestuscraft.core.tiles.TileInsulatedFurnace;
 
 public class ContainerInsulatedFurnace extends ContainerWithPlayerInventory {
-    public ContainerInsulatedFurnace(InventoryPlayer inventoryPlayer, TileInsulatedFurnace tileInsulatedFurnace) {
+    public ContainerInsulatedFurnace(InventoryPlayer inventoryPlayer, TileInsulatedFurnace tileInsulatedFurnace)
+    {
         addSlotToContainer(new Slot(tileInsulatedFurnace, TileInsulatedFurnace.SLOT_INPUT_1, 61, 16));
         addSlotToContainer(new Slot(tileInsulatedFurnace, TileInsulatedFurnace.SLOT_INPUT_2, 79, 16));
         addSlotToContainer(new Slot(tileInsulatedFurnace, TileInsulatedFurnace.SLOT_INPUT_3, 97, 16));
@@ -28,29 +30,40 @@ public class ContainerInsulatedFurnace extends ContainerWithPlayerInventory {
     }
 
     @Override
-    public ItemStack transferStackInSlot(EntityPlayer entityPlayer, int slotIndex) {
+    public ItemStack transferStackInSlot(EntityPlayer entityPlayer, int slotIndex)
+    {
         ItemStack itemStack = null;
         Slot slot = getSlot(slotIndex);
 
-        if (slot != null && slot.getHasStack()) {
+        if (slot != null && slot.getHasStack())
+        {
             ItemStack slotItemStack = slot.getStack();
             itemStack = slotItemStack.copy();
 
-            if (slotIndex < TileInsulatedFurnace.INVENTORY_SIZE) {
+            if (slotIndex < TileInsulatedFurnace.INVENTORY_SIZE)
+            {
                 // If removing from insulated furnace, move to player inventory
-                if (!this.mergeItemStack(slotItemStack, TileInsulatedFurnace.INVENTORY_SIZE, inventorySlots.size(), false)) {
+                if (!this.mergeItemStack(slotItemStack, TileInsulatedFurnace.INVENTORY_SIZE, inventorySlots.size(), false))
+                {
                     return null;
                 }
-            } else if (FurnaceRecipes.smelting().getSmeltingResult(slotItemStack) != null) {
-                // If removing from player inventory and item is smeltable, move to insulated furnace
-                if (!this.mergeItemStack(slotItemStack, TileInsulatedFurnace.SLOT_INPUT_1, TileInsulatedFurnace.SLOT_INPUT_3 + 1, true)) {
+            }
+            else if (FurnaceRecipes.smelting().getSmeltingResult(slotItemStack) != null)
+            {
+                // If removing from player inventory and item is smeltable, move
+                // to insulated furnace
+                if (!this.mergeItemStack(slotItemStack, TileInsulatedFurnace.SLOT_INPUT_1, TileInsulatedFurnace.SLOT_INPUT_3 + 1, true))
+                {
                     return null;
                 }
             }
 
-            if (slotItemStack.stackSize == 0) {
+            if (slotItemStack.stackSize == 0)
+            {
                 slot.putStack(null);
-            } else {
+            }
+            else
+            {
                 slot.onSlotChanged();
             }
         }

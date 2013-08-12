@@ -22,16 +22,19 @@ public class GuiInsulatedFurnace extends GuiContainer {
     public static final ResourceLocation GUI_LOCATION = new ResourceLocation("aestuscraft", "textures/gui/insulated_furnace.png");
     private TileInsulatedFurnace m_TileInsulatedFurnace;
 
-    public GuiInsulatedFurnace(InventoryPlayer inventoryPlayer, TileInsulatedFurnace tileInsulatedFurnace) {
+    public GuiInsulatedFurnace(InventoryPlayer inventoryPlayer, TileInsulatedFurnace tileInsulatedFurnace)
+    {
         super(new ContainerInsulatedFurnace(inventoryPlayer, tileInsulatedFurnace));
 
         m_TileInsulatedFurnace = tileInsulatedFurnace;
     }
 
     @Override
-    protected void drawGuiContainerForegroundLayer(int scaledMouseX, int scaledMouseY) {
+    protected void drawGuiContainerForegroundLayer(int scaledMouseX, int scaledMouseY)
+    {
         // Draw insulated furnace name
-        String name = m_TileInsulatedFurnace.isInvNameLocalized() ? m_TileInsulatedFurnace.getInvName() : StatCollector.translateToLocal(m_TileInsulatedFurnace.getInvName());
+        String name = m_TileInsulatedFurnace.isInvNameLocalized() ? m_TileInsulatedFurnace.getInvName() : StatCollector.translateToLocal(m_TileInsulatedFurnace
+                .getInvName());
         fontRenderer.drawString(name, xSize / 2 - fontRenderer.getStringWidth(name) / 2, 6, 0x404040);
 
         // Draw inventory label
@@ -40,7 +43,8 @@ public class GuiInsulatedFurnace extends GuiContainer {
     }
 
     @Override
-    protected void drawGuiContainerBackgroundLayer(float renderPartialTicks, int scaledMouseX, int scaledMouseY) {
+    protected void drawGuiContainerBackgroundLayer(float renderPartialTicks, int scaledMouseX, int scaledMouseY)
+    {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
         mc.renderEngine.func_110577_a(GUI_LOCATION);
@@ -51,7 +55,8 @@ public class GuiInsulatedFurnace extends GuiContainer {
         drawTexturedModalRect(x, y, 0, 0, xSize, ySize);
 
         int scaledBurnTicks = 16 - m_TileInsulatedFurnace.getScaledBurnTicksLeft(16);
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 3; i++)
+        {
             drawTexturedModalRect(x + 63 + i * 18, y + 35 + scaledBurnTicks, 176, scaledBurnTicks, 12, 16 - scaledBurnTicks);
         }
 

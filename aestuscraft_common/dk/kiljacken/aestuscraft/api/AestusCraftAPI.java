@@ -29,8 +29,10 @@ public class AestusCraftAPI {
      * 
      * Only AestusCraft should call this method.
      */
-    public static void initialize() {
-        if (m_Initialized) {
+    public static void initialize()
+    {
+        if (m_Initialized)
+        {
             return;
         }
 
@@ -38,14 +40,17 @@ public class AestusCraftAPI {
         AestusCraftAPI.log.setParent(FMLLog.getLogger());
 
         Class<?> registryClass = ReflectionHelper.getClass(AestusCraftAPI.class.getClassLoader(), "dk.kiljacken.aestuscraft.core.Registry");
-        try {
+        try
+        {
             Object nil = null;
 
             m_BlockMap = ReflectionUtil.getPrivateValue(registryClass, nil, "m_BlockMap");
             m_ItemMap = ReflectionUtil.getPrivateValue(registryClass, nil, "m_ItemMap");
 
             m_Initialized = true;
-        } catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException e) {
+        }
+        catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException e)
+        {
             AestusCraftAPI.log.severe("Exception while initializing AestusCraft API");
             AestusCraftAPI.log.severe("Parent mod: " + Loader.instance().activeModContainer().getName());
             throw new RuntimeException(e);
@@ -55,20 +60,24 @@ public class AestusCraftAPI {
     /**
      * Get a block registered by AestusCraft
      * 
-     * @param name Name of the block
+     * @param name
+     *            Name of the block
      * @return The block
      */
-    public static Block getBlock(String name) {
+    public static Block getBlock(String name)
+    {
         return m_BlockMap.get(name);
     }
 
     /**
      * Get an item registered by AestusCraft
      * 
-     * @param name Name of the item
+     * @param name
+     *            Name of the item
      * @return The item
      */
-    public static Item getItem(String name) {
+    public static Item getItem(String name)
+    {
         return m_ItemMap.get(name);
     }
 }

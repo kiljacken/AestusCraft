@@ -14,7 +14,8 @@ public interface INBTHandler {
     /**
      * Reads a value from the provided tag
      * 
-     * @param tag The tag to read from
+     * @param tag
+     *            The tag to read from
      * @return The valuer read from the tag
      */
     public <T> T readFromTag(NBTBase tag);
@@ -22,7 +23,8 @@ public interface INBTHandler {
     /**
      * Writes a value to a compound tag
      * 
-     * @param value The value to write to a tag
+     * @param value
+     *            The value to write to a tag
      * @return A tag containing the value
      */
     public NBTBase writeToTag(String name, Object value);

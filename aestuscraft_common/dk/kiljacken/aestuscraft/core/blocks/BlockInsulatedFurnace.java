@@ -21,6 +21,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import dk.kiljacken.aestuscraft.AestusCraft;
 import dk.kiljacken.aestuscraft.core.client.gui.GuiIds;
+import dk.kiljacken.aestuscraft.core.common.blocks.BlockBaseTile;
 import dk.kiljacken.aestuscraft.core.tiles.TileInsulatedFurnace;
 
 public class BlockInsulatedFurnace extends BlockBaseTile {
@@ -33,49 +34,65 @@ public class BlockInsulatedFurnace extends BlockBaseTile {
     @SideOnly(Side.CLIENT)
     private Icon m_IconInactive;
 
-    public BlockInsulatedFurnace(int id) {
+    public BlockInsulatedFurnace(int id)
+    {
         super(id, Material.rock);
 
         setHardness(3.0f);
     }
 
     @Override
-    public TileEntity createNewTileEntity(World world) {
+    public TileEntity createNewTileEntity(World world)
+    {
         return new TileInsulatedFurnace();
     }
 
     @Override
-    public void registerIcons(IconRegister iconRegister) {
+    public void registerIcons(IconRegister iconRegister)
+    {
         m_IconSide = iconRegister.registerIcon("aestuscraft:insulated_side");
         m_IconActive = iconRegister.registerIcon("aestuscraft:insulated_furnace_active");
         m_IconInactive = iconRegister.registerIcon("aestuscraft:insulated_furnace_inactive");
     }
 
     @Override
-    public Icon getIcon(TileEntity tile, ForgeDirection side) {
-        if (tile != null && tile instanceof TileInsulatedFurnace) {
+    public Icon getIcon(TileEntity tile, ForgeDirection side)
+    {
+        if (tile != null && tile instanceof TileInsulatedFurnace)
+        {
             TileInsulatedFurnace insulatedFurnace = (TileInsulatedFurnace) tile;
 
-            if (side == insulatedFurnace.getOrientation()) {
+            if (side == insulatedFurnace.getOrientation())
+            {
                 return insulatedFurnace.isActive() ? m_IconActive : m_IconInactive;
-            } else {
+            }
+            else
+            {
                 return m_IconSide;
             }
-        } else {
-            if (side == ForgeDirection.SOUTH) {
+        }
+        else
+        {
+            if (side == ForgeDirection.SOUTH)
+            {
                 return m_IconInactive;
-            } else {
+            }
+            else
+            {
                 return m_IconSide;
             }
         }
     }
 
     @Override
-    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer entityPlayer, int side, float relHitX, float relHitY, float relHitZ) {
-        if (!world.isRemote) {
+    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer entityPlayer, int side, float relHitX, float relHitY, float relHitZ)
+    {
+        if (!world.isRemote)
+        {
             TileEntity tile = world.getBlockTileEntity(x, y, z);
 
-            if (tile != null && tile instanceof TileInsulatedFurnace) {
+            if (tile != null && tile instanceof TileInsulatedFurnace)
+            {
                 entityPlayer.openGui(AestusCraft.instance, GuiIds.INSULATED_FURNACE, world, x, y, z);
             }
         }
@@ -84,13 +101,16 @@ public class BlockInsulatedFurnace extends BlockBaseTile {
     }
 
     @Override
-    public void randomDisplayTick(World world, int x, int y, int z, Random random) {
+    public void randomDisplayTick(World world, int x, int y, int z, Random random)
+    {
         TileEntity tile = world.getBlockTileEntity(x, y, z);
 
-        if (tile != null && tile instanceof TileInsulatedFurnace) {
+        if (tile != null && tile instanceof TileInsulatedFurnace)
+        {
             TileInsulatedFurnace insulatedFurnace = (TileInsulatedFurnace) tile;
 
-            if (insulatedFurnace.isActive()) {
+            if (insulatedFurnace.isActive())
+            {
                 ForgeDirection side = insulatedFurnace.getOrientation();
                 double xOff = 0.5;
                 double yOff = 0.0 + random.nextFloat() * 6.0 / 16.0;
@@ -98,10 +118,13 @@ public class BlockInsulatedFurnace extends BlockBaseTile {
                 double halfBlock = 0.52;
                 double randOff = random.nextDouble() * 0.6 - 0.3;
 
-                if (side == ForgeDirection.WEST || side == ForgeDirection.EAST) {
+                if (side == ForgeDirection.WEST || side == ForgeDirection.EAST)
+                {
                     xOff += side == ForgeDirection.WEST ? -halfBlock : halfBlock;
                     zOff += randOff;
-                } else if (side == ForgeDirection.NORTH || side == ForgeDirection.SOUTH) {
+                }
+                else if (side == ForgeDirection.NORTH || side == ForgeDirection.SOUTH)
+                {
                     xOff += randOff;
                     zOff += side == ForgeDirection.NORTH ? -halfBlock : halfBlock;
                 }

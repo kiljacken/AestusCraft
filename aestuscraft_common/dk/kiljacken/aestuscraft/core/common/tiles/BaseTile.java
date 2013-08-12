@@ -6,7 +6,7 @@
  * @author Kiljacken
  * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
  */
-package dk.kiljacken.aestuscraft.core.tiles;
+package dk.kiljacken.aestuscraft.core.common.tiles;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.packet.Packet;
@@ -24,7 +24,8 @@ public abstract class BaseTile extends TileEntity {
     @NBTValue(name = "orientation", handler = ForgeDirectionNBTHandler.class)
     private ForgeDirection m_Orientation;
 
-    public BaseTile() {
+    public BaseTile()
+    {
         m_CustomName = "";
         m_Orientation = ForgeDirection.UNKNOWN;
     }
@@ -34,16 +35,19 @@ public abstract class BaseTile extends TileEntity {
      * 
      * @return The tile's custom name
      */
-    public String getCustomName() {
+    public String getCustomName()
+    {
         return m_CustomName;
     }
 
     /**
      * Sets the tile's custom name
      * 
-     * @param customName The new custom name
+     * @param customName
+     *            The new custom name
      */
-    public void setCustomName(String customName) {
+    public void setCustomName(String customName)
+    {
         m_CustomName = customName;
     }
 
@@ -52,7 +56,8 @@ public abstract class BaseTile extends TileEntity {
      * 
      * @return Whether the tile has a custom name
      */
-    public boolean hasCustomName() {
+    public boolean hasCustomName()
+    {
         return m_CustomName != null && !m_CustomName.isEmpty();
     }
 
@@ -61,35 +66,41 @@ public abstract class BaseTile extends TileEntity {
      * 
      * @return The orientation of the tile
      */
-    public ForgeDirection getOrientation() {
+    public ForgeDirection getOrientation()
+    {
         return m_Orientation;
     }
 
     /**
      * Sets the orientation of the tile
      * 
-     * @param The new orientation
+     * @param The
+     *            new orientation
      */
-    public void setOrientation(ForgeDirection orientation) {
+    public void setOrientation(ForgeDirection orientation)
+    {
         m_Orientation = orientation;
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound tagCompound) {
+    public void readFromNBT(NBTTagCompound tagCompound)
+    {
         super.readFromNBT(tagCompound);
 
         NBTUtil.readAnnotatedFromNBT(this, tagCompound);
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound tagCompound) {
+    public void writeToNBT(NBTTagCompound tagCompound)
+    {
         super.writeToNBT(tagCompound);
 
         NBTUtil.writeAnnotatedToNBT(this, tagCompound);
     }
 
     @Override
-    public Packet getDescriptionPacket() {
+    public Packet getDescriptionPacket()
+    {
         return PacketTileSync.from(this).wrap();
     }
 }

@@ -15,8 +15,10 @@ import net.minecraft.nbt.NBTTagByte;
 public class BooleanNBTHandler implements INBTHandler {
     @SuppressWarnings("unchecked")
     @Override
-    public <T> T readFromTag(NBTBase tag) {
-        if (tag instanceof NBTTagByte) {
+    public <T> T readFromTag(NBTBase tag)
+    {
+        if (tag instanceof NBTTagByte)
+        {
             return (T) (Object) (((NBTTagByte) tag).data != 0);
         }
 
@@ -24,8 +26,10 @@ public class BooleanNBTHandler implements INBTHandler {
     }
 
     @Override
-    public NBTBase writeToTag(String name, Object value) {
-        if (value instanceof Boolean) {
+    public NBTBase writeToTag(String name, Object value)
+    {
+        if (value instanceof Boolean)
+        {
             return new NBTTagByte(name, (byte) ((Boolean) value ? 1 : 0));
         }
 

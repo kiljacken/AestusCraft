@@ -16,8 +16,10 @@ import net.minecraftforge.common.ForgeDirection;
 public class ForgeDirectionNBTHandler implements INBTHandler {
     @SuppressWarnings("unchecked")
     @Override
-    public <T> T readFromTag(NBTBase tag) {
-        if (tag instanceof NBTTagByte) {
+    public <T> T readFromTag(NBTBase tag)
+    {
+        if (tag instanceof NBTTagByte)
+        {
             NBTTagByte direction = (NBTTagByte) tag;
 
             return (T) ForgeDirection.getOrientation(direction.data);
@@ -26,8 +28,10 @@ public class ForgeDirectionNBTHandler implements INBTHandler {
     }
 
     @Override
-    public NBTBase writeToTag(String name, Object value) {
-        if (value instanceof ForgeDirection) {
+    public NBTBase writeToTag(String name, Object value)
+    {
+        if (value instanceof ForgeDirection)
+        {
             ForgeDirection direction = (ForgeDirection) value;
 
             return new NBTTagByte(name, (byte) direction.ordinal());

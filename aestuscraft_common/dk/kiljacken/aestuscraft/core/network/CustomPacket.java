@@ -28,7 +28,8 @@ public abstract class CustomPacket {
     /**
      * Writes the packet to a stream
      * 
-     * @param stream The stream to write to
+     * @param stream
+     *            The stream to write to
      * @throws IOException
      */
     public abstract void writeTo(DataOutputStream stream) throws IOException;
@@ -36,7 +37,8 @@ public abstract class CustomPacket {
     /**
      * Reads the packet from a stream
      * 
-     * @param stream The stream to read from
+     * @param stream
+     *            The stream to read from
      * @throws IOException
      */
     public abstract void readFrom(DataInputStream stream) throws IOException;
@@ -44,30 +46,37 @@ public abstract class CustomPacket {
     /**
      * Process the packet
      * 
-     * @param manager The INetworkManager the packet was recived over
-     * @param player The Player the packet was sent to
+     * @param manager
+     *            The INetworkManager the packet was recived over
+     * @param player
+     *            The Player the packet was sent to
      */
     public abstract void process(INetworkManager manager, Player player);
 
     /**
      * Returns the packet type
      */
-    public PacketType getType() {
+    public PacketType getType()
+    {
         return m_Type;
     }
 
-    public Packet250CustomPayload wrap() {
+    public Packet250CustomPayload wrap()
+    {
         return wrap(this);
     }
 
     /**
      * Wraps a packet for use with minecraft's packet system
      * 
-     * @param packet The packet to wrap
+     * @param packet
+     *            The packet to wrap
      * @return The wrapped packet
      */
-    public static Packet250CustomPayload wrap(CustomPacket packet) {
-        try {
+    public static Packet250CustomPayload wrap(CustomPacket packet)
+    {
+        try
+        {
             ByteArrayOutputStream dataStream = new ByteArrayOutputStream();
             DataOutputStream stream = new DataOutputStream(dataStream);
 
@@ -79,7 +88,9 @@ public abstract class CustomPacket {
             wrappedPacket.data = dataStream.toByteArray();
 
             return wrappedPacket;
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             AestusCraft.log.severe("Exception while wrapping packet");
             throw new RuntimeException(e);
         }
@@ -88,11 +99,14 @@ public abstract class CustomPacket {
     /**
      * Unwraps a package for use with AestusCraft's packet system
      * 
-     * @param wrappedPacket The packet to unwrap
+     * @param wrappedPacket
+     *            The packet to unwrap
      * @return The unwrapped packet
      */
-    public static CustomPacket unwrap(Packet250CustomPayload wrappedPacket) {
-        try {
+    public static CustomPacket unwrap(Packet250CustomPayload wrappedPacket)
+    {
+        try
+        {
             DataInputStream stream = new DataInputStream(new ByteArrayInputStream(wrappedPacket.data));
 
             PacketType type = PacketType.values()[stream.readInt()];
@@ -101,7 +115,9 @@ public abstract class CustomPacket {
             packet.readFrom(stream);
 
             return packet;
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             AestusCraft.log.severe("Exception while unwrapping packet");
             throw new RuntimeException(e);
         }
@@ -112,7 +128,8 @@ public abstract class CustomPacket {
 
         public Class<? extends CustomPacket> clazz;
 
-        PacketType(Class<? extends CustomPacket> clazz) {
+        PacketType(Class<? extends CustomPacket> clazz)
+        {
             this.clazz = clazz;
         }
     }

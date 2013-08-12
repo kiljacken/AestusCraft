@@ -11,86 +11,93 @@ package dk.kiljacken.aestuscraft.core.tiles;
 import java.util.ArrayList;
 import java.util.List;
 
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.relauncher.Side;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.ForgeDirection;
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.relauncher.Side;
 import dk.kiljacken.aestuscraft.api.heat.HeatNetworkImpl;
 import dk.kiljacken.aestuscraft.api.heat.IHeatConductor;
-import dk.kiljacken.aestuscraft.api.heat.IHeatConsumer;
 import dk.kiljacken.aestuscraft.api.heat.IHeatNetwork;
-import dk.kiljacken.aestuscraft.api.heat.IHeatProducer;
-import dk.kiljacken.aestuscraft.api.info.BlockInfo;
+import dk.kiljacken.aestuscraft.api.heat.IHeatMachine;
+import dk.kiljacken.aestuscraft.core.common.tiles.BaseTile;
 import dk.kiljacken.aestuscraft.library.nbt.NBTUtil.NBTValue;
 
 public class TileHeatConductor extends BaseTile implements IHeatConductor {
     private IHeatNetwork m_Network;
-    private List<IHeatConsumer> m_ConnectedConsumers;
-    private List<IHeatProducer> m_ConnectedProducers;
+    private List<IHeatMachine> m_ConnectedMachines;
     private List<IHeatConductor> m_ConnectedConductors;
     private boolean m_ShouldUpdate;
 
     @NBTValue(name = "connectedSides")
     private int m_ConnectedSides;
 
-    public TileHeatConductor() {
-        m_Network = null;
-        if (FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER) {
+    public TileHeatConductor()
+    {
+        if (FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER)
+        {
             m_Network = new HeatNetworkImpl();
             m_Network.getConnectedConductors().add(this);
         }
 
-        m_ConnectedConsumers = new ArrayList<>(6);
-        m_ConnectedProducers = new ArrayList<>(6);
+        m_ConnectedMachines = new ArrayList<>(6);
         m_ConnectedConductors = new ArrayList<>(6);
         m_ShouldUpdate = true;
         m_ConnectedSides = 0;
     }
 
     @Override
-    public void updateEntity() {
-        if (!worldObj.isRemote && m_ShouldUpdate) {
-            m_ConnectedConsumers.clear();
-            m_ConnectedProducers.clear();
+    public void updateEntity()
+    {
+        if (!worldObj.isRemote && m_ShouldUpdate)
+        {
+            m_ConnectedMachines.clear();
             m_ConnectedConductors.clear();
             m_ConnectedSides = 0;
 
-            for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS) {
+            for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS)
+            {
                 TileEntity neighbour = worldObj.getBlockTileEntity(xCoord + direction.offsetX, yCoord + direction.offsetY, zCoord + direction.offsetZ);
 
-                if (neighbour != null) {
-                    if (neighbour instanceof IHeatConsumer) {
-                        m_ConnectedConsumers.add((IHeatConsumer) neighbour);
-                        m_ConnectedSides |= 1 << direction.ordinal();
-                    } else if (neighbour instanceof IHeatProducer) {
-                        m_ConnectedProducers.add((IHeatProducer) neighbour);
+                if (neighbour instanceof IHeatMachine)
+                {
+                    m_ConnectedSides |= 1 << direction.ordinal();
 
-                        ((IHeatProducer) neighbour).setNetwork(getNetwork());
-                        m_ConnectedSides |= 1 << direction.ordinal();
-                    } else if (neighbour instanceof IHeatConductor) {
-                        m_ConnectedConductors.add((IHeatConductor) neighbour);
-                        m_ConnectedSides |= 1 << direction.ordinal();
+                    if (neighbour instanceof IHeatConductor)
+                    {
+                        IHeatConductor conductor = (IHeatConductor) neighbour;
+
+                        m_ConnectedConductors.add(conductor);
+                        getNetwork().merge(conductor.getNetwork());
+
+                        if (conductor.hasMachineFunctionality())
+                        {
+                            m_ConnectedMachines.add((IHeatMachine) neighbour);
+                        }
+                    }
+                    else
+                    {
+                        ((IHeatMachine) neighbour).setNetwork(getNetwork());
+                        m_ConnectedMachines.add((IHeatMachine) neighbour);
                     }
                 }
             }
 
-            for (IHeatConductor conductor : getConnectedConductors()) {
-                getNetwork().merge(conductor.getNetwork());
-            }
-
             getNetwork().refresh();
 
-            worldObj.addBlockEvent(xCoord, yCoord, zCoord, BlockInfo.HEAT_CONDUCTOR_ID, 0, m_ConnectedSides);
+            worldObj.addBlockEvent(xCoord, yCoord, zCoord, getBlockType().blockID, 0, m_ConnectedSides);
 
             m_ShouldUpdate = false;
         }
     }
 
     @Override
-    public boolean receiveClientEvent(int id, int data) {
-        if (worldObj.isRemote) {
-            if (id == 0) {
+    public boolean receiveClientEvent(int id, int data)
+    {
+        if (worldObj.isRemote)
+        {
+            if (id == 0)
+            {
                 m_ConnectedSides = data;
             }
         }
@@ -99,7 +106,8 @@ public class TileHeatConductor extends BaseTile implements IHeatConductor {
     }
 
     @Override
-    public AxisAlignedBB getRenderBoundingBox() {
+    public AxisAlignedBB getRenderBoundingBox()
+    {
         boolean yConnection = (m_ConnectedSides & (1 | 2)) != 0;
         boolean zConnection = (m_ConnectedSides & (4 | 8)) != 0;
         boolean xConnection = (m_ConnectedSides & (16 | 32)) != 0;
@@ -117,40 +125,42 @@ public class TileHeatConductor extends BaseTile implements IHeatConductor {
     }
 
     @Override
-    public IHeatNetwork getNetwork() {
+    public IHeatNetwork getNetwork()
+    {
         return m_Network;
     }
 
     @Override
-    public void setNetwork(IHeatNetwork network) {
+    public void setNetwork(IHeatNetwork network)
+    {
         m_Network = network;
     }
 
     @Override
-    public List<IHeatConsumer> getConnectedConsumers() {
-        return m_ConnectedConsumers;
+    public List<IHeatMachine> getConnectedMachines()
+    {
+        return m_ConnectedMachines;
     }
 
     @Override
-    public List<IHeatProducer> getConnectedProducers() {
-        return m_ConnectedProducers;
-    }
-
-    @Override
-    public List<IHeatConductor> getConnectedConductors() {
+    public List<IHeatConductor> getConnectedConductors()
+    {
         return m_ConnectedConductors;
     }
 
-    @Override
-    public boolean isValid() {
-        return !isInvalid();
-    }
-
-    public void setShouldUpdate() {
+    public void setShouldUpdate()
+    {
         m_ShouldUpdate = true;
     }
 
-    public int getConnectedSides() {
+    public int getConnectedSides()
+    {
         return m_ConnectedSides;
+    }
+
+    @Override
+    public boolean hasMachineFunctionality()
+    {
+        return false;
     }
 }

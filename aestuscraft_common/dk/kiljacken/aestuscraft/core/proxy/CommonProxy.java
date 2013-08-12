@@ -20,50 +20,66 @@ import dk.kiljacken.aestuscraft.core.tiles.TileInsulatedFurnace;
 
 public class CommonProxy implements IGuiHandler {
     @Override
-    public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
-        switch (ID) {
-            case GuiIds.FUEL_BURNER:
-                return new ContainerFuelBurner(player.inventory, (TileFuelBurner) world.getBlockTileEntity(x, y, z));
-            case GuiIds.INSULATED_FURNACE:
-                return new ContainerInsulatedFurnace(player.inventory, (TileInsulatedFurnace) world.getBlockTileEntity(x, y, z));
-            default:
-                return null;
+    public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z)
+    {
+        switch (ID)
+        {
+        case GuiIds.FUEL_BURNER:
+            return new ContainerFuelBurner(player.inventory, (TileFuelBurner) world.getBlockTileEntity(x, y, z));
+        case GuiIds.INSULATED_FURNACE:
+            return new ContainerInsulatedFurnace(player.inventory, (TileInsulatedFurnace) world.getBlockTileEntity(x, y, z));
+        default:
+            return null;
         }
     }
 
     @Override
-    public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
+    public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z)
+    {
         return null;
     }
 
     /**
      * Registers renderers. Does nothing on server side
      */
-    public void initRendering() {
+    public void initRendering()
+    {
 
     }
 
     /**
-     * Synchronizes a tile to the state send by server. Does nothing on server side
+     * Synchronizes a tile to the state send by server. Does nothing on server
+     * side
      * 
-     * @param x Tile's position on the X axis
-     * @param y Tile's position on the Y axis
-     * @param z Tile's position on the Z axis
-     * @param nbt NBT data to load the tile from
+     * @param x
+     *            Tile's position on the X axis
+     * @param y
+     *            Tile's position on the Y axis
+     * @param z
+     *            Tile's position on the Z axis
+     * @param nbt
+     *            NBT data to load the tile from
      */
-    public void syncTile(int x, int y, int z, NBTTagCompound nbt) {
+    public void syncTile(int x, int y, int z, NBTTagCompound nbt)
+    {
 
     }
 
     /**
-     * Synchonizes a tile's heat level with the one send by the server. Does nothing on server side
+     * Synchonizes a tile's heat level with the one send by the server. Does
+     * nothing on server side
      * 
-     * @param x Tile's position on the X axis
-     * @param y Tile's position on the Y axis
-     * @param z Tile's position on the Z axis
-     * @param heatLevel The tile's new heat level
+     * @param x
+     *            Tile's position on the X axis
+     * @param y
+     *            Tile's position on the Y axis
+     * @param z
+     *            Tile's position on the Z axis
+     * @param heatLevel
+     *            The tile's new heat level
      */
-    public void syncTileHeatLevel(int x, int y, int z, float heatLevel) {
+    public void syncTileHeatLevel(int x, int y, int z, float heatLevel)
+    {
 
     }
 }

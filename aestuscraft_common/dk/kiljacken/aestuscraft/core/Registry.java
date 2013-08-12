@@ -24,7 +24,8 @@ public class Registry {
     /**
      * Initializes the registry
      */
-    public static void initialize() {
+    public static void initialize()
+    {
         m_BlockMap = new HashMap<>();
         m_ItemMap = new HashMap<>();
     }
@@ -32,13 +33,18 @@ public class Registry {
     /**
      * Registers a block
      * 
-     * @param blockClass Class of the block
-     * @param itemBlockClass Class of the blocks item form
-     * @param name Name of the block
-     * @param id Id of the block
+     * @param blockClass
+     *            Class of the block
+     * @param itemBlockClass
+     *            Class of the blocks item form
+     * @param name
+     *            Name of the block
+     * @param id
+     *            Id of the block
      * @return The instantiated and registered block
      */
-    public static Block registerBlock(Block block, Class<? extends ItemBlock> itemBlockClass, String name) {
+    public static Block registerBlock(Block block, Class<? extends ItemBlock> itemBlockClass, String name)
+    {
         block.setCreativeTab(AestusCraft.content.creativeTab);
         block.setUnlocalizedName(name);
 
@@ -51,24 +57,32 @@ public class Registry {
     /**
      * Registers a block with default block item
      * 
-     * @param blockClass Class of the block
-     * @param name Name of the block
-     * @param id Id of the block
+     * @param blockClass
+     *            Class of the block
+     * @param name
+     *            Name of the block
+     * @param id
+     *            Id of the block
      * @return The instantiated and registered block
      */
-    public static Block registerBlock(Block block, String name) {
+    public static Block registerBlock(Block block, String name)
+    {
         return registerBlock(block, ItemBlock.class, name);
     }
 
     /**
      * Registers an item
      * 
-     * @param itemClass Class of the item
-     * @param name Name of the item
-     * @param id Id of the item
+     * @param itemClass
+     *            Class of the item
+     * @param name
+     *            Name of the item
+     * @param id
+     *            Id of the item
      * @return The instantiated and registered item
      */
-    public static Item registerItem(Item item, String name) {
+    public static Item registerItem(Item item, String name)
+    {
         item.setCreativeTab(AestusCraft.content.creativeTab);
         item.setUnlocalizedName(name);
 

@@ -14,8 +14,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.Vec3;
 import dk.kiljacken.aestuscraft.api.heat.IHeatNetwork;
-import dk.kiljacken.aestuscraft.api.info.BlockInfo;
 import dk.kiljacken.aestuscraft.api.info.TileInfo;
+import dk.kiljacken.aestuscraft.core.common.tiles.HeatProducerBaseTile;
 import dk.kiljacken.aestuscraft.library.nbt.NBTUtil.NBTValue;
 import dk.kiljacken.aestuscraft.library.nbt.handlers.BooleanNBTHandler;
 import dk.kiljacken.aestuscraft.library.nbt.handlers.ItemStackNBTHandler;
@@ -42,7 +42,8 @@ public class TileFuelBurner extends HeatProducerBaseTile implements IInventory {
     @NBTValue(name = "active", handler = BooleanNBTHandler.class)
     private boolean m_Active;
 
-    public TileFuelBurner() {
+    public TileFuelBurner()
+    {
         super(1600);
 
         m_InventoryStacks = new ItemStack[INVENTORY_SIZE];
@@ -52,52 +53,62 @@ public class TileFuelBurner extends HeatProducerBaseTile implements IInventory {
     }
 
     @Override
-    public void updateEntity() {
-        if (!worldObj.isRemote) {
+    public void updateEntity()
+    {
+        if (!worldObj.isRemote)
+        {
             ItemStack fuelStack = m_InventoryStacks[SLOT_FUEL];
 
-            if (m_FuelTicksLeft == 0 && fuelStack != null && TileEntityFurnace.isItemFuel(fuelStack)) {
+            if (m_FuelTicksLeft == 0 && fuelStack != null && TileEntityFurnace.isItemFuel(fuelStack))
+            {
                 m_FuelTicks = TileEntityFurnace.getItemBurnTime(fuelStack);
                 m_FuelTicksLeft = m_FuelTicks;
 
                 fuelStack.stackSize--;
 
                 m_Active = true;
-                worldObj.addBlockEvent(xCoord, yCoord, zCoord, BlockInfo.FRICTION_HEATER_ID, 0, m_Active ? 1 : 0);
-                worldObj.addBlockEvent(xCoord, yCoord, zCoord, BlockInfo.FRICTION_HEATER_ID, 2, m_FuelTicks);
+                worldObj.addBlockEvent(xCoord, yCoord, zCoord, getBlockType().blockID, 0, m_Active ? 1 : 0);
+                worldObj.addBlockEvent(xCoord, yCoord, zCoord, getBlockType().blockID, 2, m_FuelTicks);
 
-                if (fuelStack.stackSize <= 0) {
+                if (fuelStack.stackSize <= 0)
+                {
                     m_InventoryStacks[SLOT_FUEL] = fuelStack.getItem().getContainerItemStack(fuelStack);
                 }
             }
 
             boolean notMoved = false;
-            do {
+            do
+            {
                 notMoved |= !moveQueue(SLOT_QUEUE_1, SLOT_QUEUE_2);
                 notMoved |= !moveQueue(SLOT_QUEUE_2, SLOT_QUEUE_3);
                 notMoved |= !moveQueue(SLOT_QUEUE_3, SLOT_FUEL);
-            } while (!notMoved);
+            }
+            while (!notMoved);
 
-            if (m_FuelTicksLeft > 0) {
+            if (m_FuelTicksLeft > 0)
+            {
                 float space = getMaxHeatLevel() - getHeatLevel();
 
-                if (space >= HEAT_PER_FUEL) {
+                if (space >= HEAT_PER_FUEL)
+                {
                     m_FuelTicksLeft--;
                     setHeatLevel(getHeatLevel() + HEAT_PER_FUEL);
                     // TODO: Limit fuel ticks events?
-                    worldObj.addBlockEvent(xCoord, yCoord, zCoord, BlockInfo.FRICTION_HEATER_ID, 1, m_FuelTicksLeft);
+                    worldObj.addBlockEvent(xCoord, yCoord, zCoord, getBlockType().blockID, 1, m_FuelTicksLeft);
 
-                    if (m_FuelTicksLeft == 0) {
+                    if (m_FuelTicksLeft == 0)
+                    {
                         m_FuelTicks = 0;
                         m_Active = false;
 
-                        worldObj.addBlockEvent(xCoord, yCoord, zCoord, BlockInfo.FRICTION_HEATER_ID, 0, m_Active ? 1 : 0);
+                        worldObj.addBlockEvent(xCoord, yCoord, zCoord, getBlockType().blockID, 0, m_Active ? 1 : 0);
                     }
                 }
             }
 
             IHeatNetwork network = getNetwork();
-            if (network != null) {
+            if (network != null)
+            {
                 float amount = Math.min(getHeatLevel(), HEAT_TRANSFER_RATE);
 
                 amount = network.supplyHeat(amount);
@@ -109,24 +120,31 @@ public class TileFuelBurner extends HeatProducerBaseTile implements IInventory {
         }
     }
 
-    private boolean moveQueue(int slot1, int slot2) {
+    private boolean moveQueue(int slot1, int slot2)
+    {
         ItemStack fuelQueue1 = m_InventoryStacks[slot1];
         ItemStack fuelQueue2 = m_InventoryStacks[slot2];
 
-        if (fuelQueue1 != null) {
-            if (fuelQueue2 == null) {
+        if (fuelQueue1 != null)
+        {
+            if (fuelQueue2 == null)
+            {
                 m_InventoryStacks[slot2] = fuelQueue1;
                 m_InventoryStacks[slot1] = null;
 
                 return true;
-            } else {
-                if (fuelQueue1.getItem() == fuelQueue2.getItem()) {
+            }
+            else
+            {
+                if (fuelQueue1.getItem() == fuelQueue2.getItem())
+                {
                     int amount = Math.min(fuelQueue1.stackSize, fuelQueue2.getMaxStackSize() - fuelQueue2.stackSize);
 
                     fuelQueue1.stackSize -= amount;
                     fuelQueue2.stackSize += amount;
 
-                    if (fuelQueue1.stackSize == 0) {
+                    if (fuelQueue1.stackSize == 0)
+                    {
                         m_InventoryStacks[slot1] = null;
                     }
 
@@ -139,14 +157,21 @@ public class TileFuelBurner extends HeatProducerBaseTile implements IInventory {
     }
 
     @Override
-    public boolean receiveClientEvent(int id, int data) {
-        if (worldObj.isRemote) {
-            if (id == 0) {
+    public boolean receiveClientEvent(int id, int data)
+    {
+        if (worldObj.isRemote)
+        {
+            if (id == 0)
+            {
                 m_Active = data != 0;
                 worldObj.markBlockForRenderUpdate(xCoord, yCoord, zCoord);
-            } else if (id == 1) {
+            }
+            else if (id == 1)
+            {
                 m_FuelTicksLeft = data;
-            } else if (id == 2) {
+            }
+            else if (id == 2)
+            {
                 m_FuelTicks = data;
             }
         }
@@ -154,34 +179,43 @@ public class TileFuelBurner extends HeatProducerBaseTile implements IInventory {
         return true;
     }
 
-    public boolean isActive() {
+    public boolean isActive()
+    {
         return m_Active;
     }
 
-    public int getScaledFuelTicksLeft(int scale) {
+    public int getScaledFuelTicksLeft(int scale)
+    {
         return m_FuelTicks != 0 ? m_FuelTicksLeft * scale / m_FuelTicks : 0;
     }
 
     @Override
-    public int getSizeInventory() {
+    public int getSizeInventory()
+    {
         return m_InventoryStacks.length;
     }
 
     @Override
-    public ItemStack getStackInSlot(int i) {
+    public ItemStack getStackInSlot(int i)
+    {
         return m_InventoryStacks[i];
     }
 
     @Override
-    public ItemStack decrStackSize(int i, int j) {
-        if (m_InventoryStacks[i] != null) {
+    public ItemStack decrStackSize(int i, int j)
+    {
+        if (m_InventoryStacks[i] != null)
+        {
             ItemStack itemStack = m_InventoryStacks[i];
 
-            if (itemStack.stackSize <= j) {
+            if (itemStack.stackSize <= j)
+            {
                 m_InventoryStacks[i] = null;
 
                 return itemStack;
-            } else {
+            }
+            else
+            {
                 return itemStack.splitStack(j);
             }
         }
@@ -190,10 +224,12 @@ public class TileFuelBurner extends HeatProducerBaseTile implements IInventory {
     }
 
     @Override
-    public ItemStack getStackInSlotOnClosing(int i) {
+    public ItemStack getStackInSlotOnClosing(int i)
+    {
         ItemStack itemStack = m_InventoryStacks[i];
 
-        if (itemStack != null) {
+        if (itemStack != null)
+        {
             m_InventoryStacks[i] = null;
         }
 
@@ -201,46 +237,55 @@ public class TileFuelBurner extends HeatProducerBaseTile implements IInventory {
     }
 
     @Override
-    public void setInventorySlotContents(int i, ItemStack itemstack) {
+    public void setInventorySlotContents(int i, ItemStack itemstack)
+    {
         m_InventoryStacks[i] = itemstack;
 
-        if (itemstack != null && itemstack.stackSize > Math.min(itemstack.getMaxStackSize(), getInventoryStackLimit())) {
+        if (itemstack != null && itemstack.stackSize > Math.min(itemstack.getMaxStackSize(), getInventoryStackLimit()))
+        {
             itemstack.stackSize = Math.min(itemstack.getMaxStackSize(), getInventoryStackLimit());
         }
     }
 
     @Override
-    public String getInvName() {
+    public String getInvName()
+    {
         return hasCustomName() ? getCustomName() : TileInfo.FUEL_BURNER_NAME;
     }
 
     @Override
-    public boolean isInvNameLocalized() {
+    public boolean isInvNameLocalized()
+    {
         return hasCustomName();
     }
 
     @Override
-    public int getInventoryStackLimit() {
+    public int getInventoryStackLimit()
+    {
         return 64;
     }
 
     @Override
-    public boolean isUseableByPlayer(EntityPlayer entityplayer) {
+    public boolean isUseableByPlayer(EntityPlayer entityplayer)
+    {
         Vec3 pos = worldObj.getWorldVec3Pool().getVecFromPool(xCoord, yCoord, zCoord);
 
         return pos.distanceTo(entityplayer.getPosition(1.0f)) <= 8.0f;
     }
 
     @Override
-    public void openChest() {
+    public void openChest()
+    {
     }
 
     @Override
-    public void closeChest() {
+    public void closeChest()
+    {
     }
 
     @Override
-    public boolean isItemValidForSlot(int i, ItemStack itemstack) {
+    public boolean isItemValidForSlot(int i, ItemStack itemstack)
+    {
         return TileEntityFurnace.isItemFuel(itemstack);
     }
 }

@@ -13,8 +13,8 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.util.Vec3;
-import dk.kiljacken.aestuscraft.api.info.BlockInfo;
 import dk.kiljacken.aestuscraft.api.info.TileInfo;
+import dk.kiljacken.aestuscraft.core.common.tiles.HeatConsumerBaseTile;
 import dk.kiljacken.aestuscraft.library.nbt.NBTUtil.NBTValue;
 import dk.kiljacken.aestuscraft.library.nbt.handlers.BooleanNBTHandler;
 import dk.kiljacken.aestuscraft.library.nbt.handlers.ItemStackNBTHandler;
@@ -39,72 +39,88 @@ public class TileInsulatedFurnace extends HeatConsumerBaseTile implements IInven
     @NBTValue(name = "active", handler = BooleanNBTHandler.class)
     private boolean m_Active;
 
-    public TileInsulatedFurnace() {
+    public TileInsulatedFurnace()
+    {
         super(12800);
 
         m_InventoryStacks = new ItemStack[INVENTORY_SIZE];
     }
 
     @Override
-    public void updateEntity() {
-        if (!worldObj.isRemote) {
+    public void updateEntity()
+    {
+        if (!worldObj.isRemote)
+        {
             boolean canSmelt1 = smeltableInSlot(SLOT_INPUT_1) && spaceInSlot(SLOT_INPUT_1, SLOT_OUTPUT_1);
             boolean canSmelt2 = smeltableInSlot(SLOT_INPUT_2) && spaceInSlot(SLOT_INPUT_2, SLOT_OUTPUT_2);
             boolean canSmelt3 = smeltableInSlot(SLOT_INPUT_3) && spaceInSlot(SLOT_INPUT_3, SLOT_OUTPUT_3);
             boolean canSmelt = canSmelt1 | canSmelt2 | canSmelt3;
 
-            if (m_BurnTicksLeft == 0 && canSmelt) {
+            if (m_BurnTicksLeft == 0 && canSmelt)
+            {
                 m_BurnTicksLeft = 200;
                 m_Active = true;
-                worldObj.addBlockEvent(xCoord, yCoord, zCoord, BlockInfo.INSULATED_FURNACE_ID, 0, m_Active ? 1 : 0);
-            } else if (m_BurnTicksLeft > 0 && !canSmelt) {
+                worldObj.addBlockEvent(xCoord, yCoord, zCoord, getBlockType().blockID, 0, m_Active ? 1 : 0);
+            }
+            else if (m_BurnTicksLeft > 0 && !canSmelt)
+            {
                 m_BurnTicksLeft = 0;
                 m_Active = false;
-                worldObj.addBlockEvent(xCoord, yCoord, zCoord, BlockInfo.INSULATED_FURNACE_ID, 0, m_Active ? 1 : 0);
+                worldObj.addBlockEvent(xCoord, yCoord, zCoord, getBlockType().blockID, 0, m_Active ? 1 : 0);
             }
 
-            if (m_BurnTicksLeft > 0 && getHeatLevel() > HEAT_PER_BURN_TICK) {
+            if (m_BurnTicksLeft > 0 && getHeatLevel() > HEAT_PER_BURN_TICK)
+            {
                 setHeatLevel(getHeatLevel() - HEAT_PER_BURN_TICK);
                 m_BurnTicksLeft--;
                 // TODO: Limit burn ticks events?
-                worldObj.addBlockEvent(xCoord, yCoord, zCoord, BlockInfo.INSULATED_FURNACE_ID, 1, m_BurnTicksLeft);
+                worldObj.addBlockEvent(xCoord, yCoord, zCoord, getBlockType().blockID, 1, m_BurnTicksLeft);
 
-                if (m_BurnTicksLeft == 0) {
-                    if (canSmelt1) {
+                if (m_BurnTicksLeft == 0)
+                {
+                    if (canSmelt1)
+                    {
                         doSmelting(SLOT_INPUT_1, SLOT_OUTPUT_1);
                         canSmelt1 = smeltableInSlot(SLOT_INPUT_1) && spaceInSlot(SLOT_INPUT_1, SLOT_OUTPUT_1);
                     }
 
-                    if (canSmelt2) {
+                    if (canSmelt2)
+                    {
                         doSmelting(SLOT_INPUT_2, SLOT_OUTPUT_2);
                         canSmelt2 = smeltableInSlot(SLOT_INPUT_2) && spaceInSlot(SLOT_INPUT_2, SLOT_OUTPUT_2);
                     }
 
-                    if (canSmelt3) {
+                    if (canSmelt3)
+                    {
                         doSmelting(SLOT_INPUT_3, SLOT_OUTPUT_3);
                         canSmelt3 = smeltableInSlot(SLOT_INPUT_3) && spaceInSlot(SLOT_INPUT_3, SLOT_OUTPUT_3);
                     }
 
                     canSmelt = canSmelt1 | canSmelt2 | canSmelt3;
-                    if (!canSmelt) {
+                    if (!canSmelt)
+                    {
                         m_Active = false;
-                        worldObj.addBlockEvent(xCoord, yCoord, zCoord, BlockInfo.INSULATED_FURNACE_ID, 0, m_Active ? 1 : 0);
+                        worldObj.addBlockEvent(xCoord, yCoord, zCoord, getBlockType().blockID, 0, m_Active ? 1 : 0);
                     }
                 }
             }
         }
     }
 
-    private boolean smeltableInSlot(int slot) {
+    private boolean smeltableInSlot(int slot)
+    {
         return FurnaceRecipes.smelting().getSmeltingResult(m_InventoryStacks[slot]) != null;
     }
 
-    private boolean spaceInSlot(int inputSlot, int outputSlot) {
+    private boolean spaceInSlot(int inputSlot, int outputSlot)
+    {
         ItemStack input = FurnaceRecipes.smelting().getSmeltingResult(m_InventoryStacks[inputSlot]);
         ItemStack output = m_InventoryStacks[outputSlot];
 
-        if (output != null) {
-            if (input.isItemEqual(output)) {
+        if (output != null)
+        {
+            if (input.isItemEqual(output))
+            {
                 return input.stackSize < Math.min(getInventoryStackLimit(), output.getMaxStackSize()) - output.stackSize;
             }
         }
@@ -112,26 +128,35 @@ public class TileInsulatedFurnace extends HeatConsumerBaseTile implements IInven
         return true;
     }
 
-    private void doSmelting(int inputSlot, int outputSlot) {
+    private void doSmelting(int inputSlot, int outputSlot)
+    {
         ItemStack smeltingResult = FurnaceRecipes.smelting().getSmeltingResult(m_InventoryStacks[inputSlot]);
         ItemStack output = m_InventoryStacks[outputSlot];
 
         decrStackSize(inputSlot, 1);
 
-        if (output != null) {
+        if (output != null)
+        {
             output.stackSize += smeltingResult.stackSize;
-        } else {
+        }
+        else
+        {
             m_InventoryStacks[outputSlot] = smeltingResult.copy();
         }
     }
 
     @Override
-    public boolean receiveClientEvent(int id, int data) {
-        if (worldObj.isRemote) {
-            if (id == 0) {
+    public boolean receiveClientEvent(int id, int data)
+    {
+        if (worldObj.isRemote)
+        {
+            if (id == 0)
+            {
                 m_Active = data != 0;
                 worldObj.markBlockForRenderUpdate(xCoord, yCoord, zCoord);
-            } else if (id == 1) {
+            }
+            else if (id == 1)
+            {
                 m_BurnTicksLeft = data;
             }
         }
@@ -139,34 +164,43 @@ public class TileInsulatedFurnace extends HeatConsumerBaseTile implements IInven
         return true;
     }
 
-    public boolean isActive() {
+    public boolean isActive()
+    {
         return m_Active;
     }
 
-    public int getScaledBurnTicksLeft(int scale) {
+    public int getScaledBurnTicksLeft(int scale)
+    {
         return m_BurnTicksLeft * scale / 200;
     }
 
     @Override
-    public int getSizeInventory() {
+    public int getSizeInventory()
+    {
         return m_InventoryStacks.length;
     }
 
     @Override
-    public ItemStack getStackInSlot(int i) {
+    public ItemStack getStackInSlot(int i)
+    {
         return m_InventoryStacks[i];
     }
 
     @Override
-    public ItemStack decrStackSize(int i, int j) {
-        if (m_InventoryStacks[i] != null) {
+    public ItemStack decrStackSize(int i, int j)
+    {
+        if (m_InventoryStacks[i] != null)
+        {
             ItemStack itemStack = m_InventoryStacks[i];
 
-            if (itemStack.stackSize <= j) {
+            if (itemStack.stackSize <= j)
+            {
                 m_InventoryStacks[i] = null;
 
                 return itemStack;
-            } else {
+            }
+            else
+            {
                 return itemStack.splitStack(j);
             }
         }
@@ -175,10 +209,12 @@ public class TileInsulatedFurnace extends HeatConsumerBaseTile implements IInven
     }
 
     @Override
-    public ItemStack getStackInSlotOnClosing(int i) {
+    public ItemStack getStackInSlotOnClosing(int i)
+    {
         ItemStack itemStack = m_InventoryStacks[i];
 
-        if (itemStack != null) {
+        if (itemStack != null)
+        {
             m_InventoryStacks[i] = null;
         }
 
@@ -186,49 +222,61 @@ public class TileInsulatedFurnace extends HeatConsumerBaseTile implements IInven
     }
 
     @Override
-    public void setInventorySlotContents(int i, ItemStack itemstack) {
+    public void setInventorySlotContents(int i, ItemStack itemstack)
+    {
         m_InventoryStacks[i] = itemstack;
 
-        if (itemstack != null && itemstack.stackSize > Math.min(itemstack.getMaxStackSize(), getInventoryStackLimit())) {
+        if (itemstack != null && itemstack.stackSize > Math.min(itemstack.getMaxStackSize(), getInventoryStackLimit()))
+        {
             itemstack.stackSize = Math.min(itemstack.getMaxStackSize(), getInventoryStackLimit());
         }
     }
 
     @Override
-    public String getInvName() {
+    public String getInvName()
+    {
         return hasCustomName() ? getCustomName() : TileInfo.INSULATED_FURNACE_NAME;
     }
 
     @Override
-    public boolean isInvNameLocalized() {
+    public boolean isInvNameLocalized()
+    {
         return hasCustomName();
     }
 
     @Override
-    public int getInventoryStackLimit() {
+    public int getInventoryStackLimit()
+    {
         return 64;
     }
 
     @Override
-    public boolean isUseableByPlayer(EntityPlayer entityplayer) {
+    public boolean isUseableByPlayer(EntityPlayer entityplayer)
+    {
         Vec3 pos = worldObj.getWorldVec3Pool().getVecFromPool(xCoord, yCoord, zCoord);
 
         return pos.distanceTo(entityplayer.getPosition(1.0f)) <= 8.0f;
     }
 
     @Override
-    public void openChest() {
+    public void openChest()
+    {
     }
 
     @Override
-    public void closeChest() {
+    public void closeChest()
+    {
     }
 
     @Override
-    public boolean isItemValidForSlot(int i, ItemStack itemstack) {
-        if (i < SLOT_OUTPUT_1) {
+    public boolean isItemValidForSlot(int i, ItemStack itemstack)
+    {
+        if (i < SLOT_OUTPUT_1)
+        {
             return FurnaceRecipes.smelting().getSmeltingResult(itemstack) != null;
-        } else {
+        }
+        else
+        {
             return false;
         }
     }

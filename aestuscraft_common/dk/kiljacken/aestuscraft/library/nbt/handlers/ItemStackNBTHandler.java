@@ -17,21 +17,27 @@ import net.minecraft.nbt.NBTTagList;
 public class ItemStackNBTHandler implements INBTHandler {
     @SuppressWarnings("unchecked")
     @Override
-    public <T> T readFromTag(NBTBase tag) {
-        if (tag instanceof NBTTagCompound) {
+    public <T> T readFromTag(NBTBase tag)
+    {
+        if (tag instanceof NBTTagCompound)
+        {
             return (T) ItemStack.loadItemStackFromNBT((NBTTagCompound) tag);
-        } else if (tag instanceof NBTTagList) {
+        }
+        else if (tag instanceof NBTTagList)
+        {
             NBTTagList tagList = (NBTTagList) tag;
             NBTTagCompound identTag = (NBTTagCompound) tagList.tagAt(0);
 
             ItemStack[] inventoryStacks = new ItemStack[identTag.getByte("invSize")];
 
-            for (int i = 1; i < tagList.tagCount(); i++) {
+            for (int i = 1; i < tagList.tagCount(); i++)
+            {
                 NBTTagCompound itemStackTag = (NBTTagCompound) tagList.tagAt(i);
 
                 byte slot = itemStackTag.getByte("slot");
 
-                if (slot >= 0 && slot < inventoryStacks.length) {
+                if (slot >= 0 && slot < inventoryStacks.length)
+                {
                     inventoryStacks[slot] = ItemStack.loadItemStackFromNBT(itemStackTag);
                 }
             }
@@ -43,15 +49,19 @@ public class ItemStackNBTHandler implements INBTHandler {
     }
 
     @Override
-    public NBTBase writeToTag(String name, Object value) {
-        if (value instanceof ItemStack) {
+    public NBTBase writeToTag(String name, Object value)
+    {
+        if (value instanceof ItemStack)
+        {
             ItemStack itemStack = (ItemStack) value;
 
             NBTTagCompound tag = new NBTTagCompound(name);
             itemStack.writeToNBT(tag);
 
             return tag;
-        } else if (value instanceof ItemStack[]) {
+        }
+        else if (value instanceof ItemStack[])
+        {
             ItemStack[] inventory = (ItemStack[]) value;
 
             NBTTagList inventoryTag = new NBTTagList(name);
@@ -60,8 +70,10 @@ public class ItemStackNBTHandler implements INBTHandler {
             identTag.setByte("invSize", (byte) inventory.length);
             inventoryTag.appendTag(identTag);
 
-            for (int i = 0; i < inventory.length; i++) {
-                if (inventory[i] != null) {
+            for (int i = 0; i < inventory.length; i++)
+            {
+                if (inventory[i] != null)
+                {
                     NBTTagCompound itemStackTag = new NBTTagCompound();
 
                     itemStackTag.setByte("slot", (byte) i);

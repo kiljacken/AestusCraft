@@ -6,11 +6,11 @@
  * @author Kiljacken
  * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
  */
-package dk.kiljacken.aestuscraft.core.blocks;
+package dk.kiljacken.aestuscraft.core.common.blocks;
 
 import java.util.Random;
 
-import dk.kiljacken.aestuscraft.core.tiles.BaseTile;
+import dk.kiljacken.aestuscraft.core.common.tiles.BaseTile;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
@@ -27,7 +27,8 @@ import net.minecraftforge.common.ForgeDirection;
 public abstract class BlockBaseTile extends BlockContainer {
     private Random m_Random;
 
-    protected BlockBaseTile(int id, Material material) {
+    protected BlockBaseTile(int id, Material material)
+    {
         super(id, material);
 
         m_Random = new Random();
@@ -36,52 +37,68 @@ public abstract class BlockBaseTile extends BlockContainer {
     public abstract Icon getIcon(TileEntity tile, ForgeDirection side);
 
     @Override
-    public Icon getIcon(int side, int meta) {
+    public Icon getIcon(int side, int meta)
+    {
         return getIcon(null, ForgeDirection.getOrientation(side));
     }
 
     @Override
-    public Icon getBlockTexture(IBlockAccess world, int x, int y, int z, int side) {
+    public Icon getBlockTexture(IBlockAccess world, int x, int y, int z, int side)
+    {
         return getIcon(world.getBlockTileEntity(x, y, z), ForgeDirection.getOrientation(side));
     }
 
     @Override
-    public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entityLivingBase, ItemStack itemStack) {
+    public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entityLivingBase, ItemStack itemStack)
+    {
         ForgeDirection direction = ForgeDirection.UNKNOWN;
         int facing = MathHelper.floor_double(entityLivingBase.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
 
-        if (facing == 0) {
+        if (facing == 0)
+        {
             direction = ForgeDirection.NORTH;
-        } else if (facing == 1) {
+        }
+        else if (facing == 1)
+        {
             direction = ForgeDirection.EAST;
-        } else if (facing == 2) {
+        }
+        else if (facing == 2)
+        {
             direction = ForgeDirection.SOUTH;
-        } else if (facing == 3) {
+        }
+        else if (facing == 3)
+        {
             direction = ForgeDirection.WEST;
         }
 
         TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
-        if (tileEntity != null && tileEntity instanceof BaseTile) {
+        if (tileEntity != null && tileEntity instanceof BaseTile)
+        {
             BaseTile tile = (BaseTile) tileEntity;
             tile.setOrientation(direction);
 
-            if (itemStack.hasDisplayName()) {
+            if (itemStack.hasDisplayName())
+            {
                 tile.setCustomName(itemStack.getDisplayName());
             }
         }
     }
 
     @Override
-    public void breakBlock(World world, int x, int y, int z, int id, int meta) {
+    public void breakBlock(World world, int x, int y, int z, int id, int meta)
+    {
         TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
 
-        if (tileEntity != null && tileEntity instanceof IInventory) {
+        if (tileEntity != null && tileEntity instanceof IInventory)
+        {
             IInventory inventory = (IInventory) tileEntity;
 
-            for (int i = 0; i < inventory.getSizeInventory(); i++) {
+            for (int i = 0; i < inventory.getSizeInventory(); i++)
+            {
                 ItemStack itemStack = inventory.getStackInSlot(i);
 
-                if (itemStack != null && itemStack.stackSize > 0) {
+                if (itemStack != null && itemStack.stackSize > 0)
+                {
                     float dX = m_Random.nextFloat() * 0.8F + 0.1F;
                     float dY = m_Random.nextFloat() * 0.8F + 0.1F;
                     float dZ = m_Random.nextFloat() * 0.8F + 0.1F;

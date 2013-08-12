@@ -29,31 +29,37 @@ import dk.kiljacken.aestuscraft.core.tiles.TileInsulatedFurnace;
 
 public class ClientProxy extends CommonProxy {
     @Override
-    public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
-        switch (ID) {
-            case GuiIds.FUEL_BURNER:
-                return new GuiFuelBurner(player.inventory, (TileFuelBurner) world.getBlockTileEntity(x, y, z));
-            case GuiIds.INSULATED_FURNACE:
-                return new GuiInsulatedFurnace(player.inventory, (TileInsulatedFurnace) world.getBlockTileEntity(x, y, z));
-            default:
-                return null;
+    public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z)
+    {
+        switch (ID)
+        {
+        case GuiIds.FUEL_BURNER:
+            return new GuiFuelBurner(player.inventory, (TileFuelBurner) world.getBlockTileEntity(x, y, z));
+        case GuiIds.INSULATED_FURNACE:
+            return new GuiInsulatedFurnace(player.inventory, (TileInsulatedFurnace) world.getBlockTileEntity(x, y, z));
+        default:
+            return null;
         }
     }
 
     @Override
-    public void syncTile(int x, int y, int z, NBTTagCompound nbt) {
+    public void syncTile(int x, int y, int z, NBTTagCompound nbt)
+    {
         TileEntity tile = FMLClientHandler.instance().getClient().theWorld.getBlockTileEntity(x, y, z);
 
-        if (tile != null) {
+        if (tile != null)
+        {
             tile.readFromNBT(nbt);
         }
     }
 
     @Override
-    public void syncTileHeatLevel(int x, int y, int z, float heatLevel) {
+    public void syncTileHeatLevel(int x, int y, int z, float heatLevel)
+    {
         TileEntity tile = FMLClientHandler.instance().getClient().theWorld.getBlockTileEntity(x, y, z);
 
-        if (tile != null && tile instanceof IHeatContainer) {
+        if (tile != null && tile instanceof IHeatContainer)
+        {
             IHeatContainer container = (IHeatContainer) tile;
 
             container.setHeatLevel(Math.min(heatLevel, container.getMaxHeatLevel()));
@@ -61,7 +67,8 @@ public class ClientProxy extends CommonProxy {
     }
 
     @Override
-    public void initRendering() {
+    public void initRendering()
+    {
         RenderIds.HEAT_CONDUCTOR = RenderingRegistry.getNextAvailableRenderId();
 
         ClientRegistry.bindTileEntitySpecialRenderer(TileHeatConductor.class, new ConductorRenderer());

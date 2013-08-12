@@ -10,6 +10,7 @@ package dk.kiljacken.aestuscraft.core.blocks;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import dk.kiljacken.aestuscraft.core.common.blocks.BlockBaseTile;
 import dk.kiljacken.aestuscraft.core.tiles.TileHeatedFlooring;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -26,7 +27,8 @@ public class BlockHeatedFlooring extends BlockBaseTile {
     @SideOnly(Side.CLIENT)
     private Icon m_InsulatedSideIcon;
 
-    public BlockHeatedFlooring(int id) {
+    public BlockHeatedFlooring(int id)
+    {
         super(id, Material.wood);
 
         setHardness(1.0f);
@@ -34,14 +36,17 @@ public class BlockHeatedFlooring extends BlockBaseTile {
     }
 
     @Override
-    public TileEntity createNewTileEntity(World world) {
+    public TileEntity createNewTileEntity(World world)
+    {
         return new TileHeatedFlooring();
     }
 
     @Override
-    public void registerIcons(IconRegister iconRegister) {
+    public void registerIcons(IconRegister iconRegister)
+    {
         m_Icons = new Icon[16];
-        for (int i = 0; i < 16; i++) {
+        for (int i = 0; i < 16; i++)
+        {
             m_Icons[i] = iconRegister.registerIcon("aestuscraft:heated_flooring/heated_flooring_" + i);
         }
 
@@ -49,28 +54,50 @@ public class BlockHeatedFlooring extends BlockBaseTile {
     }
 
     @Override
-    public Icon getIcon(TileEntity tile, ForgeDirection side) {
-        if (tile != null && tile instanceof TileHeatedFlooring && side == ForgeDirection.UP) {
+    public Icon getIcon(TileEntity tile, ForgeDirection side)
+    {
+        if (tile != null && tile instanceof TileHeatedFlooring && side == ForgeDirection.UP)
+        {
             TileHeatedFlooring heatedFlooring = (TileHeatedFlooring) tile;
 
             return m_Icons[heatedFlooring.getConnectedSides()];
         }
 
-        if (side == ForgeDirection.UP) {
+        if (side == ForgeDirection.UP)
+        {
             return m_Icons[0];
-        } else {
+        }
+        else
+        {
             return m_InsulatedSideIcon;
         }
     }
 
     @Override
-    public void onNeighborBlockChange(World par1World, int par2, int par3, int par4, int par5) {
-        TileEntity tile = par1World.getBlockTileEntity(par2, par3, par4);
+    public void onNeighborBlockChange(World world, int x, int y, int z, int neighborBlockId)
+    {
+        TileEntity tile = world.getBlockTileEntity(x, y, z);
 
-        if (tile instanceof TileHeatedFlooring) {
+        if (tile != null && tile instanceof TileHeatedFlooring)
+        {
             TileHeatedFlooring heatedFlooring = (TileHeatedFlooring) tile;
 
             heatedFlooring.setShouldUpdate();
         }
+    }
+
+    @Override
+    public void breakBlock(World world, int x, int y, int z, int blockId, int meta)
+    {
+        TileEntity tile = world.getBlockTileEntity(x, y, z);
+
+        if (tile != null && tile instanceof TileHeatedFlooring)
+        {
+            TileHeatedFlooring heatedFlooring = (TileHeatedFlooring) tile;
+
+            heatedFlooring.getNetwork().split(heatedFlooring);
+        }
+
+        super.breakBlock(world, x, y, z, blockId, meta);
     }
 }

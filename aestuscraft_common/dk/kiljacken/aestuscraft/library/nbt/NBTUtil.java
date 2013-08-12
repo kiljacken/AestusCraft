@@ -27,49 +27,68 @@ public class NBTUtil {
     /**
      * Read values in object with {@link NBTValue} annotation from NBT
      * 
-     * @param object The object to read
-     * @param tagCompound The tag to read from
+     * @param object
+     *            The object to read
+     * @param tagCompound
+     *            The tag to read from
      */
-    public static void readAnnotatedFromNBT(Object object, NBTTagCompound tagCompound) {
+    public static void readAnnotatedFromNBT(Object object, NBTTagCompound tagCompound)
+    {
         Class<?> clazz = object.getClass();
 
-        do {
-            for (Field field : clazz.getDeclaredFields()) {
-                if (field.isAnnotationPresent(NBTValue.class)) {
+        do
+        {
+            for (Field field : clazz.getDeclaredFields())
+            {
+                if (field.isAnnotationPresent(NBTValue.class))
+                {
                     NBTValue annotation = field.getAnnotation(NBTValue.class);
                     INBTHandler nbtHandler = ReflectionUtil.instanciateOrCrash(annotation.handler());
 
                     Object value = nbtHandler.readFromTag(tagCompound.getTag(annotation.name()));
-                    try {
+                    try
+                    {
                         ReflectionUtil.setPrivateValue(clazz, object, value, field);
-                    } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
+                    }
+                    catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e)
+                    {
                         AestusCraft.log.info("Exception while setting field from NBT value");
                         throw new RuntimeException(e);
                     }
                 }
             }
-        } while ((clazz = clazz.getSuperclass()) != null);
+        }
+        while ((clazz = clazz.getSuperclass()) != null);
     }
 
     /**
      * Write values in object with {@link NBTValue} annotation to NBT
      * 
-     * @param object The object to write
-     * @param tagCompound The tag to write to
+     * @param object
+     *            The object to write
+     * @param tagCompound
+     *            The tag to write to
      */
-    public static void writeAnnotatedToNBT(Object object, NBTTagCompound tagCompound) {
+    public static void writeAnnotatedToNBT(Object object, NBTTagCompound tagCompound)
+    {
         Class<?> clazz = object.getClass();
 
-        do {
-            for (Field field : clazz.getDeclaredFields()) {
-                if (field.isAnnotationPresent(NBTValue.class)) {
+        do
+        {
+            for (Field field : clazz.getDeclaredFields())
+            {
+                if (field.isAnnotationPresent(NBTValue.class))
+                {
                     NBTValue annotation = field.getAnnotation(NBTValue.class);
                     INBTHandler nbtHandler = ReflectionUtil.instanciateOrCrash(annotation.handler());
 
                     Object value;
-                    try {
+                    try
+                    {
                         value = ReflectionUtil.getPrivateValue(clazz, object, field);
-                    } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
+                    }
+                    catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e)
+                    {
                         AestusCraft.log.info("Exception while setting field from NBT value");
                         throw new RuntimeException(e);
                     }
@@ -77,7 +96,8 @@ public class NBTUtil {
                     tagCompound.setTag(annotation.name(), nbtHandler.writeToTag(annotation.name(), value));
                 }
             }
-        } while ((clazz = clazz.getSuperclass()) != null);
+        }
+        while ((clazz = clazz.getSuperclass()) != null);
     }
 
     /**
@@ -94,16 +114,21 @@ public class NBTUtil {
     /**
      * Reads a compound tag from a stream
      * 
-     * @param stream The stream to read from
+     * @param stream
+     *            The stream to read from
      * @return The tag read
      * @throws IOException
      */
-    public static NBTTagCompound readCompoundFromStream(DataInputStream stream) throws IOException {
+    public static NBTTagCompound readCompoundFromStream(DataInputStream stream) throws IOException
+    {
         short length = stream.readShort();
 
-        if (length < 0) {
+        if (length < 0)
+        {
             return null;
-        } else {
+        }
+        else
+        {
             byte[] data = new byte[length];
             stream.readFully(data);
 
@@ -114,14 +139,20 @@ public class NBTUtil {
     /**
      * Writes a compound tag to a stream
      * 
-     * @param stream The stream to write to
-     * @param nbt The tag to write
+     * @param stream
+     *            The stream to write to
+     * @param nbt
+     *            The tag to write
      * @throws IOException
      */
-    public static void writeCompoundToStream(DataOutputStream stream, NBTTagCompound tag) throws IOException {
-        if (tag == null) {
+    public static void writeCompoundToStream(DataOutputStream stream, NBTTagCompound tag) throws IOException
+    {
+        if (tag == null)
+        {
             stream.writeShort(-1);
-        } else {
+        }
+        else
+        {
             byte[] data = CompressedStreamTools.compress(tag);
 
             stream.writeShort((short) data.length);

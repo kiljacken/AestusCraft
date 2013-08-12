@@ -10,32 +10,26 @@ package dk.kiljacken.aestuscraft.api.heat;
 
 import java.util.List;
 
-public interface IHeatConductor extends IHeatNetworkConnected {
+public interface IHeatConductor extends IHeatMachine {
     /**
-     * Gets an array of consumers connected to this conductor
+     * Gets a list of machines connected to this conductor
      * 
-     * @return An array of consumers connected to this conductor
+     * @return A list of machines connected to this conductor
      */
-    public List<IHeatConsumer> getConnectedConsumers();
+    public List<IHeatMachine> getConnectedMachines();
 
     /**
-     * Gets an array of producers connected to this conductor
+     * Gets a list of conductors connected to this conductor
      * 
-     * @return An array of producers connected to this conductor
-     */
-    public List<IHeatProducer> getConnectedProducers();
-
-    /**
-     * Gets an array of conductors connected to this conductor
-     * 
-     * @return An array of conductors connected to this conductor
+     * @return A list of conductors connected to this conductor
      */
     public List<IHeatConductor> getConnectedConductors();
 
     /**
-     * Gets whether the conductor is valid (e.g it's block has not been removed)
+     * Query if the conductor supplies additional machine functionality (e.g.
+     * it's a consumer)
      * 
-     * @return Whether the conductor is valid
+     * @return Whether the conductor has additional functionality
      */
-    public boolean isValid();
+    public boolean hasMachineFunctionality();
 }

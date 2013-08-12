@@ -15,7 +15,7 @@ import net.minecraftforge.client.model.IModelCustom;
 import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.client.FMLClientHandler;
-import dk.kiljacken.aestuscraft.core.tiles.BaseTile;
+import dk.kiljacken.aestuscraft.core.common.tiles.BaseTile;
 import dk.kiljacken.aestuscraft.core.tiles.TileHeatConductor;
 
 public class ConductorRenderer extends TileRenderer {
@@ -23,7 +23,8 @@ public class ConductorRenderer extends TileRenderer {
     private ResourceLocation m_Texture = new ResourceLocation("aestuscraft", "textures/models/conductor.png");
 
     @Override
-    public void render(BaseTile tile, double x, double y, double z) {
+    public void render(BaseTile tile, double x, double y, double z)
+    {
         GL11.glPushMatrix();
         GL11.glDisable(GL11.GL_LIGHTING);
 
@@ -31,35 +32,44 @@ public class ConductorRenderer extends TileRenderer {
 
         FMLClientHandler.instance().getClient().renderEngine.func_110577_a(m_Texture);
 
-        if (tile != null) {
+        if (tile != null)
+        {
             m_Model.renderPart("center");
 
             int connectedSides = ((TileHeatConductor) tile).getConnectedSides();
 
-            if ((connectedSides & 1) != 0) {
+            if ((connectedSides & 1) != 0)
+            {
                 m_Model.renderPart("connection_down");
             }
 
-            if ((connectedSides & 2) != 0) {
+            if ((connectedSides & 2) != 0)
+            {
                 m_Model.renderPart("connection_up");
             }
 
-            if ((connectedSides & 4) != 0) {
+            if ((connectedSides & 4) != 0)
+            {
                 m_Model.renderPart("connection_north");
             }
 
-            if ((connectedSides & 8) != 0) {
+            if ((connectedSides & 8) != 0)
+            {
                 m_Model.renderPart("connection_south");
             }
 
-            if ((connectedSides & 16) != 0) {
+            if ((connectedSides & 16) != 0)
+            {
                 m_Model.renderPart("connection_west");
             }
 
-            if ((connectedSides & 32) != 0) {
+            if ((connectedSides & 32) != 0)
+            {
                 m_Model.renderPart("connection_east");
             }
-        } else {
+        }
+        else
+        {
             m_Model.renderAll();
         }
 

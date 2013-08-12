@@ -23,12 +23,14 @@ public class PacketHeatLevelSync extends CustomPacket {
     public int x, y, z;
     public float heatLevel;
 
-    public PacketHeatLevelSync() {
+    public PacketHeatLevelSync()
+    {
         m_Type = PacketType.PACKET_HEAT_LEVEL_SYNC;
     }
 
     @Override
-    public void writeTo(DataOutputStream stream) throws IOException {
+    public void writeTo(DataOutputStream stream) throws IOException
+    {
         stream.writeInt(x);
         stream.writeInt(y);
         stream.writeInt(z);
@@ -36,7 +38,8 @@ public class PacketHeatLevelSync extends CustomPacket {
     }
 
     @Override
-    public void readFrom(DataInputStream stream) throws IOException {
+    public void readFrom(DataInputStream stream) throws IOException
+    {
         x = stream.readInt();
         y = stream.readInt();
         z = stream.readInt();
@@ -44,12 +47,15 @@ public class PacketHeatLevelSync extends CustomPacket {
     }
 
     @Override
-    public void process(INetworkManager manager, Player player) {
+    public void process(INetworkManager manager, Player player)
+    {
         AestusCraft.proxy.syncTileHeatLevel(x, y, z, heatLevel);
     }
 
-    public static PacketHeatLevelSync from(TileEntity tile) {
-        if (tile instanceof IHeatContainer) {
+    public static PacketHeatLevelSync from(TileEntity tile)
+    {
+        if (tile instanceof IHeatContainer)
+        {
             IHeatContainer container = (IHeatContainer) tile;
 
             PacketHeatLevelSync packet = new PacketHeatLevelSync();

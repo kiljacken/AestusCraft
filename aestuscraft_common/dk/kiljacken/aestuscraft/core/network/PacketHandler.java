@@ -18,7 +18,8 @@ public class PacketHandler implements IPacketHandler {
     public static final String CHANNEL = ModInfo.MOD_ID;
 
     @Override
-    public void onPacketData(INetworkManager manager, Packet250CustomPayload packet, Player player) {
+    public void onPacketData(INetworkManager manager, Packet250CustomPayload packet, Player player)
+    {
         CustomPacket basePacket = CustomPacket.unwrap(packet);
         basePacket.process(manager, player);
     }

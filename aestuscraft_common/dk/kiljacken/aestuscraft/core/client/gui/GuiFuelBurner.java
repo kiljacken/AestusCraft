@@ -22,14 +22,16 @@ public class GuiFuelBurner extends GuiContainer {
     public static final ResourceLocation GUI_LOCATION = new ResourceLocation("aestuscraft", "textures/gui/fuel_burner.png");
     private TileFuelBurner m_TileFuelBurner;
 
-    public GuiFuelBurner(InventoryPlayer inventoryPlayer, TileFuelBurner tileFuelBurner) {
+    public GuiFuelBurner(InventoryPlayer inventoryPlayer, TileFuelBurner tileFuelBurner)
+    {
         super(new ContainerFuelBurner(inventoryPlayer, tileFuelBurner));
 
         m_TileFuelBurner = tileFuelBurner;
     }
 
     @Override
-    protected void drawGuiContainerForegroundLayer(int scaledMouseX, int scaledMouseY) {
+    protected void drawGuiContainerForegroundLayer(int scaledMouseX, int scaledMouseY)
+    {
         // Draw insulated furnace name
         String name = m_TileFuelBurner.isInvNameLocalized() ? m_TileFuelBurner.getInvName() : StatCollector.translateToLocal(m_TileFuelBurner.getInvName());
         fontRenderer.drawString(name, xSize / 2 - fontRenderer.getStringWidth(name) / 2, 6, 0x404040);
@@ -40,7 +42,8 @@ public class GuiFuelBurner extends GuiContainer {
     }
 
     @Override
-    protected void drawGuiContainerBackgroundLayer(float renderPartialTicks, int scaledMouseX, int scaledMouseY) {
+    protected void drawGuiContainerBackgroundLayer(float renderPartialTicks, int scaledMouseX, int scaledMouseY)
+    {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
         mc.renderEngine.func_110577_a(GUI_LOCATION);
@@ -51,7 +54,8 @@ public class GuiFuelBurner extends GuiContainer {
         drawTexturedModalRect(x, y, 0, 0, xSize, ySize);
 
         int scaledFuelTicks = 16 - m_TileFuelBurner.getScaledFuelTicksLeft(16);
-        if (scaledFuelTicks != 0) {
+        if (scaledFuelTicks != 0)
+        {
             drawTexturedModalRect(x + 100, y + 45 + scaledFuelTicks, 176, scaledFuelTicks, 12, 16 - scaledFuelTicks);
         }
 

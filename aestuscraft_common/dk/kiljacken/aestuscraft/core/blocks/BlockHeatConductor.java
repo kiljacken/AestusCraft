@@ -24,43 +24,51 @@ import dk.kiljacken.aestuscraft.core.client.rendering.RenderIds;
 import dk.kiljacken.aestuscraft.core.tiles.TileHeatConductor;
 
 public class BlockHeatConductor extends BlockContainer {
-    public BlockHeatConductor(int id) {
+    public BlockHeatConductor(int id)
+    {
         super(id, Material.cloth);
 
         setHardness(0.5f);
     }
 
     @Override
-    public TileEntity createNewTileEntity(World world) {
+    public TileEntity createNewTileEntity(World world)
+    {
         return new TileHeatConductor();
     }
 
     @Override
-    public boolean renderAsNormalBlock() {
+    public boolean renderAsNormalBlock()
+    {
         return false;
     }
 
     @Override
-    public boolean isOpaqueCube() {
+    public boolean isOpaqueCube()
+    {
         return false;
     }
 
     @Override
-    public int getRenderType() {
+    public int getRenderType()
+    {
         return RenderIds.HEAT_CONDUCTOR;
     }
 
     @SideOnly(Side.CLIENT)
     @Override
-    public void registerIcons(IconRegister par1IconRegister) {
+    public void registerIcons(IconRegister par1IconRegister)
+    {
         blockIcon = par1IconRegister.registerIcon("aestuscraft:insulated_side");
     }
 
     @Override
-    public void onNeighborBlockChange(World world, int x, int y, int z, int neighborBlockId) {
+    public void onNeighborBlockChange(World world, int x, int y, int z, int neighborBlockId)
+    {
         TileEntity tile = world.getBlockTileEntity(x, y, z);
 
-        if (tile != null && tile instanceof TileHeatConductor) {
+        if (tile != null && tile instanceof TileHeatConductor)
+        {
             TileHeatConductor heatConductor = (TileHeatConductor) tile;
 
             heatConductor.setShouldUpdate();
@@ -68,10 +76,12 @@ public class BlockHeatConductor extends BlockContainer {
     }
 
     @Override
-    public void breakBlock(World world, int x, int y, int z, int blockId, int meta) {
+    public void breakBlock(World world, int x, int y, int z, int blockId, int meta)
+    {
         TileEntity tile = world.getBlockTileEntity(x, y, z);
 
-        if (tile != null && tile instanceof TileHeatConductor) {
+        if (tile != null && tile instanceof TileHeatConductor)
+        {
             TileHeatConductor heatConductor = (TileHeatConductor) tile;
 
             heatConductor.getNetwork().split(heatConductor);
@@ -82,14 +92,16 @@ public class BlockHeatConductor extends BlockContainer {
 
     @SuppressWarnings("rawtypes")
     @Override
-    public void addCollisionBoxesToList(World world, int x, int y, int z, AxisAlignedBB boundingBox, List boundingBoxList, Entity collidingEntity) {
+    public void addCollisionBoxesToList(World world, int x, int y, int z, AxisAlignedBB boundingBox, List boundingBoxList, Entity collidingEntity)
+    {
         setBlockBoundsBasedOnState(world, x, y, z);
 
         super.addCollisionBoxesToList(world, x, y, z, boundingBox, boundingBoxList, collidingEntity);
     }
 
     @Override
-    public void setBlockBoundsBasedOnState(IBlockAccess blockAccess, int x, int y, int z) {
+    public void setBlockBoundsBasedOnState(IBlockAccess blockAccess, int x, int y, int z)
+    {
         TileHeatConductor tileHeatConductor = (TileHeatConductor) blockAccess.getBlockTileEntity(x, y, z);
         int connectedSides = tileHeatConductor.getConnectedSides();
 

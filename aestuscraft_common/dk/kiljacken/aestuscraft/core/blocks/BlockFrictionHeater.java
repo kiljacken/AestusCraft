@@ -12,6 +12,7 @@ import java.util.Random;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import dk.kiljacken.aestuscraft.core.common.blocks.BlockBaseTile;
 import dk.kiljacken.aestuscraft.core.tiles.TileFrictionHeater;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
@@ -36,19 +37,22 @@ public class BlockFrictionHeater extends BlockBaseTile {
     @SideOnly(Side.CLIENT)
     private Icon m_IconInsulatedSide;
 
-    public BlockFrictionHeater(int id) {
+    public BlockFrictionHeater(int id)
+    {
         super(id, Material.rock);
 
         setHardness(3.0f);
     }
 
     @Override
-    public TileEntity createNewTileEntity(World world) {
+    public TileEntity createNewTileEntity(World world)
+    {
         return new TileFrictionHeater();
     }
 
     @Override
-    public void registerIcons(IconRegister iconRegister) {
+    public void registerIcons(IconRegister iconRegister)
+    {
         m_IconGrindstoneInactive = iconRegister.registerIcon("aestuscraft:friction_heater_grindstone_inactive");
         m_IconGrindstoneActive = iconRegister.registerIcon("aestuscraft:friction_heater_grindstone_active");
         m_IconStoneGear = iconRegister.registerIcon("aestuscraft:friction_heater_gear_stone");
@@ -57,26 +61,40 @@ public class BlockFrictionHeater extends BlockBaseTile {
     }
 
     @Override
-    public Icon getIcon(TileEntity tile, ForgeDirection side) {
-        if (tile != null && tile instanceof TileFrictionHeater) {
+    public Icon getIcon(TileEntity tile, ForgeDirection side)
+    {
+        if (tile != null && tile instanceof TileFrictionHeater)
+        {
             TileFrictionHeater frictionHeater = (TileFrictionHeater) tile;
 
             ForgeDirection woodSide = frictionHeater.getOrientation();
             ForgeDirection stoneSide = woodSide.getRotation(ForgeDirection.UP);
 
-            if (side == woodSide || side == woodSide.getOpposite()) {
+            if (side == woodSide || side == woodSide.getOpposite())
+            {
                 return m_IconWoodGear;
-            } else if (side == stoneSide || side == stoneSide.getOpposite()) {
+            }
+            else if (side == stoneSide || side == stoneSide.getOpposite())
+            {
                 return m_IconStoneGear;
-            } else if (side == ForgeDirection.UP) {
+            }
+            else if (side == ForgeDirection.UP)
+            {
                 return frictionHeater.isActive() ? m_IconGrindstoneActive : m_IconGrindstoneInactive;
             }
-        } else {
-            if (side == ForgeDirection.SOUTH || side == ForgeDirection.NORTH) {
+        }
+        else
+        {
+            if (side == ForgeDirection.SOUTH || side == ForgeDirection.NORTH)
+            {
                 return m_IconWoodGear;
-            } else if (side == ForgeDirection.WEST || side == ForgeDirection.EAST) {
+            }
+            else if (side == ForgeDirection.WEST || side == ForgeDirection.EAST)
+            {
                 return m_IconStoneGear;
-            } else if (side == ForgeDirection.UP) {
+            }
+            else if (side == ForgeDirection.UP)
+            {
                 return m_IconGrindstoneInactive;
             }
         }
@@ -85,13 +103,16 @@ public class BlockFrictionHeater extends BlockBaseTile {
     }
 
     @Override
-    public void randomDisplayTick(World world, int x, int y, int z, Random random) {
+    public void randomDisplayTick(World world, int x, int y, int z, Random random)
+    {
         TileEntity tile = world.getBlockTileEntity(x, y, z);
 
-        if (tile != null && tile instanceof TileFrictionHeater) {
+        if (tile != null && tile instanceof TileFrictionHeater)
+        {
             TileFrictionHeater fuelBurner = (TileFrictionHeater) tile;
 
-            if (fuelBurner.isActive()) {
+            if (fuelBurner.isActive())
+            {
                 double xVel = (0.5 - random.nextDouble()) * 0.05;
                 double yVel = random.nextDouble() * 0.02;
                 double zVel = (0.5 - random.nextDouble()) * 0.05;

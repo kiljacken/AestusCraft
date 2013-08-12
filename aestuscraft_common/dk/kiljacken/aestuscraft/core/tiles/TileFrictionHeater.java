@@ -8,7 +8,7 @@
  */
 package dk.kiljacken.aestuscraft.core.tiles;
 
-import dk.kiljacken.aestuscraft.api.info.BlockInfo;
+import dk.kiljacken.aestuscraft.core.common.tiles.HeatProducerBaseTile;
 import dk.kiljacken.aestuscraft.library.nbt.NBTUtil.NBTValue;
 import dk.kiljacken.aestuscraft.library.nbt.handlers.BooleanNBTHandler;
 import net.minecraft.world.World;
@@ -28,7 +28,8 @@ public class TileFrictionHeater extends HeatProducerBaseTile implements IPowerRe
     private int m_UpdateTicks;
     private boolean m_RecievedEnergy;
 
-    public TileFrictionHeater() {
+    public TileFrictionHeater()
+    {
         super(1600);
 
         m_Active = false;
@@ -40,8 +41,10 @@ public class TileFrictionHeater extends HeatProducerBaseTile implements IPowerRe
     }
 
     @Override
-    public void updateEntity() {
-        if (!worldObj.isRemote) {
+    public void updateEntity()
+    {
+        if (!worldObj.isRemote)
+        {
             float energy = m_PowerHandler.useEnergy(0.0f, HEAT_TRANSFER_RATE / HEAT_PER_MJ, true);
             m_RecievedEnergy |= energy > 0;
             float heatSupplied = Math.min(getMaxHeatLevel() - getHeatLevel(), energy * HEAT_PER_MJ);
@@ -49,22 +52,27 @@ public class TileFrictionHeater extends HeatProducerBaseTile implements IPowerRe
             setHeatLevel(getHeatLevel() + heatSupplied);
             m_PowerHandler.addEnergy(energy - heatSupplied / HEAT_PER_MJ);
 
-            if (m_UpdateTicks == 0 && getHeatLevel() > 0.0f && !m_Active) {
+            if (m_UpdateTicks == 0 && getHeatLevel() > 0.0f && !m_Active)
+            {
                 m_Active = true;
-            } else if (m_UpdateTicks == 0 && m_Active) {
+            }
+            else if (m_UpdateTicks == 0 && m_Active)
+            {
                 m_Active = false;
             }
 
-            if (m_UpdateTicks == 0) {
+            if (m_UpdateTicks == 0)
+            {
                 m_Active = m_RecievedEnergy;
 
-                worldObj.addBlockEvent(xCoord, yCoord, zCoord, BlockInfo.FRICTION_HEATER_ID, 0, m_Active ? 1 : 0);
+                worldObj.addBlockEvent(xCoord, yCoord, zCoord, getBlockType().blockID, 0, m_Active ? 1 : 0);
 
                 m_UpdateTicks = 100;
                 m_RecievedEnergy = false;
             }
 
-            if (getNetwork() != null) {
+            if (getNetwork() != null)
+            {
                 setHeatLevel(getHeatLevel() - getNetwork().supplyHeat(Math.min(getHeatLevel(), HEAT_TRANSFER_RATE)));
             }
 
@@ -73,9 +81,12 @@ public class TileFrictionHeater extends HeatProducerBaseTile implements IPowerRe
     }
 
     @Override
-    public boolean receiveClientEvent(int id, int data) {
-        if (worldObj.isRemote) {
-            if (id == 0) {
+    public boolean receiveClientEvent(int id, int data)
+    {
+        if (worldObj.isRemote)
+        {
+            if (id == 0)
+            {
                 m_Active = data != 0;
                 worldObj.markBlockForRenderUpdate(xCoord, yCoord, zCoord);
             }
@@ -85,20 +96,24 @@ public class TileFrictionHeater extends HeatProducerBaseTile implements IPowerRe
     }
 
     @Override
-    public PowerReceiver getPowerReceiver(ForgeDirection side) {
+    public PowerReceiver getPowerReceiver(ForgeDirection side)
+    {
         return m_PowerHandler.getPowerReceiver();
     }
 
     @Override
-    public void doWork(PowerHandler workProvider) {
+    public void doWork(PowerHandler workProvider)
+    {
     }
 
     @Override
-    public World getWorld() {
+    public World getWorld()
+    {
         return worldObj;
     }
 
-    public boolean isActive() {
+    public boolean isActive()
+    {
         return m_Active;
     }
 }

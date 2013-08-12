@@ -19,45 +19,51 @@ import net.minecraft.world.World;
 import dk.kiljacken.aestuscraft.api.heat.IHeatConductor;
 import dk.kiljacken.aestuscraft.api.heat.IHeatContainer;
 import dk.kiljacken.aestuscraft.api.heat.IHeatNetwork;
+import dk.kiljacken.aestuscraft.core.common.items.BaseItem;
 
 public class ItemNetworkDebugger extends BaseItem {
-    public ItemNetworkDebugger(int id) {
+    public ItemNetworkDebugger(int id)
+    {
         super(id);
     }
 
     @Override
-    public void registerIcons(IconRegister par1IconRegister) {
+    public void registerIcons(IconRegister par1IconRegister)
+    {
         itemIcon = par1IconRegister.registerIcon("aestuscraft:network_debugger");
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
     @Override
-    public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4) {
+    public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4)
+    {
         par3List.add("Definitely not a tazer");
     }
 
     @Override
-    public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ) {
-        if (!world.isRemote) {
+    public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ)
+    {
+        if (!world.isRemote)
+        {
             TileEntity tile = world.getBlockTileEntity(x, y, z);
 
-            if (tile != null && tile instanceof IHeatConductor) {
+            if (tile != null && tile instanceof IHeatConductor)
+            {
                 IHeatConductor conductor = (IHeatConductor) tile;
                 IHeatNetwork network = conductor.getNetwork();
 
-                String text = String.format("CO: %d - PD: %d - CD: %d", network.getConnectedConsumers().size(), network.getConnectedProducers().size(), network.getConnectedConductors().size());
+                String text = String.format("MCs: %d - CDs: %d", network.getConnectedMachines().size(), network.getConnectedConductors().size());
                 player.sendChatToPlayer(ChatMessageComponent.func_111066_d(text));
-
-                return true;
             }
 
-            if (tile != null && tile instanceof IHeatContainer) {
+            if (tile != null && tile instanceof IHeatContainer)
+            {
                 IHeatContainer container = (IHeatContainer) tile;
 
                 player.sendChatToPlayer(ChatMessageComponent.func_111066_d("Heat Level: " + container.getHeatLevel() + "/" + container.getMaxHeatLevel()));
-
-                return true;
             }
+
+            return true;
         }
 
         return false;
