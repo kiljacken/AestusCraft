@@ -1,11 +1,3 @@
-/**
- * AestusCraft
- * 
- * HeatNetwork.java
- *
- * @author Kiljacken
- * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
- */
 package dk.kiljacken.aestuscraft.api.heat;
 
 import java.util.ArrayList;
@@ -106,6 +98,7 @@ public class HeatNetworkImpl implements IHeatNetwork {
         }
     }
 
+    // TODO: Split network refresh into conductor culling/parenting and machine polling
     @Override
     public void refresh()
     {

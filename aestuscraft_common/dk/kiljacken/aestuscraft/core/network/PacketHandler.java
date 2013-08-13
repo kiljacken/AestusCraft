@@ -1,11 +1,3 @@
-/**
- * AestusCraft
- * 
- * PacketHandler.java
- *
- * @author Kiljacken
- * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
- */
 package dk.kiljacken.aestuscraft.core.network;
 
 import net.minecraft.network.INetworkManager;

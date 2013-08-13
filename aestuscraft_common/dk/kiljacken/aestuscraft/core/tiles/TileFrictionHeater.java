@@ -1,11 +1,3 @@
-/**
- * AestusCraft
- * 
- * TileFrictionHeater.java
- *
- * @author Kiljacken
- * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
- */
 package dk.kiljacken.aestuscraft.core.tiles;
 
 import dk.kiljacken.aestuscraft.core.common.tiles.HeatProducerBaseTile;

@@ -1,11 +1,3 @@
-/**
- * AestusCraft
- * 
- * HeatProducerBaseTile.java
- *
- * @author Kiljacken
- * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
- */
 package dk.kiljacken.aestuscraft.core.common.tiles;
 
 import dk.kiljacken.aestuscraft.api.heat.IHeatNetwork;
