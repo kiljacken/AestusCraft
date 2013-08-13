@@ -1,4 +1,4 @@
-package dk.kiljacken.aestuscraft.core.tiles;
+package dk.kiljacken.aestuscraft.buildcraft;
 
 import dk.kiljacken.aestuscraft.core.common.tiles.HeatProducerBaseTile;
 import dk.kiljacken.aestuscraft.library.nbt.NBTUtil.NBTValue;

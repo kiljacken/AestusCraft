@@ -1,11 +1,10 @@
-package dk.kiljacken.aestuscraft.core.blocks;
+package dk.kiljacken.aestuscraft.buildcraft;
 
 import java.util.Random;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import dk.kiljacken.aestuscraft.core.common.blocks.BlockBaseTile;
-import dk.kiljacken.aestuscraft.core.tiles.TileFrictionHeater;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.tileentity.TileEntity;
