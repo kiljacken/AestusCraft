@@ -63,5 +63,6 @@ public class Content {
         GameRegistry.addShapedRecipe(new ItemStack(blockInsulatedFurnace), "ccc", "cfc", "ccc", 'c', Block.cloth, 'f', Block.furnaceIdle);
         GameRegistry.addShapedRecipe(new ItemStack(blockFuelBurner), "ccc", "cfc", "ccc", 'c', blockConductor, 'f', Block.furnaceIdle);
         GameRegistry.addShapedRecipe(new ItemStack(blockConductor, 8), "ccc", "cic", "ccc", 'c', Block.cloth, 'i', Item.ingotIron);
+        GameRegistry.addShapedRecipe(new ItemStack(blockHeatedFlooring, 4),  "www", "wiw", "wcw", 'w', Block.planks, 'i', Item.ingotIron, 'c', blockConductor); 
     }
 }
