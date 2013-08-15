@@ -1,12 +1,9 @@
 package dk.kiljacken.aestuscraft.core;
 
-import java.io.File;
-
 import net.minecraftforge.common.Configuration;
 import dk.kiljacken.aestuscraft.AestusCraft;
 import dk.kiljacken.aestuscraft.api.info.BlockInfo;
 import dk.kiljacken.aestuscraft.api.info.ItemInfo;
-import dk.kiljacken.aestuscraft.buildcraft.TileFrictionHeater;
 import dk.kiljacken.aestuscraft.core.tiles.TileFuelBurner;
 import dk.kiljacken.aestuscraft.core.tiles.TileHeatedFlooring;
 import dk.kiljacken.aestuscraft.core.tiles.TileInsulatedFurnace;

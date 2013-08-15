@@ -8,4 +8,5 @@ public class TileInfo {
 
     // BuildCraft interaction
     public static final String FRICTION_HEATER_NAME = "tile.frictionHeater.name";
+    public static final String ERICSSON_ENGINE_NAME = "tile.ericssonEngine.name";
 }

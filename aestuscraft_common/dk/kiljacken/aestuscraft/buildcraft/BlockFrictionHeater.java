@@ -44,10 +44,10 @@ public class BlockFrictionHeater extends BlockBaseTile {
     @Override
     public void registerIcons(IconRegister iconRegister)
     {
-        m_IconGrindstoneInactive = iconRegister.registerIcon("aestuscraft:friction_heater_grindstone_inactive");
-        m_IconGrindstoneActive = iconRegister.registerIcon("aestuscraft:friction_heater_grindstone_active");
-        m_IconStoneGear = iconRegister.registerIcon("aestuscraft:friction_heater_gear_stone");
-        m_IconWoodGear = iconRegister.registerIcon("aestuscraft:friction_heater_gear_wood");
+        m_IconGrindstoneInactive = iconRegister.registerIcon("aestuscraft:buildcraft/friction_heater_grindstone_inactive");
+        m_IconGrindstoneActive = iconRegister.registerIcon("aestuscraft:buildcraft/friction_heater_grindstone_active");
+        m_IconStoneGear = iconRegister.registerIcon("aestuscraft:buildcraft/friction_heater_gear_stone");
+        m_IconWoodGear = iconRegister.registerIcon("aestuscraft:buildcraft/friction_heater_gear_wood");
         m_IconInsulatedSide = iconRegister.registerIcon("aestuscraft:insulated_side");
     }
 

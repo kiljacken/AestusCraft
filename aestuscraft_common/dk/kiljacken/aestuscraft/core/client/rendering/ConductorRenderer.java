@@ -24,45 +24,42 @@ public class ConductorRenderer extends TileRenderer {
 
         FMLClientHandler.instance().getClient().renderEngine.func_110577_a(m_Texture);
 
-        if (tile != null)
+        int connectedSides = 0b111111;
+        if (tile instanceof TileHeatConductor)
         {
-            m_Model.renderPart("center");
-
-            int connectedSides = ((TileHeatConductor) tile).getConnectedSides();
-
-            if ((connectedSides & 1) != 0)
-            {
-                m_Model.renderPart("connection_down");
-            }
-
-            if ((connectedSides & 2) != 0)
-            {
-                m_Model.renderPart("connection_up");
-            }
-
-            if ((connectedSides & 4) != 0)
-            {
-                m_Model.renderPart("connection_north");
-            }
-
-            if ((connectedSides & 8) != 0)
-            {
-                m_Model.renderPart("connection_south");
-            }
-
-            if ((connectedSides & 16) != 0)
-            {
-                m_Model.renderPart("connection_west");
-            }
-
-            if ((connectedSides & 32) != 0)
-            {
-                m_Model.renderPart("connection_east");
-            }
+            connectedSides = ((TileHeatConductor) tile).getConnectedSides();
         }
-        else
+
+        m_Model.renderPart("center");
+
+        if ((connectedSides & 1) != 0)
         {
-            m_Model.renderAll();
+            m_Model.renderPart("connection_down");
+        }
+
+        if ((connectedSides & 2) != 0)
+        {
+            m_Model.renderPart("connection_up");
+        }
+
+        if ((connectedSides & 4) != 0)
+        {
+            m_Model.renderPart("connection_north");
+        }
+
+        if ((connectedSides & 8) != 0)
+        {
+            m_Model.renderPart("connection_south");
+        }
+
+        if ((connectedSides & 16) != 0)
+        {
+            m_Model.renderPart("connection_west");
+        }
+
+        if ((connectedSides & 32) != 0)
+        {
+            m_Model.renderPart("connection_east");
         }
 
         GL11.glEnable(GL11.GL_LIGHTING);

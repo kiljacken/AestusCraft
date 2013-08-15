@@ -9,8 +9,10 @@ import buildcraft.api.power.IPowerReceptor;
 import buildcraft.api.power.PowerHandler;
 import buildcraft.api.power.PowerHandler.PowerReceiver;
 import buildcraft.api.power.PowerHandler.Type;
+import buildcraft.api.transport.IPipeConnection;
+import buildcraft.api.transport.IPipeTile.PipeType;
 
-public class TileFrictionHeater extends HeatProducerBaseTile implements IPowerReceptor {
+public class TileFrictionHeater extends HeatProducerBaseTile implements IPowerReceptor, IPipeConnection {
     public static float HEAT_PER_MJ = 1.0f;
     public static float HEAT_TRANSFER_RATE = 8.0f;
 
@@ -107,5 +109,11 @@ public class TileFrictionHeater extends HeatProducerBaseTile implements IPowerRe
     public boolean isActive()
     {
         return m_Active;
+    }
+
+    @Override
+    public ConnectOverride overridePipeConnection(PipeType type, ForgeDirection with)
+    {
+        return type == PipeType.POWER ? ConnectOverride.CONNECT : ConnectOverride.DISCONNECT;
     }
 }
