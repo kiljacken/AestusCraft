@@ -34,7 +34,7 @@ public class TileHeatedFlooring extends TileHeatConductor implements IHeatConsum
         m_Delay = new WorkAdaptingDelay(100);
         m_Ticks = m_Delay.getDelay();
 
-        m_Spiral = new SquareSpiral();
+        m_Spiral = new SquareSpiral(5 * 5);
     }
 
     @Override
