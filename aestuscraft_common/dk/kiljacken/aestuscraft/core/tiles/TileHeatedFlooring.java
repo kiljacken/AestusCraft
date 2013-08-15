@@ -60,7 +60,7 @@ public class TileHeatedFlooring extends TileHeatConductor implements IHeatConsum
                 {
                     int y = yCoord + yOff;
                     int blockId = worldObj.getBlockId(x, y, z);
-                    int newBlockId = 0;
+                    int newBlockId = -1;
 
                     // TODO: Make meltable blocks configurable via IMC
                     if (blockId == Block.snow.blockID)
@@ -72,7 +72,7 @@ public class TileHeatedFlooring extends TileHeatConductor implements IHeatConsum
                         newBlockId = Block.waterMoving.blockID;
                     }
 
-                    if (newBlockId != 0)
+                    if (newBlockId != -1)
                     {
                         worldObj.setBlock(x, y, z, newBlockId, 0, 3);
                         didWork = true;
