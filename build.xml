@@ -31,18 +31,8 @@
 	</target>
 
 	<!-- Set full version -->
-	<target name="initialize-version" depends="version-provided,version-not-provided,git.revision">
-		<property name="project.version.full" value="${project.version}.${build.number}"/>
-	</target>
-
-	<!-- Set unknown build number -->
-	<target name="version-not-provided" unless="env.BUILD_NUMBER">
-		<property name="build.number" value="unknown"/>
-	</target>
-
-	<!-- Set build number from environment -->
-	<target name="version-provided" if="env.BUILD_NUMBER">
-		<property name="build.number" value="${env.BUILD_NUMBER}"/>
+	<target name="initialize-version" depends="git.revision">
+		<property name="project.version.full" value="${project.version}"/>
 	</target>
 
 	<target name="git.revision">
